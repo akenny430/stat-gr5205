@@ -1,2 +1,14 @@
+# basic files
 .DS_store
 .Rproj.user
+
+# auxiliary latex files
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fdb_latexmk
+*.synctex.gz
