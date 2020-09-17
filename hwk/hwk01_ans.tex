@@ -15,12 +15,12 @@
 \titleformat{\section}[runin]{\bfseries}{}{0em}{
     \llap{
         \smash{
-            \begin{tabularx}{0.85in}{r}
+            \begin{tabularx}{0.75in}[t]{@{}l@{\hskip0.4em}>{\raggedright}X@{\hskip\marginparsep}}
                 #1 
             \end{tabularx}
         }
     }
-}[\leavevmode\hspace*{\dimexpr-\fontdimen2\font-\fontdimen3\font}]
+}[\leavevmode\hspace*{\dimexpr-\fontdimen2\font-\fontdimen3\font+0.265em}]
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -146,16 +146,50 @@ denote the hospital's available facilities and services, and \texttt{Xray} denot
     variable, which means that the residuals for the \texttt{Risk} model are generally lower than the other two. However, because the MSE for \texttt{Risk}
     is only marginally smaller than the other two, the residuals are not \textit{that} much smaller; Figure \ref{q02_fig02} serves as a gut check for this, 
     as the points spread out in all three plots, so it would not be obvious that \texttt{Risk} has the lowest MSE. We also see that \texttt{Risk} has the 
-    highest \(R^2\) value; it is mmuch higher relative to the other two models, but is still extremely low in its own right. This means that even though 
+    highest \(R^2\) value; it is much higher relative to the other two models, but is still extremely low in its own right. That is, even though 
     \texttt{Risk} does a much better job than the other models explaining the variability in \texttt{Stay} than \texttt{AFS} or \texttt{Xray}, it still does 
     a pretty bad job overall. 
 \end{itemize}
 
 %' ============================================================================================================================================================
 \section{Question 3} \noindent
-For reference, the coefficients for the estimated linear regression function \(\hat{Y} = b_0 + b_1 X\) are hey hey hey hey ey
-given by \[b_1 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n(x_i - \bar{x})^2} ~~\text{ and }~~ b_0 = \bar{y} - b_1 \bar{x}.\] We note
-that \(\sum x_i = n \bar{x}\), \(\sum y_i = n \bar{y}\), and \(\bar{y} = b_0 + b_1 \bar{x}\).
+For reference, the coefficients for the estimated linear regression function \(\hat{Y} = b_0 + b_1 X\) are
+given by \[b_1 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n(x_i - \bar{x})^2} ~~~\text{and}~~~ b_0 = \bar{y} - b_1 \bar{x}.\] 
+The two \textit{normal equations} are given by 
+\[
+    \sum_{i=1}^{n} \left( y_i - b_0 - b_1 x_i \right) = 0 ~~\text{and}~~~ \sum_{i=1}^{n} x_i \left( y_i - b_0 - b_1 x_i \right) = 0
+\]
+We also note three useful manipulations:
+\(\sum x_i = n \bar{x}\), \(\sum y_i = n \bar{y}\), and \(\bar{y} = b_0 + b_1 \bar{x}\).
+The first two come from manipulating the definition of \(\bar{x}\) and \(\bar{y}\), respectively, and the third comes from manipulating the 
+definition of \(b_0\).
+\begin{itemize}
+    \item[(a)] This is an immediate result of the first normal equation: 
+    \[
+        0 = \sum_{i=1}^{n} \left( y_i - b_0 - b_1 x_i \right) = \sum_{i=1}^n e_i.
+    \]
+    \item[(b)] This can be show directly:
+    \[
+        \sum_{i=1}^n \hat{y}_i = \sum_{i=1}^n \left( b_0 + b_1 x_i \right) = b_0 \sum_{i=1}^n 1 + b_1 \sum_{i=1}^n x_i
+        = n b_0 + n b_1 \bar{x} = n(b_0 + b_1 \bar{x}) = n \bar{y} = \sum_{i=1}^n y_i.
+    \]
+    \item[(c)] This is an immediate result of the second normal equation:
+    \[
+        0 = \sum_{i=1}^{n} x_i \left( y_i - b_0 - b_1 x_i \right) = \sum_{i=1}^n x_i e_i.
+    \]
+    Let \(\mathbf{x} = (x_1,\ldots,x_n)^T\) be the vector of predictor observations and 
+    \(\mathbf{e} = (e_1,\ldots,e_n)^T\) be the vector of residuals. This results implies that \(\langle\mathbf{x},\mathbf{e}\rangle = 0\), meaning
+    \(\mathbf{x}\) and \(\mathbf{e}\) are \textit{orthogonal}.
+    \item[(d)] Combining the results of parts (a) and (c), we have 
+    \[
+        \sum_{i=1}^n \hat{y}_i e_i = \sum_{i=1}^n \left( b_0 + b_1 x_i \right) e_i = b_0 \sum_{i=1}^n e_i + b_1 \sum_{i=1}^n x_i e_i
+        = b_0 \cdot 0 + b_1 \cdot 0 = 0.
+    \]
+    If \(\hat{\mathbf{y}} = (\hat{y}_1,\ldots,\hat{y}_n)^T\) is the vector of fitted values, then \(\langle\hat{\mathbf{y}},\mathbf{e}\rangle=0\).
+    \item[(e)] We want to show that \(\hat{y}_i = \bar{y}\) when \(x_i = \bar{x}\). This is actually an immediate result of the definition of \(b_0\)
+    (the third manipulation), since 
+    \(\hat{y}(\bar{x}) = b_0 + b_1 \bar{x} = \bar{y}\).
+\end{itemize}
 
 %' ============================================================================================================================================================
 \section{Question 4} \noindent
