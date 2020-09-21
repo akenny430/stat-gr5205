@@ -69,7 +69,7 @@
     \item[(a)] Not sure what she wants here, ask more about LOWESS smoothers.
     \item[(b)] Using \texttt{R}, our estimated coefficients are given by \(b_0 = -0.5801567\)
     and \(b_1 = 15.0352480\), and so our estimated linear regression function is given by
-    \[\hat{Y} = -0.5801567 + 15.0352480 \cdot X.\] The estimated linear regression model has been 
+    \[\hat{Y} = -0.5801567 + 15.0352480 X.\] The estimated linear regression model has been 
     overlayed on a scatterplot of the data in the right plot in Figure \ref{q01_fig}, and the 
     estimated function seems to fit the data well. The general trend, where an increase in number of 
     copiers results in an increased number of minutes on call, is captured by the model.
@@ -193,6 +193,38 @@ definition of \(b_0\).
 
 %' ============================================================================================================================================================
 \section{Question 4} \noindent
-blah blah balh
+Let \((X,Y)\sim p(x,y)\) with \(\mathbb{E}[X^2 + Y^2 < \infty]\).
+\begin{itemize}
+    \item[(a)] We want to find the value of \(c\) that minimizes \(\mathbb{E}\left[ (Y - c)^2\right]\). Expanding out the inside gives us 
+    \[
+        \mathbb{E} \left[ (Y - c)^2\right] = \mathbb{E} \left[Y^2 - 2cY + c^2\right]
+        = \mathbb{E} \left[Y^2\right] + \mathbb{E} \left[-2cY\right] + \mathbb{E} \left[c^2\right] 
+        = \mathbb{E} \left[Y^2\right] - 2c \mathbb{E} \left[Y\right] + c^2.
+    \]
+    Given that this is a function of \(c\), we will now differentiate this equation with respect to \(c\), i.e. 
+    \[
+        \frac{\mathrm{d}}{\mathrm{d}c} \Big( \mathbb{E} \left[Y^2\right] - 2c \mathbb{E} \left[Y\right] + c^2 \Big)
+        = -2 \mathbb{E}[Y] + 2c \overset{\text{set}}{=} 0,
+    \]
+    and solving for \(c\) gives us \(c = \mathbb{E}[Y]\).
+    \item[(b)] Using the subtle identity \(0 = \mathbb{E}[Y|X] - \mathbb{E}[Y|X]\), we have 
+    \begin{align*}
+        \big( Y - g(X)\big)^2 &= \big( Y - \mathbb{E}[Y|X] + \mathbb{E}[Y|X] - g(X)\big)^2 \\
+        &= \Big( \big( Y - \mathbb{E}[Y|X] \big) + \big( \mathbb{E}[Y|X] - g(X) \big) \Big)^2 \\
+        &= \big( Y - \mathbb{E}[Y|X] \big)^2 - 2 \big( Y - \mathbb{E}[Y|X] \big) \big( \mathbb{E}[Y|X] - g(X) \big)
+        + \big( \mathbb{E}[Y|X] - g(X) \big)^2.
+    \end{align*}
+    Taking the expected value of this gives us 
+    \begin{align*}
+        \mathbb{E}&\left[ \big( Y - g(X)\big)^2 \right] \\
+        &= \mathbb{E} \left[ 
+            \big( Y - \mathbb{E}[Y|X] \big)^2 - 2 \big( Y - \mathbb{E}[Y|X] \big) \big( \mathbb{E}[Y|X] - g(X) \big)
+            + \big( \mathbb{E}[Y|X] - g(X) \big)^2
+         \right] \\
+        &= \mathbb{E}\left[ \big( Y - \mathbb{E}[Y|X] \big)^2 \right]
+            + \mathbb{E}\left[ - 2 \big( Y - \mathbb{E}[Y|X] \big) \big( \mathbb{E}[Y|X] - g(X) \big) \right] 
+            + \mathbb{E}\left[ \big( \mathbb{E}[Y|X] - g(X) \big)^2 \right]
+    \end{align*}
+\end{itemize}
 
 \end{document}
