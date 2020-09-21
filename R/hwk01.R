@@ -6,7 +6,7 @@ library(ggplot2)
 # reading in the data and creating lowess smoother
 cm <- fread(input = 'data/copier_maintenance.txt')
 
-# plotting the data with the lowess smoother
+# part (a): plotting the data with the lowess smoother
 ggplot(data = cm, mapping = aes(x = copiers, y = minutes)) +
   geom_point(cex = 4, pch = 1, stroke = 1.5) +
   geom_smooth(method = 'loess', color = 'red', cex = 2) +
@@ -14,8 +14,7 @@ ggplot(data = cm, mapping = aes(x = copiers, y = minutes)) +
   theme_minimal(base_size = 40)
 ggsave(filename = 'img/q01_lowess.png')
 
-
-# plotting the data with the linear regression line
+# part (b): plotting the data with the linear regression line
 ggplot(data = cm, mapping = aes(x = copiers, y = minutes)) +
   geom_point(cex = 4, pch = 1, stroke = 1.5) +
   geom_smooth(method = 'lm', color = 'orange', cex = 2) +
@@ -26,8 +25,19 @@ ggsave(filename = 'img/q01_linear.png')
 # fitting the linear regression model
 cm_linear <- lm(minutes ~ copiers, data = cm)
 
-# confirming that the residuals sum to 0
+# getting model coefficients
+cm_linear$coefficients
+
+# part (e)/(f): getting a point estimate/prediction at X = 5
+predict(cm_linear, newdata = data.table(copiers = 5))
+
+# part (g): confirming that the residuals sum to 0
 sum(cm_linear$residuals)
+
+# part (h): getting point estimate for sigma^2 and sigma
+var(x = cm_linear$residuals) # wrong way... divides by n - 1
+sum(cm_linear$residuals^2)/(nrow(cm) - 2) # right way
+sqrt(sum(cm_linear$residuals^2)/(nrow(cm) - 2))
 
 
 # question 2 --------------------------------------------------------------
