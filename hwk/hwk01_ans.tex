@@ -66,7 +66,8 @@
     \label{q01_fig}
 \end{figure} 
 \begin{itemize}
-    \item[(a)] Not sure what she wants here, ask more about LOWESS smoothers.
+    \item[(a)] The loess smoother has been overlayed the data in the left panel of Figure \ref{q01_fig}. Here we 
+    can see that the line is essentailly a straight line, implying that the true relationship is linear. 
     \item[(b)] Using \texttt{R}, our estimated coefficients are given by \(b_0 = -0.5801567\)
     and \(b_1 = 15.0352480\), and so our estimated linear regression function is given by
     \[\hat{Y} = -0.5801567 + 15.0352480 X.\] The estimated linear regression model has been 
@@ -80,8 +81,11 @@
     a call, then we can expect the call to last for, on average, \(-0.5801567 \) minutes. This does \textit{not}
     provide any useful or relevant information; a call cannot ever have negative time, and a customer would never
     call if they did not have any copiers to service (where \(X = 0\)).
-    \item[(e)] 
-    \item[(f)] 
+    \item[(e)] When there are five copiers (\(X=5\)), a point estimate for the mean service time is 
+    \[
+        \hat{Y}(5) = -0.5801567 + 15.0352480(5) = 74.59608.
+    \]
+    \item[(f)] A point \textit{prediction} for when \(X=5\) would \textit{also} be \(\hat{Y} = 74.59608\). 
     \item[(g)] Using \texttt{R}, we can see that the residuals sum to 0; this is easy to do since the residuals are
     are included in the fitted model. We can think of \(Q\) as a \textit{function} 
     of \(\beta_0\) and \(\beta_1\), and we want to find the values of \(\beta_0\) and \(\beta_1\) that minimize \(Q\).
@@ -89,7 +93,10 @@
     Let \(\bm{\varepsilon} = (\varepsilon_1, \ldots, \varepsilon_n)^T\) be the random vector containing the \(n\) 
     residuals, and let \(\mathbf{e} = (e_1, \ldots, e_n)^T\) be the \(n\) realized residuals from \(b_0\)
     and \(b_1\). Using this 
-    notation, we have \(Q = \| \bm{\varepsilon} \|_2^2\), and \[\| \mathbf{e}\|_2^2 = \min \|\bm{\varepsilon}\|_2^2 = \min Q.\]
+    notation, we have \(Q = \| \bm{\varepsilon} \|^2\), and \[\| \mathbf{e}\|^2 = \min \|\bm{\varepsilon}\|^2 = \min Q.\]
+    \item[(h)] Using \texttt{R}, we can get a point estimate for \(\sigma^2\) as \(\hat{\sigma}^2 = \frac{1}{n-2} \|\mathbf{e}\|^2 = 79.45063\); note that we 
+    \textit{are not} using the sample variance formula. A corresponding point estimate for \(\sigma\) is \(\hat{\sigma} = \sqrt{\hat{\sigma}^2} = 8.913508\). 
+    \(\hat{\sigma}\) is expressed in the same units as \(Y\): minutes. 
 
 \end{itemize}
 
