@@ -85,7 +85,8 @@
     \[
         \hat{Y}(5) = -0.5801567 + 15.0352480(5) = 74.59608.
     \]
-    \item[(f)] A point \textit{prediction} for when \(X=5\) would \textit{also} be \(\hat{Y} = 74.59608\). 
+    \item[(f)] A point \textit{prediction} for minutes when \(X=5\) would \textit{also} be \(\hat{Y} = 74.59608\). Note that
+    even though the two values are numerically identical, they have different meanings. 
     \item[(g)] Using \texttt{R}, we can see that the residuals sum to 0; this is easy to do since the residuals are
     are included in the fitted model. We can think of \(Q\) as a \textit{function} 
     of \(\beta_0\) and \(\beta_1\), and we want to find the values of \(\beta_0\) and \(\beta_1\) that minimize \(Q\).
@@ -246,6 +247,9 @@ Let \((X,Y)\sim p(x,y)\) with \(\mathbb{E}[X^2 + Y^2 < \infty]\).
     value of this random variable cannot be less than zero, we know its expected value cannot be negative either, i.e. 
     \(\mathbb{E}\left[ \big( \mathbb{E}[Y|X] - g(X) \big)^2 \right] \ge 0\). Therefore, we have 
     \[ \mathbb{E}\left[ \big( Y - g(X)\big)^2 \right] \ge \mathbb{E}\left[ \big( Y - \mathbb{E}[Y|X] \big)^2 \right]. \]
+    That is, the minimum of the function \(\mathbb{E}\left[ \big( Y - g(X)\big)^2 \right]\) occurs when 
+    \(g(X) = \mathbb{E}[Y|X]\), and since \(\mathbb{E}\left[ X^2 + Y^2 \right] < \infty\), this minimum is unique and
+    well-defined. 
 \end{itemize}
 
 \end{document}
