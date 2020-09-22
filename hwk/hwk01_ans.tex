@@ -226,12 +226,26 @@ Let \((X,Y)\sim p(x,y)\) with \(\mathbb{E}[X^2 + Y^2 < \infty]\).
         \mathbb{E}&\left[ \big( Y - g(X)\big)^2 \right] \\
         &= \mathbb{E} \left[ 
             \big( Y - \mathbb{E}[Y|X] \big)^2 - 2 \big( Y - \mathbb{E}[Y|X] \big) \big( \mathbb{E}[Y|X] - g(X) \big)
-            + \big( \mathbb{E}[Y|X] - g(X) \big)^2
-         \right] \\
+            + \big( \mathbb{E}[Y|X] - g(X) \big)^2 \right] \\
         &= \mathbb{E}\left[ \big( Y - \mathbb{E}[Y|X] \big)^2 \right]
             + \mathbb{E}\left[ - 2 \big( Y - \mathbb{E}[Y|X] \big) \big( \mathbb{E}[Y|X] - g(X) \big) \right] 
-            + \mathbb{E}\left[ \big( \mathbb{E}[Y|X] - g(X) \big)^2 \right]
+            + \mathbb{E}\left[ \big( \mathbb{E}[Y|X] - g(X) \big)^2 \right] \\
+        &= \mathbb{E}\left[ \big( Y - \mathbb{E}[Y|X] \big)^2 \right]
+        -2 \big( \mathbb{E}[Y|X] - g(X) \big) \cdot \mathbb{E}\left[ Y - \mathbb{E}[Y|X]  \right]
+        + \mathbb{E}\left[ \big( \mathbb{E}[Y|X] - g(X) \big)^2 \right].
     \end{align*}
+    We now focus our attention on the middle term. Since we are taking the expecation with respect to \(X\),
+    we have \(\mathbb{E}[Y] = \mathbb{E}\big[ \mathbb{E} [Y | X]\big]\), and so 
+    \[\mathbb{E}\left[ Y - \mathbb{E}[Y|X]  \right] = \mathbb{E}[Y] - \mathbb{E}\big[ \mathbb{E} [Y | X]\big] = 
+    \mathbb{E}\big[ \mathbb{E} [Y | X]\big] - \mathbb{E}\big[ \mathbb{E} [Y | X]\big] = 0.\]
+    As a result, the middle term in the long expansion of \(\mathbb{E}\left[ \big( Y - g(X)\big)^2 \right]\) 
+    dissapears, so we have 
+    \[\mathbb{E}\left[ \big( Y - g(X)\big)^2 \right] = \mathbb{E}\left[ \big( Y - \mathbb{E}[Y|X] \big)^2 \right]
+    + \mathbb{E}\left[ \big( \mathbb{E}[Y|X] - g(X) \big)^2 \right].\]
+    Finally, because \((\cdot)^2 \ge 0\), we will have \(\big( \mathbb{E}[Y|X] - g(X) \big)^2 \ge 0\). Since the
+    value of this random variable cannot be less than zero, we know its expected value cannot be negative either, i.e. 
+    \(\mathbb{E}\left[ \big( \mathbb{E}[Y|X] - g(X) \big)^2 \right] \ge 0\). Therefore, we have 
+    \[ \mathbb{E}\left[ \big( Y - g(X)\big)^2 \right] \ge \mathbb{E}\left[ \big( Y - \mathbb{E}[Y|X] \big)^2 \right]. \]
 \end{itemize}
 
 \end{document}
