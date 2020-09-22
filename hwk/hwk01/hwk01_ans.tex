@@ -109,7 +109,7 @@ denote the hospital's available facilities and services, and \texttt{Xray} denot
     \includegraphics[width = 0.32\textwidth]{q02_loess1.png}
     \includegraphics[width = 0.32\textwidth]{q02_loess2.png}
     \includegraphics[width = 0.32\textwidth]{q02_loess3.png}
-    \caption{Applying LOESS smoothers to the scatterplots of \texttt{Stay} against the three predictor variables: \texttt{Risk}, \texttt{AFS}, and 
+    \caption{Applying loess smoothers to the scatterplots of \texttt{Stay} against the three predictor variables: \texttt{Risk}, \texttt{AFS}, and 
     \texttt{Xray}.}
     \label{q02_fig01}
 \end{figure}
@@ -132,7 +132,8 @@ denote the hospital's available facilities and services, and \texttt{Xray} denot
     \item[(b)] For each predictor, the linear regression model was fit using \texttt{R} and overlayed on a scatterplot of \texttt{Stay} against that predictor. 
     While it is impossible for a linear model (or any model, for that matter) to account for the variance of the residuals, we can see that in all three cases,
     the slope of the regression line is positive. However, the lines are not steep, which indicates that, while there may be a positive linear relationship,
-    it is not a strong one. Numerical details about each model can be found in part (c).
+    it is not a strong one. Numerical details about each model, including the estimated coefficients, can be found in Table \ref{q02_tab01},
+    which shows that all three slopes are positive but very small.
     \item[(c)] We use \texttt{R} to determine the estimated coefficients, mean squared error (MSE), and \(R^2\) value for each of the three models, all of 
     which can be found in Table \ref{q02_tab01}. 
     \begin{table}
@@ -147,7 +148,7 @@ denote the hospital's available facilities and services, and \texttt{Xray} denot
         \caption{Information about each of the three linear regression models for question 2.}
         \label{q02_tab01}
     \end{table}
-    Recall that \(\mathrm{MSE} = \frac{1}{n}\|\mathbf{y} - b_0 \mathbf{1} - b_1 \mathbf{x}\|_2^2\), where \((\mathbf{x},\mathbf{y})\) are the vectors 
+    Recall that \(\mathrm{MSE} = \frac{1}{n}\|\mathbf{y} - b_0 \mathbf{1} - b_1 \mathbf{x}\|^2\), where \((\mathbf{x},\mathbf{y})\) are the vectors 
     corresponding 
     to the realized predictor and response variables, respectively. For a given model, a lower MSE (relative to the other models) indicates that the model is 
     a better fit than the others, since the residuals are smaller. In this case, we can see that the lowest MSE occurs when \texttt{Risk} is the predictor
