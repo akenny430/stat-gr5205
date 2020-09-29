@@ -135,8 +135,146 @@
 
 \begin{document}
 
-\lecture{2 --- September 14, 2020}{Fall 2020}{Prof.\ Xiaofei Shi}{Aiden Kenny}
+\lecture{2 --- September 14, 2020}{Fall 2020}{Prof.\ Xiaofei Shi}{Aiden Kenny, Zhanghao Zhang}
 
-This is the first line of notes. 
+\textbf{\textsl{Regression analysis}}
+\begin{itemize}
+	\item \textsl{Regression}: a statistical method used to study the dependence between variables in the presence of noise.
+	\item \textsl{Linear regression}: a statistical method used to study \textit{linear} dependence between variables in the presence of noise.
+	\item e.g. Here is a linear function \[Y = 104 - 14X.\] Because the intercept is negative, we say there is a \textit{negative} linear relationship.
+\end{itemize}
+
+\textbf{\textsl{(Simple) Linear Regression Procedure}}
+\begin{enumerate}
+	\item \textsl{Estimate your model}
+	\begin{itemize}
+		\item We have two random variables: a predictor \(X\) and a response \(Y\).
+		\item We assume a \textit{linear relationship}: \(Y = \beta_0 + \beta_1 X + \varepsilon\).
+		\item We want to find \(\beta_0,\beta_1\) to minimize \(\mathbb{E}\left[ (Y - \beta_0 - \beta_1 X)^2 \right]\).
+	\end{itemize}
+	\item \textsl{Estimate your model}
+	\begin{itemize}
+		\item We have \(n\) distinct observations of each predictor and response, \((x_1,y_1),\ldots,(x_n,y_n)\).
+		\item We use this observed data to minimize \[Q = \sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_i)^2.\]
+		\item This is a function of \(\beta_0,\beta_1\), so we find the values that \textit{minimize} \(Q\).
+	\end{itemize}
+	\item \textsl{Understand your model}
+	\begin{itemize}
+		\item The simple linear regression model has several useful properties (homework 1).
+		\item Can use your model to make predictions and inferences. 
+	\end{itemize}
+\end{enumerate}
+
+\textbf{\textsl{Theoretical Example: Bivariate Noraml Distrubution}}
+
+Here we have \((X,Y) \sim \mathrm{N}\left( \begin{bmatrix}
+	0 \\ 0
+\end{bmatrix}, \begin{bmatrix}
+	1 & \rho \\ \rho & 1
+\end{bmatrix} \right)\), where \(X \sim \mathrm{N}(0,1)\), \(Y \sim \mathrm{N}(0,1)\), and \(\rho = \mathrm{Cov}(X,Y)\).
+
+We want to find a distribution of \(\varepsilon\) (i.e. \(\varepsilon\sim\mathrm{N}(?,?)\)) such that
+\(\epsilon\) and \(X\) are independent and \(Y = X \rho + \varepsilon\). Note then that \(\varepsilon = Y + X \rho\).
+
+Because of this, we can show that:
+\begin{enumerate}
+	\item \(\mathbb{E}[\varepsilon] = 0\). Since \(\mathbb{E}[X] = \mathbb{E}[Y]=0\), we have \(\mathbb{E}[\varepsilon] = \mathbb{E}[Y + X \rho] = \mathbb{E}[Y] + \rho \mathbb{E}[X] = 0\).
+	\item \(\mathrm{Var}[\varepsilon] = 1 - \rho^2\). Proof is similar. 
+\end{enumerate}
+
+We can generalize this to the case where \(X \sim \mathrm{N}(\mu_X, \sigma_X)\) and \(Y\sim\mathrm{N}(\mu_Y,\sigma_Y)\), so they are no longer standard normal. 
+Then \((X,Y) \sim \mathrm{N} \left( \begin{bmatrix}
+	\mu_X \\ \mu_Y
+\end{bmatrix}, \begin{bmatrix}
+	\sigma_X^2 & \rho \sigma_X \sigma_Y \\ \rho \sigma_X \sigma_Y & \sigma_Y^2
+\end{bmatrix} \right).\)
+
+Useful trick: \textsl{normalization}! If \(\tilde{X} = \frac{X - \mu_X}{\sigma_X}\) and \(\tilde{Y} = \frac{Y - \mu_Y}{\sigma_Y}\), then both \(\tilde{X}\)
+and \(\tilde{Y}\) are standard normal, and \(\mathrm{Cov}(\tilde{C},\tilde{Y}) = \rho\). 
+
+We've essentially reduced more general case back to simple case, so \(\tilde{Y} = \tilde{X}\rho + \tilde{\varepsilon}\). Writing this in terms of \(X\) and \(Y\) gives us
+\(Y = \left( X - \mu_X \right) \rho \frac{\sigma_Y}{\sigma_X} + \tilde{\varepsilon}\sigma_Y + \mu_Y	\).
+
+Define \(\varepsilon = \tilde{\varepsilon} \sigma_Y\). If we compare this result to the linear regression model \(\beta_0 + \beta_1 X + \varepsilon\), we have
+\begin{itemize}
+	\item \(\beta_0 = \mu_Y - \rho \frac{\sigma_Y}{\sigma_X} \mu_X\)
+	\item \(\beta_1 = \rho \frac{\sigma_Y}{\sigma_X}\) (and so \(\beta_0 = \mu_Y - \beta_1 \mu_X\))
+\end{itemize}
+
+\textbf{\textsl{UMVUL for bivariate normal}}
+
+From before, we had \(\beta_1 = \rho \frac{\sigma_Y}{\sigma_X}\) and \(\beta_0 = \mu_Y - \beta_1 \mu_X\). This is known as the \textbf{ground truth}. 
+
+We can get \textbf{estimates} for these parameters as \(\hat{\beta}_1 = \frac{\mathrm{Cov}(X,Y)}{\mathrm{Var}[X]}\) and \(\hat{\beta}_0 = \bar{Y} - \hat{\beta}_1 \bar{X}\). These estimators have several properties:
+\begin{enumerate}
+	\item \textsl{Uniformity}: converges to the ground truth, i.e. \(\lim_{n\to\infty} \hat{\beta}_1 - \beta_1\) and \(\lim_{n\to\infty} \hat{\beta}_0 - \beta_0\).
+	\item \textsl{Unbiased}: \(\mathbb{E}[\hat{\beta}_1 | X] = \beta_1\) and \(\mathbb{E}[\hat{\beta}_0 | X] = \beta_0\).
+	\item \textsl{Linear}.
+	\item \textsl{Minimum Variance}
+\end{enumerate}
+
+%' ============================================================================================================================================================
+
+\subsection*{Adding Data}
+$$\beta_1 = \rho\frac{\sigma_Y}{\sigma_X} \rightarrow \hat{\beta}_1 = \frac{Cov(X, Y)}{Var|X|}$$
+$$\beta_0 = \mu_Y - \rho\frac{\sigma_Y}{\sigma_X}\mu_X \rightarrow \hat{\beta}_0 = Y - X\hat{\beta}_1$$
+\begin{enumerate}
+\item Recall the estimation for $\mu_X$, $\mu_Y$\\
+\qquad Using data: $\hat{\mu}_X = \bar{x}, \hat{\mu}_Y = \bar{y}$
+\item And the estimation for $\sigma_X, \sigma_Y$\\
+\qquad Using data: $\sigma_X^2 = \frac{1}{n - 1}\sum_{i = 1}^n (x_i - \bar{x})^2, \sigma_Y^2 = \frac{1}{n - 1}\sum_{i = 1}^n (y_i - \bar{y})^2$\\
+\qquad In matrix form: $\hat{\sigma}_X^2 = \frac{1}{n - 1}||x - \bar{x}1_n||^2, \hat{\sigma}_Y^2 = \frac{1}{n - 1}||y - \bar{y}1_n||^2$
+\item As well as for $Cov(X, Y) \rightarrow \hat{Cov}(X, Y) = \frac{1}{n - 1}(x - \bar{x}1_n)^T(y - \bar{y}1_n)$\\
+\qquad $\rho = Cov(X, Y) = \frac{Cov(X, Y)}{\sigma_X\sigma_Y} \rightarrow \hat{\rho} = \frac{\hat{Cov}(X, Y)}{\hat{\sigma}_X\hat{\sigma}_Y}$
+\end{enumerate}
+Q: I see that your unbiased estimator use n - 1 instead of n, is that because it is a sample instead of the population?\\
+When data is big ($n > 40$), then the difference is negligible.
+
+\subsection*{More general case...}
+\begin{enumerate}
+\item Let $(X_1, Y_1), (X_2, Y_2), \dots, (X_n, Y_n)$ be samples from the same model
+\item If the SLR model holds, we write $Y_i = \beta_0 + X_i\beta_1 + \epsilon_i$
+\item Here, $\epsilon_i$ satisfies $E[\epsilon_i] = 0$ and $E[\epsilon_i\epsilon_j] = \sigma^2\delta_{ij}$
+\item Observations: predictor: $x_1, x_2, \dots, x_n$ \qquad response: $y_1, y_2, \dots, y_n$
+\item Preference: $Q = \sum_{i = 1}^n (y_i - \beta_0 - x_i\beta_1)^2$
+\item Model parameters: $\beta_0, \beta_1(, \sigma^2)$
+\end{enumerate}
+
+\subsection*{General Methodology}
+\begin{enumerate}
+\item Preference $+$ data $\rightarrow$ Q = Q(model paramters; data)
+\item Estimation of model parameters $\leftrightarrow$ Minimizing Q wrt model parameters $\rightarrow$ Taking partial derivatives of Q wrt model parameters and sent them to 0!
+\end{enumerate}
+
+\begin{align*}
+Q =& Q(\beta_0, \beta_1 | (x_1, \dots, x_n), (y_1, \dots, y_n))\\
+=& \sum_{i = 1}^n (y_i - \beta_0 - x_i\beta_1)^2\\
+=& \sum_{i = 1}^n (y_i^2 + \beta_0^2 + x_i^2\beta_1^2 - 2\beta_0y_i - 2x_iy_i\beta_1 + 2x_i\beta_0\beta_1)\\
+=& (\sum_{i = 1}^n y_i^2) + n\beta_0^2 + (\sum_{i = 1}^n x_i^2)\beta_1^2 - 2\beta_0(\sum_{i = 1}^n y_i) - 2(\sum_{i = 1}^n x_iy_i)\beta_1 + 2(\sum_{i = 1}^n x_i)\beta_0\beta_1\\\\
+\frac{\partial Q}{\partial \beta_0} =& 2(\sum_{i = 1}^n x_1)\beta_1 + 2n\beta_0 - 2(\sum_{i = 1}^ny_i) = 0\\
+\frac{\partial Q}{\partial \beta_1} =& 2(\sum_{i = 1}^n x_i)\beta_0 + 2(\sum_{i = 1}^n x_i^2)\beta_1 - 2(\sum_{i = 1}^n x_iy_i) = 0
+\end{align*}
+$\rightarrow
+\begin{cases}
+2nb_0 - 2i_n^Ty + 21_n^Txb_1 = 0\\
+2x^Txb_1 + 21_n^Txb_0 - 2x^Ty = 0 \rightarrow 2(x - \bar{x}1_n)^T(x - \bar{x}1_n)b_1 - 2(x - \bar{x}1_n)^T(y - \bar{y}1_n) = 0\\
+\end{cases}
+$\\
+$\rightarrow
+\begin{cases}
+b_0 = \bar{y} - \bar{x}b_1\\
+b_1 = \frac{(x - \bar{x}1_n)^T(y - \bar{y}1_n)}{||x - \bar{x}1_n||^2}\\
+\end{cases}
+$\\
+
+\subsection*{Prediction and residual}
+\begin{enumerate}
+\item Prediction: $\hat{y}_i = b_0 + x_ib_1$
+\item Residual: $e_i = y_i - \hat{y}_i = y_i - b_0 - x_ib_1$
+\item Residuals can be viewed as the estimation of unobservable error terms\\
+$$\hat{\epsilon}_i = e_i = y_i - \hat{y}_i = y_i - b_0 - x_ib_1$$
+\item Estimation of $\hat{\sigma}^2 = \textbf{MSE} = \frac{\sum_{i = 1}^n e_i^2}{n - 2} = \frac{\sum_{i = 1}^n (y_i - \hat{y}_i)^2}{n - 2} = \frac{||y - \hat{y}||^2}{n - 2}$
+\end{enumerate}
+Recall Q doesn't have $\sigma^2$, where $\sigma^2 = E[\epsilon_i^2]$ is level of noise.
 
 \end{document}
