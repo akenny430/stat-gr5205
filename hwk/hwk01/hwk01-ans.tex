@@ -59,19 +59,19 @@
 % \end{verbatim}
 \begin{figure}[ht]
     \centering
-    \includegraphics[width = 0.45\textwidth]{img/q01_lowess.png}
-    \includegraphics[width = 0.45\textwidth]{img/q01_linear.png}
+    \includegraphics[width = 0.45\textwidth]{img/q01-lowess.png}
+    \includegraphics[width = 0.45\textwidth]{img/q01-linear.png}
     \caption{Left: overlaying a loess smoother to a scatterplot of the data. Right: 
     overlaying the estimated linear regression model to the scatterplot.}
-    \label{q01_fig}
+    \label{q01-fig}
 \end{figure} 
 \begin{itemize}
-    \item[(a)] The loess smoother has been overlayed the data in the left panel of Figure \ref{q01_fig}. Here we 
+    \item[(a)] The loess smoother has been overlayed the data in the left panel of Figure \ref{q01-fig}. Here we 
     can see that the line is essentailly a straight line, implying that the true relationship is linear. 
     \item[(b)] Using \texttt{R}, our estimated coefficients are given by \(b_0 = -0.5801567\)
     and \(b_1 = 15.0352480\), and so our estimated linear regression function is given by
     \[\hat{Y} = -0.5801567 + 15.0352480 X.\] The estimated linear regression model has been 
-    overlayed on a scatterplot of the data in the right plot in Figure \ref{q01_fig}, and the 
+    overlayed on a scatterplot of the data in the right plot in Figure \ref{q01-fig}, and the 
     estimated function seems to fit the data well. The general trend, where an increase in number of 
     copiers results in an increased number of minutes on call, is captured by the model.
     \item[(c)] \(b_1\) can be interpreted as follows. If the number of copiers serviced during
@@ -106,24 +106,24 @@
 For this question, let \texttt{Stay} denote a patient's average stay in the hospital, \texttt{Risk} denote a patient's risk of infection, \texttt{AFS} 
 denote the hospital's available facilities and services, and \texttt{Xray} denote a patient's routine chest X-ray ratio. 
 \begin{figure}[ht]
-    \includegraphics[width = 0.32\textwidth]{img/q02_loess1.png}
-    \includegraphics[width = 0.32\textwidth]{img/q02_loess2.png}
-    \includegraphics[width = 0.32\textwidth]{img/q02_loess3.png}
+    \includegraphics[width = 0.32\textwidth]{img/q02-loess1.png}
+    \includegraphics[width = 0.32\textwidth]{img/q02-loess2.png}
+    \includegraphics[width = 0.32\textwidth]{img/q02-loess3.png}
     \caption{Applying loess smoothers to the scatterplots of \texttt{Stay} against the three predictor variables: \texttt{Risk}, \texttt{AFS}, and 
     \texttt{Xray}.}
-    \label{q02_fig01}
+    \label{q02-fig01}
 \end{figure}
 
 \begin{figure}[ht]
-    \includegraphics[width = 0.32\textwidth]{img/q02_lm1.png}
-    \includegraphics[width = 0.32\textwidth]{img/q02_lm2.png}
-    \includegraphics[width = 0.32\textwidth]{img/q02_lm3.png}
+    \includegraphics[width = 0.32\textwidth]{img/q02-lm1.png}
+    \includegraphics[width = 0.32\textwidth]{img/q02-lm2.png}
+    \includegraphics[width = 0.32\textwidth]{img/q02-lm3.png}
     \caption{Overlaying the estimated linear regression function for \texttt{Stay} against each of the three predictor variables.}
-    \label{q02_fig02}
+    \label{q02-fig02}
 \end{figure}
 
 \begin{itemize}
-    \item[(a)] The loess smoothers have been overlayed each of their respective scatterplots in Figure \ref{q02_fig01}. We see that in each case the three 
+    \item[(a)] The loess smoothers have been overlayed each of their respective scatterplots in Figure \ref{q02-fig01}. We see that in each case the three 
     curves are not too volatile, so a linear regression model would not be completely out of the question. However, for \texttt{Risk} we see that the curve 
     begins to flatten out as we approach the end of the interval, and for \texttt{AFS} the curve begins to descend, both indications that the relationship is 
     nonlinear.
@@ -132,10 +132,10 @@ denote the hospital's available facilities and services, and \texttt{Xray} denot
     \item[(b)] For each predictor, the linear regression model was fit using \texttt{R} and overlayed on a scatterplot of \texttt{Stay} against that predictor. 
     While it is impossible for a linear model (or any model, for that matter) to account for the variance of the residuals, we can see that in all three cases,
     the slope of the regression line is positive. However, the lines are not steep, which indicates that, while there may be a positive linear relationship,
-    it is not a strong one. Numerical details about each model, including the estimated coefficients, can be found in Table \ref{q02_tab01},
+    it is not a strong one. Numerical details about each model, including the estimated coefficients, can be found in Table \ref{q02-tab01},
     which shows that all three slopes are positive but very small.
     \item[(c)] We use \texttt{R} to determine the estimated coefficients, mean squared error (MSE), and \(R^2\) value for each of the three models, all of 
-    which can be found in Table \ref{q02_tab01}. 
+    which can be found in Table \ref{q02-tab01}. 
     \begin{table}
         \centering
         \def\arraystretch{1.25}
@@ -146,14 +146,14 @@ denote the hospital's available facilities and services, and \texttt{Xray} denot
             \texttt{Xray} & \(6.566373\) & \(0.037756\) & \(3.091558\) & \(0.1463\) \\ \bottomrule
         \end{tabular}
         \caption{Information about each of the three linear regression models for question 2.}
-        \label{q02_tab01}
+        \label{q02-tab01}
     \end{table}
     Recall that \(\mathrm{MSE} = \frac{1}{n}\|\mathbf{y} - b_0 \mathbf{1} - b_1 \mathbf{x}\|^2\), where \((\mathbf{x},\mathbf{y})\) are the vectors 
     corresponding 
     to the realized predictor and response variables, respectively. For a given model, a lower MSE (relative to the other models) indicates that the model is 
     a better fit than the others, since the residuals are smaller. In this case, we can see that the lowest MSE occurs when \texttt{Risk} is the predictor
     variable, which means that the residuals for the \texttt{Risk} model are generally lower than the other two. However, because the MSE for \texttt{Risk}
-    is only marginally smaller than the other two, the residuals are not \textit{that} much smaller; Figure \ref{q02_fig02} serves as a gut check for this, 
+    is only marginally smaller than the other two, the residuals are not \textit{that} much smaller; Figure \ref{q02-fig02} serves as a gut check for this, 
     as the points spread out in all three plots, so it would not be obvious that \texttt{Risk} has the lowest MSE. We also see that \texttt{Risk} has the 
     highest \(R^2\) value; it is much higher relative to the other two models, but is still extremely low in its own right. That is, even though 
     \texttt{Risk} does a much better job than the other models explaining the variability in \texttt{Stay} than \texttt{AFS} or \texttt{Xray}, it still does 
