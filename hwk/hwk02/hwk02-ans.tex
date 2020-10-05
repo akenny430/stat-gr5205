@@ -48,6 +48,27 @@
     \textsl{\mydate}
 \end{flushright} \vspace{1em}
 
+%' ============================================================================================================================================================
+\section{Question 1} \noindent
+Supposed for \(\mathbf{x},\mathbf{y},\bm{\epsilon}, \mathbf{1} \in \mathbb{R}^n\), where \(\mathbf{x},\mathbf{1}\) are \textsl{fixed} vectors and 
+\(\mathbf{y},\bm{\epsilon}\) are 
+\textsl{random} vectors, the simple linear regression model 
+\begin{align*}
+    \mathbf{y} = \beta_0 \mathbf{1} + \beta_1 \mathbf{x} + \bm{\epsilon}
+\end{align*}
+holds, with \(\mathbb{E}[\bm{\epsilon}] = \mathbf{0}\), \(\mathrm{Var}[\bm{\epsilon}] = \sigma^2 \mathbf{I}\),
+and \(\mathbb{E}[\mathbf{y}] = \mathbb{E}[\beta_0 \mathbf{1} + \beta_1 \mathbf{x} + \bm{\epsilon}] = \beta_0 \mathbf{1} + \beta_1 \mathbf{x}\).
+The least-squares estimators are given by
+\begin{align*}
+    \hat{\beta}_1 = \frac{(\mathbf{x} - \bar{x}\mathbf{1})^T(\mathbf{y} - \bar{y}\mathbf{1})}{\|\mathbf{x} - \bar{x}\mathbf{1}\|^2},
+    ~~~
+    \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x},
+    ~~~\text{and}~~~
+    \hat{\sigma}^2 = \frac{1}{n-2} \left\| \mathbf{y} - \hat{\beta}_0 \mathbf{1} - \hat{\beta}_1 \mathbf{x} \right\|^2.
+\end{align*}
 
+\begin{itemize}
+    \item[(a)] We first show that 
+\end{itemize}
 
 \end{document}
