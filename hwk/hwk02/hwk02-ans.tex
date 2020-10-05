@@ -28,7 +28,8 @@
 \rhead{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 
-\usepackage{lipsum}
+\definecolor{colabcol}{HTML}{960018}
+\newcommand{\mycolab}[1]{\textcolor{colabcol}{\textsl{Collaborators:}} #1\\}
 
 %' ============================================================================================================================================================
 %' ============================================================================================================================================================
@@ -50,6 +51,7 @@
 
 %' ============================================================================================================================================================
 \section{Question 1} \noindent
+\mycolab{None}
 Supposed for \(\mathbf{x},\mathbf{y},\bm{\epsilon}, \mathbf{1} \in \mathbb{R}^n\), where \(\mathbf{x},\mathbf{1}\) are \textsl{fixed} vectors and 
 \(\mathbf{y},\bm{\epsilon}\) are 
 \textsl{random} vectors, the simple linear regression model 
@@ -73,6 +75,7 @@ The least-squares estimators are given by
 
 %' ============================================================================================================================================================
 \section{Question 2} \noindent
+\mycolab{None}
 
 
 \end{document}
