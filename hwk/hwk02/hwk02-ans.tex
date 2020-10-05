@@ -1,0 +1,53 @@
+\documentclass[10pt]{article}
+
+\usepackage{mathtools, amssymb, bm}
+\usepackage{microtype}
+\usepackage[utf8]{inputenc}
+\usepackage[top = 1.0in, left = 1.75in, right = 0.75in, bottom = 0.75in]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{tikzsymbols}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage[explicit]{titlesec}
+\titleformat{\section}[runin]{\bfseries}{}{0em}{
+    \llap{
+        \smash{
+            \begin{tabularx}{0.75in}[t]{@{}l@{\hskip0.4em}>{\raggedright}X@{\hskip\marginparsep}}
+                #1 
+            \end{tabularx}
+        }
+    }
+}[\leavevmode\hspace*{\dimexpr-\fontdimen2\font-\fontdimen3\font+0.25em}]
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\usepackage{lipsum}
+
+%' ============================================================================================================================================================
+%' ============================================================================================================================================================
+
+\begin{document}
+
+\newcommand{\mytitle}{Homework 2}
+\newcommand{\myauthor}{Aiden Kenny}
+\newcommand{\myclass}{STAT GR5205: Linear Regression Models}
+\newcommand{\myschool}{Columbia University}
+\newcommand{\mydate}{October 5, 2020}
+\begin{flushright}
+    \textbf{\mytitle}\\[0.5em]
+    \textsl{\myauthor}\\
+    \textsl{\myclass}\\
+    \textsl{\myschool}\\
+    \textsl{\mydate}
+\end{flushright} \vspace{1em}
+
+
+
+\end{document}
