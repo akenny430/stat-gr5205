@@ -30,6 +30,7 @@
 
 \definecolor{colabcol}{HTML}{960018}
 \newcommand{\mycolab}[1]{\textcolor{colabcol}{\textsl{Collaborators:}} #1\\}
+\newcommand{\mycolaba}[1]{\textcolor{colabcol}{\textsl{Collaborators:}} #1}
 
 %' ============================================================================================================================================================
 %' ============================================================================================================================================================
@@ -213,5 +214,32 @@ The MSE is then given by \(Q = \| \mathbf{y} - \mathbf{X}\bm{\beta} \|^2\).
     \end{align*}
     Essentially, we expanded out the equation and used the key results from part (d) to mainpulate the equation and get the desired result. 
 \end{itemize}
+
+%' ============================================================================================================================================================
+\section{Question 3} \noindent
+\mycolaba{None}
+\begin{itemize}
+    \item[(a)] Our hypothesis test is given by \(H_0:\beta_1 \le 0\) vs. \(H_a:\beta_1 > 0\), and we fail to reject \(H_0\). The analyst claiming that 
+    there is no linear association between \(X\) and \(Y\) is \textsl{incorrect}. The data indicates that \(\beta_1 \le 0\), not \(\beta_1 = 1\), meaning
+    there could be a negative linear association. 
+    \item[(b)] While this situation is more subtle, the analyst is again incorrect. In the first situation, we are estimating the true value of 
+    \(\mathbb{E}[Y|X=x_0]\), so we are trying to estimate an underlying feature of the random variable \(Y\). In the second situation, we are trying 
+    to predict the average of \textsl{random samples} from \(Y\), i.e. we want to estimate \(\mathbb{E}[\bar{Y}|X=x_0]\). One reason for this confusion is that
+    the two results are the same. For example, if \(Z \sim \mathrm{N}(\mu, \sigma^2)\), then \(\bar{Z}\sim\mathrm{N}(\mu,\sigma^2/n)\), which means 
+    \(\mathbb{E}[Z] = \mathbb{E}[\bar{Z}] = \mu\). It is important to note that even though the numerical answer is the same, \textsl{what} we are doing in
+    each situation is different.
+    \item[(c)] At the point \(X = x_0\), a \(95\%{}\) confidence interval for \(Y_0\) is given by 
+    \begin{align*}
+        \hat{Y}_0 \pm t_{0.975,n-2} \sqrt{\mathrm{MSE} \left( \frac{1}{n} + \frac{(x_0 - \bar{x})^2}{\sum_{i=1}^n(x_i - \bar{x})^2} \right)}.
+    \end{align*}
+    However, this confidence interval would \textsl{not} be the same at some different point \(X = x_h \neq x_0\). At this point, a \(95\%{}\)
+    confidence interval would be given by 
+    \begin{align*}
+        \hat{Y}_h \pm t_{0.975,n-2} \sqrt{\mathrm{MSE} \left( \frac{1}{n} + \frac{(x_h - \bar{x})^2}{\sum_{i=1}^n(x_i - \bar{x})^2} \right)}.
+    \end{align*}
+    This new confidence interval is based around \(\hat{Y}_h\), not \(\hat{Y}_0\), and its width is based on \(x_h\), not \(x_0\).
+\end{itemize}
+
+
 
 \end{document}
