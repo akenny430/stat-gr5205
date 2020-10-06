@@ -243,6 +243,44 @@ The MSE is then given by \(Q = \| \mathbf{y} - \mathbf{X}\bm{\beta} \|^2\).
 %' ============================================================================================================================================================
 \section{Question 4} \noindent
 \mycolab{None}
-
+For this question, we are working with the copier dataset, where \(X\) denotes the number of copiers serviced and \(Y\) denotes the total number of 
+minutes spent on a service call. 
+\begin{itemize}
+    \item[(a)] We want to determine whether or not there is a linear relationship between \(X\) and \(Y\), i.e. \(Y = \beta_0 + \beta_1 X + \epsilon\). 
+    To do this, we use \texttt{R} to fit a linear model, which is estimated to be 
+    \begin{align*}
+        Y = -0.5802 + 15.0352 X.
+    \end{align*}
+    When using the \texttt{lm()} function, a hypothesis test is automatically carried out with 
+    \(H_0 : \beta_1 = 0\) and \(H_a : \beta_1 \neq 0\) (note that \texttt{R} has other functions that can be used to conduct non-standard tests). 
+    The \(p\)-value is given as \(p < 2.2 \cdot 10^{-16} < 0.05\), so we reject \(H_0\). The data indicated that there is indeed 
+    a linear relationship between \(X\) and \(Y\).
+    \item[(b)] Using the \texttt{confint()} function in \texttt{R}, a \(95\%{}\) confidence interval for \(\beta_1\) is given by 
+    \begin{align*}
+        \beta_1 \in \big(14.061010, 16.009486\big).
+    \end{align*}
+    That is, we believe that there is a \(0.95\) probability that the true value of \(\beta_1\) can be no smaller than \(14.061010\) and no larger
+    than \(16.009486\).
+    \item[(c)] The manager claims that the mean service time should not increase by more than 14 minutes for each printer serviced. 
+    \begin{enumerate}
+        \item We can see that the confidence interval for \(\beta_1\) lies entirely above 14, which indicates that the manager is incorrect. 
+        \item We can perform a hypothesis test with \(H_0 : \beta_1 \le 14\) and \(H_a : \beta_1 > 14\). For this experiment, we have \(n = 45\). 
+        Our \(t\)-statistic is then given by 
+        \begin{align*}
+            t = \frac{\hat{\beta}_1 - \beta_1}{\hat{\sigma}} = \frac{15.0352 - 14}{0.4831} = 2.142984,
+        \end{align*}
+        and our corresponding \(p\)-value is 
+        \begin{align*}
+            p = \mathrm{Pr}(T \ge 2.142984 | \beta_1 = 14) 
+            % = 1 - \mathrm{Pr}(T < 2.142984 | \beta_1 = 14) 
+            \approx 0.0189 < 0.05.
+        \end{align*}
+        Since our \(p\)-value is smaller than our significance level, we reject \(H_0\).
+    \end{enumerate}
+    Our results are consistent in both cases, and the data indicates that the average service time will increase by more than 14 minutes. 
+    \item[(d)] In this model, \(\beta_0\) would be the expected service time when no copiers are being serviced, which does not make sense (if no 
+    copiers are being serviced, then the customer would have no reason to call in the first place). Even if it did, we have \(\hat{\beta}_0 = -0.5802\),
+    a negative service time, which is an impossible value to be observed. 
+\end{itemize}
 
 \end{document}
