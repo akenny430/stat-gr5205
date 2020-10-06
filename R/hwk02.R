@@ -17,6 +17,6 @@ n <- nrow(cm)
 b1_null <- 14.0
 b1_est <- as.numeric(cm_lin$coefficients[2])
 b1_std <- as.numeric(summary(cm_lin)$coefficients[2, 2])
-t_stat <- (b1_est - b1_null) / b1_std
-(p_val <- 1 - pt(q = t_stat, df = n - 2))
+(t_stat <- (b1_est - b1_null) / b1_std)
+(p_val <- pt(q = t_stat, df = n - 2, lower.tail = F))
 p_val <= 0.05
