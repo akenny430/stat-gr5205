@@ -151,6 +151,67 @@ The least-squares estimators are given by
 %' ============================================================================================================================================================
 \section{Question 2} \noindent
 \mycolab{None}
-stop
+Letting \(\bm{\beta} = (\beta_0, \beta_1)^T\) and \(\mathbf{X} = \begin{bmatrix}
+    \mathbf{1} & \mathbf{x}
+\end{bmatrix} \in \mathbb{R}^{n\times2}\), the simple linear regression model is given by \(\mathbf{y} = \mathbf{X}\bm{\beta} + \bm{\epsilon}\). 
+The MSE is then given by \(Q = \| \mathbf{y} - \mathbf{X}\bm{\beta} \|^2\). 
+\begin{itemize}
+    \item[(a)] We first expand the MSE to get
+    \begin{align*}
+        Q = \| \mathbf{y} - \mathbf{X}\bm{\beta} \|^2 = (\mathbf{y} - \mathbf{X}\bm{\beta})^T(\mathbf{y} - \mathbf{X}\bm{\beta})
+        = \mathbf{y}^T\mathbf{y} - 2 \mathbf{y}^T \mathbf{X} \bm{\beta} + \bm{\beta}^T \mathbf{X}^T \mathbf{X} \bm{\beta}.
+    \end{align*}
+    By differentiating \(Q\) with respect to \(\bm{\beta}\) and setting it equal to \(\mathbf{0}\), we have
+    \begin{align*}
+        \frac{\partial Q}{\partial\bm{\beta}} 
+        &= \frac{\partial}{\partial\bm{\beta}} \left( \mathbf{y}^T\mathbf{y} - 2 \mathbf{y}^T \mathbf{X} \bm{\beta} + \bm{\beta}^T \mathbf{X}^T \mathbf{X} \bm{\beta} \right) \\
+        &= \frac{\partial}{\partial\bm{\beta}} \mathbf{y}^T\mathbf{y} - 2 \frac{\partial}{\partial\bm{\beta}}\mathbf{y}^T \mathbf{X} \bm{\beta} + \frac{\partial}{\partial\bm{\beta}}\bm{\beta}^T \mathbf{X}^T \mathbf{X} \bm{\beta}
+        = -2 \mathbf{X}^T \mathbf{y} + 2 \mathbf{X}^T \mathbf{X} \bm{\beta}
+        ~\overset{\text{set}}{=}~ \mathbf{0},
+    \end{align*}
+    and solving for \(\bm{\beta}\) gives us \(\hat{\bm{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\).
+    \item[(b)] Now suppose that we have \(p\) different predictors, each with \(n\) observed values that are not all identical. 
+    Let \(\mathbf{x}_j \in \mathbb{R}^n\) be the vector containing the observations for the \(j\)th predictor. Define the matrix
+    \(\mathbf{X} = \begin{bmatrix}
+        \mathbf{1} & \mathbf{x}_1 & \cdots & \mathbf{x}_p
+    \end{bmatrix} \in \mathbb{R}^{n\times(p+1)}\) be the matrix whos \(j\)th column is \(\mathbf{x}_{j-1}\) (and first column is \(\mathbf{1}\)).
+    In addition, let \(\bm{\beta} = (\beta_0, \beta_1, \ldots, \beta_p)^T \in \mathbb{R}^{p+1}\) be the vector containing \(p+1\) scalars. 
+    The multiple linear regression model is given by \(\mathbf{y} = \mathbf{X}\bm{\beta} + \bm{\epsilon}\); that is, it has the same form as the 
+    simple linear regression model, and we can see that simple linear regression is when \(p=1\). Because of this, the estimated 
+    coefficients \(\hat{\bm{\beta}}\) take the same form as before: \(\hat{\bm{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\).
+    \item[(c)] The fitted values \(\hat{\mathbf{y}}\) are given by 
+    \begin{align*}
+        \hat{\mathbf{y}} = \mathbf{X}\hat{\bm{\beta}} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}.
+    \end{align*}
+    \item[(d)] Similar to simple linear regression, the ``normal equation'' for the multivariate regression setting is found during the derivation of 
+    \(\hat{\bm{\beta}}\), and is given by 
+    \begin{align*}
+        \mathbf{X}^T (\mathbf{y} - \mathbf{X}\hat{\bm{\beta}}) = \mathbf{0}.
+    \end{align*}
+    % An immediate consequence of this are results (a) and (c): 
+    Letting \(\mathbf{e} = \mathbf{y} - \mathbf{X}\hat{\bm{\beta}}\) be the vector of observed residuals,
+    we have \(\mathbf{X}^T\mathbf{e} = \mathbf{0}\), meaning
+    \(\mathbf{1}^T \mathbf{e} = 0\) and \(\mathbf{x}_j^T \mathbf{e} = 0\) for all \(j\). In other words, the residuals sum to zero and the residuals
+    weighted by each predictor sum to 0. Because of this result, we also know that the residuals weighted by the fitted values sum to zero, i.e.
+    \begin{align*}
+        \hat{\mathbf{y}}^T \mathbf{e} = (\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y})^T\mathbf{e}
+        = \mathbf{y}^T \mathbf{X} (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{X}^T \mathbf{e}
+        = \mathbf{y}^T \mathbf{X} (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{0}
+        = \mathbf{0}.
+    \end{align*}
+    The other key results are that \(\hat{\mathbf{y}}^T \mathbf{1} = \mathbf{y}^T\mathbf{1}\) and \(\bar{y} = \bar{\mathbf{x}}^T \hat{\bm{\beta}}\),
+    where \(\bar{\mathbf{x}} = (1, \bar{x}_1, \ldots, \bar{x}_p)^T\) is the vector whos \(j\)th entry is the mean of the \((j-1)\)th variable. 
+    \item[(e)] We have 
+    \begin{align*}
+        \| \hat{\mathbf{y}} - \bar{y}\mathbf{1} \|^2 &= (\hat{\mathbf{y}} - \bar{y}\mathbf{1})^T(\hat{\mathbf{y}} - \bar{y}\mathbf{1}) \\
+        &= \hat{\mathbf{y}}^T \hat{\mathbf{y}} - \bar{y}\hat{\mathbf{y}}^T\mathbf{1} - \bar{y}\hat{\mathbf{y}}^T\mathbf{1} + \bar{y}^2 \mathbf{1}^T\mathbf{1} \\
+        &= \hat{\mathbf{y}}^T \hat{\mathbf{y}} - \bar{y}\mathbf{y}^T\mathbf{1} - \bar{y}\hat{\mathbf{y}}^T\mathbf{1} + \bar{y}^2 \mathbf{1}^T\mathbf{1} \tag{since \(\hat{\mathbf{y}}^T\mathbf{1} = \mathbf{y}^T\mathbf{1}\)}\\
+        &= \hat{\mathbf{y}}^T (\mathbf{y} - \mathbf{e}) - \bar{y}\mathbf{y}^T\mathbf{1} - \bar{y}\hat{\mathbf{y}}^T\mathbf{1} + \bar{y}^2 \mathbf{1}^T\mathbf{1} \tag{since \(\hat{\mathbf{y}} = \mathbf{y} - \mathbf{e}\)}\\
+        &= \hat{\mathbf{y}}^T\mathbf{y} - \hat{\mathbf{y}}^T\mathbf{e} - \bar{y}\mathbf{y}^T\mathbf{1} - \bar{y}\hat{\mathbf{y}}^T\mathbf{1} + \bar{y}^2 \mathbf{1}^T\mathbf{1} \\
+        &= \hat{\mathbf{y}}^T\mathbf{y} - \bar{y}\mathbf{y}^T\mathbf{1} - \bar{y}\hat{\mathbf{y}}^T\mathbf{1} + \bar{y}^2 \mathbf{1}^T\mathbf{1} \tag{since \(\hat{\mathbf{y}}^T\mathbf{e} = \mathbf{0}\)} \\
+        &= (\hat{\mathbf{y}} - \bar{y}\mathbf{1})^T(\mathbf{y} - \bar{y}\mathbf{1}).
+    \end{align*}
+    Essentially, we expanded out the equation and used the key results from part (d) to mainpulate the equation and get the desired result. 
+\end{itemize}
 
 \end{document}
