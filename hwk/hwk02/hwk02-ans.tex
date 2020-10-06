@@ -228,16 +228,18 @@ The MSE is then given by \(Q = \| \mathbf{y} - \mathbf{X}\bm{\beta} \|^2\).
     the two results are the same. For example, if \(Z \sim \mathrm{N}(\mu, \sigma^2)\), then \(\bar{Z}\sim\mathrm{N}(\mu,\sigma^2/n)\), which means 
     \(\mathbb{E}[Z] = \mathbb{E}[\bar{Z}] = \mu\). It is important to note that even though the numerical answer is the same, \textsl{what} we are doing in
     each situation is different.
-    \item[(c)] At the point \(X = x_0\), a \(95\%{}\) confidence interval for \(Y_0\) is given by 
+    \item[(c)] At the point \(X = x_0\), a \(95\%{}\) confidence interval for the mean value of \(Y_0\) is given by 
     \begin{align*}
         \hat{Y}_0 \pm t_{0.975,n-2} \sqrt{\mathrm{MSE} \left( \frac{1}{n} + \frac{(x_0 - \bar{x})^2}{\sum_{i=1}^n(x_i - \bar{x})^2} \right)}.
     \end{align*}
-    However, this confidence interval would \textsl{not} be the same at some different point \(X = x_h \neq x_0\). At this point, a \(95\%{}\)
-    confidence interval would be given by 
+    However, if we wanted to determine the range that a \textsl{single observation} would fall in, 
+    the interval would not be the same for several reasons. We are actually looking for a \(95\%{}\) \textsl{prediction interval}, which 
+    at some different point \(X = x_h \neq x_0\), would be given by 
     \begin{align*}
-        \hat{Y}_h \pm t_{0.975,n-2} \sqrt{\mathrm{MSE} \left( \frac{1}{n} + \frac{(x_h - \bar{x})^2}{\sum_{i=1}^n(x_i - \bar{x})^2} \right)}.
+        \hat{Y}_h \pm t_{0.975,n-2} \sqrt{\mathrm{MSE} \left( 1 + \frac{1}{n} + \frac{(x_h - \bar{x})^2}{\sum_{i=1}^n(x_i - \bar{x})^2} \right)}.
     \end{align*}
-    This new confidence interval is based around \(\hat{Y}_h\), not \(\hat{Y}_0\), and its width is based on \(x_h\), not \(x_0\).
+    We also note that the prediction interval at \(x_h\) is based around \(\hat{Y}_h\), while the confidence interval at \(x_o\) is based around \(\hat{Y}_o\). 
+    In addition, a prediction interval is always wider than a confidence interval. 
 \end{itemize}
 
 %' ============================================================================================================================================================
