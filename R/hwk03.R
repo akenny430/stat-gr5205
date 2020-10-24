@@ -38,6 +38,7 @@ ggsave(filename = 'hwk/hwk03/img/copier-linear.png')
 
 # reading in data 
 psdata <- fread(input = 'data/patient-satisfaction.txt')
+# psdata <- read.table(file = 'data/patient-satisfaction.txt', header = T)
 
 # (a) making scatterplot matrix
 GGally::ggpairs(psdata[, -1]) +
@@ -47,3 +48,14 @@ ggsave(filename = 'hwk/hwk03/img/ps-correlation.png')
 # (b) fitting the multiple regression model
 pslm <- lm(Y ~ Age + Severity + Anxiety, data = psdata)
 summary(pslm)
+
+# (c) plotting residuals against each of the predictor variables
+
+psdata[, residuals := pslm$residuals]
+
+
+ggplot() +
+  geom_point(aes(x = psdata[, 1], y = pslm$residuals))
+
+ggplot() +
+  geom_point(aes(x = psdata, y = pslm$residuals))

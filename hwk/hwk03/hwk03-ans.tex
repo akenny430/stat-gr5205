@@ -118,6 +118,7 @@ Throughout this question, we will be using a variety of base R functions to easi
     The multiple regression model is given by 
     \begin{align}
         \mathbf{y} =  \mathbf{X}\bm{\beta} + \bm{\epsilon},
+        \label{ps-lm}
     \end{align}
     where \(\bm{\beta} = (\beta_0, \beta_1, \beta_2, \beta_3)^T\) and \(\bm{\epsilon} \sim \mathrm{N}(\mathbf{0}, \sigma^2 \mathbf{I})\). It is worth 
     emphasizing that \(\bm{\epsilon}\) and \(\mathbf{y}\) are random vectors, while \(\mathbf{X}\) and \(\bm{\beta}\) are fixed. The least-squares estimate
@@ -132,7 +133,27 @@ Throughout this question, we will be using a variety of base R functions to easi
     \end{align*}
     and our estimated model is given by \(\hat{\mathbf{y}} = \mathbf{X} \mathbf{b}\). What this means is that, when holding all other variables constant, 
     increasing \texttt{Severity} by one unit will cause \texttt{Satisfaction} to \textsl{decrease} by 0.44.
-    \item[(c)] 
+    \item[(c)] A plot of the residuals against the response and each of the predictors can be found in Figure \ref{ps-residuals}. For each, we see that 
+    the residuals appear to be centered around \(0\). We also see that there is no underlying pattern in the residuals as either of the four variables increases. 
+    This indicates that none of the model assumptions are violated.
+    \begin{figure}
+        \centering
+        \includegraphics[width = 0.9\textwidth]{img/ps-residuals.png}
+        \caption{The residuals plotted against \(\hat{y}\) and each of the predictors.}
+        \label{ps-residuals}
+    \end{figure}
+    \item[(d)] A Q-Q plot of the residuals can be found in Figure \ref{ps-qqplot}. The upper tail of the Q-Q plot greatly deviates from the theoretical values, which could mean that 
+    the residuals may not be normally distributed. 
+    \begin{figure}
+        \centering
+        \includegraphics[width = 0.4\textwidth]{img/ps-qqnorm.png}
+        \caption{A Q-Q plot of the residuals for model (\ref{ps-lm}).}
+        \label{ps-qqplot}
+    \end{figure}
 \end{itemize}
+
+%' ============================================================================================================================================================
+\section{Question 3} \noindent
+
 
 \end{document}
