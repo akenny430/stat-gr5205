@@ -36,7 +36,8 @@
 \maketitle
 
 \noindent
-Throughout this assingment, we will be using a variety of base R functions to easily obtain the desired measurements. 
+Throughout this assingment, we will be using a variety of base R functions to easily obtain the desired measurements. In addition, all measurements
+will be rounded to two decimal places or less. 
 
 %' ============================================================================================================================================================
 \section{Question 1} \noindent
@@ -48,7 +49,7 @@ where \(\hat{y}\) is the estimated service time for a call, \(x\) is the number 
 and \(\epsilon \sim \mathrm{N}(0,\sigma^2)\). 
 The least-squares estimator model is given by 
 \begin{align}
-    \hat{y} = -0.5802 + 15.0352x \label{copier-lm}
+    \hat{y} = -0.58 + 15.04x \label{copier-lm}
 \end{align}
 % The data and the estimated model are both plotted in Figure \ref{copier-plot}. Visually, it is clear that
 % least-squares model fits the data extremely well.
@@ -67,13 +68,13 @@ The least-squares estimator model is given by
 \begin{itemize}
     \item[(a)] The \(95\%{}\) confidence interval for the mean service time when there are six copiers is given by 
     \begin{align*}
-        \mathrm{E}[y] \in \Big(86.8152, 92.44746 \Big).
+        \mathrm{E}[y] \in \Big(86.81, 92.45 \Big).
     \end{align*}
     Intuitively, this means that there are six copiers being serviced, we are \(95\%{}\) sure that the average service time for 
     \textsl{all} service times falls within this range. 
     \item[(b)] The \(95\%{}\) prediction interval for the next service time when there are six copiers is 
     \begin{align*}
-        \widehat{y} \in \Big( 71.43628, 107.8264 \Big).
+        \widehat{y} \in \Big( 71.44, 107.83 \Big).
     \end{align*}
     As expected, we notice that the prediction interval is significantly wider than the confidence interval. 
     \item[(c)] 
@@ -96,9 +97,9 @@ The least-squares estimator model is given by
     linear relationship between \(X\) and \(Y\).
     \item[(f)] The total variance explained by the model is known as the \(R^2\) value, and is given by
     \begin{align*}
-        R^2 = \frac{\mathrm{SSR}}{\mathrm{SST}} = \frac{76960}{80376} \approx 0.9575.
+        R^2 = \frac{\mathrm{SSR}}{\mathrm{SST}} = \frac{76960}{80376} = 0.9575.
     \end{align*}
-    That is, bout \(95.7\%{}\) of \(Y\)'s variation is explained by model (\ref{copier-lm}), quite a significant reduction. 
+    That is, about \(95.75\%{}\) of \(Y\)'s variation is explained by model (\ref{copier-lm}), quite a significant reduction. 
 \end{itemize}
 
 %' ============================================================================================================================================================
@@ -124,7 +125,7 @@ The least-squares estimator model is given by
     \end{align}
     where \(\bm{\beta} = (\beta_0, \beta_1, \beta_2, \beta_3)^T\) and \(\bm{\epsilon} \sim \mathrm{N}(\mathbf{0}, \sigma^2 \mathbf{I})\). It is worth 
     emphasizing that \(\bm{\epsilon}\) and \(\mathbf{y}\) are random vectors, while \(\mathbf{X}\) and \(\bm{\beta}\) are fixed. The least-squares estimate
-    for \(\bm{\beta}\) (where each entry is rounded to two decimal places) is given by 
+    for \(\bm{\beta}\) is given by 
     \begin{align*}
         \mathbf{b} = \begin{bmatrix}
             b_0 \\ b_1 \\ b_2 \\ b_3
@@ -162,7 +163,7 @@ We are assuming that model (\ref{ps-lm}) is appropriate.
     \(H_0 : \bm{\beta} = \mathbf{0}\) against \(H_a : \bm{\beta} \neq \mathbf{0}\). Our \(p\)-value is given by 
     \(p \approx 1.542 \times 10^{-10}\), which is significantly lower than \(\alpha = 0.05\). Therefore, we reject \(H_0\); the data indicates that 
     there is a linear relationship. 
-    \item[(b)] A joint \(90\%{}\) (not \(95\%{}\)) confidence interval for each of the predictor coefficients (rounded to two decimal places) is given by 
+    \item[(b)] A joint \(90\%{}\) (not \(95\%{}\)) confidence interval for each of the predictor coefficients is given by 
     \begin{align*}
         \beta_1 &\in \Big( -1.50 , -0.78 \Big), \\
         \beta_2 &\in \Big( -1.27 ,  0.39 \Big), \\
@@ -171,7 +172,7 @@ We are assuming that model (\ref{ps-lm}) is appropriate.
     Of the three intervals, we see that the interval for \(\beta_2\) contains zero at this significance level, while the other two intervals do not. That is,
     we are \(90\%{}\) sure that \(\beta_1, \beta_3 \neq 0\) and \(\beta_2 = 0\) (so overall, \(\bm{\beta} \neq \mathbf{0}\)). We believe that 
     Age and Anxiety have a significant effect on Satisfaction, while Severity does not. 
-    \item[(c)] The \(R^2\) value here is \(R^2 = 0.6822\)
+    \item[(c)] The \(R^2\) value here is \(R^2 = 0.6822\). 
 \end{itemize}
 
 \end{document}
