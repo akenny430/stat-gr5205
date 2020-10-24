@@ -35,6 +35,9 @@
 
 \maketitle
 
+\noindent
+Throughout this assingment, we will be using a variety of base R functions to easily obtain the desired measurements. 
+
 %' ============================================================================================================================================================
 \section{Question 1} \noindent
 We are considering the linear regression model 
@@ -49,7 +52,6 @@ The least-squares estimator model is given by
 \end{align}
 % The data and the estimated model are both plotted in Figure \ref{copier-plot}. Visually, it is clear that
 % least-squares model fits the data extremely well.
-Throughout this question, we will be using a variety of base R functions to easily obtain the desired measurements. 
 % \begin{figure}[h]
 %     \centering
 %     \includegraphics[width = 0.35\textwidth]{img/copier-linear.png}
@@ -156,7 +158,20 @@ Throughout this question, we will be using a variety of base R functions to easi
 \section{Question 3} \noindent
 We are assuming that model (\ref{ps-lm}) is appropriate. 
 \begin{itemize}
-    \item[(a)] 
+    \item[(a)] To see if there is \textsl{any} linear relationship between Satisfaction and Age, Severity and Anxiety, we will conduct an \(F\)-test, where 
+    \(H_0 : \bm{\beta} = \mathbf{0}\) against \(H_a : \bm{\beta} \neq \mathbf{0}\). Our \(p\)-value is given by 
+    \(p \approx 1.542 \times 10^{-10}\), which is significantly lower than \(\alpha = 0.05\). Therefore, we reject \(H_0\); the data indicates that 
+    there is a linear relationship. 
+    \item[(b)] A joint \(90\%{}\) (not \(95\%{}\)) confidence interval for each of the predictor coefficients (rounded to two decimal places) is given by 
+    \begin{align*}
+        \beta_1 &\in \Big( -1.50 , -0.78 \Big), \\
+        \beta_2 &\in \Big( -1.27 ,  0.39 \Big), \\
+        \beta_3 &\in \Big( -25.41 , -1.53 \Big). \\
+    \end{align*}
+    Of the three intervals, we see that the interval for \(\beta_2\) contains zero at this significance level, while the other two intervals do not. That is,
+    we are \(90\%{}\) sure that \(\beta_1, \beta_3 \neq 0\) and \(\beta_2 = 0\) (so overall, \(\bm{\beta} \neq \mathbf{0}\)). We believe that 
+    Age and Anxiety have a significant effect on Satisfaction, while Severity does not. 
+    \item[(c)] The \(R^2\) value here is \(R^2 = 0.6822\)
 \end{itemize}
 
 \end{document}
