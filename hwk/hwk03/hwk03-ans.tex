@@ -183,6 +183,91 @@ We are assuming that model (\ref{ps-lm}) is appropriate.
 
 %' ============================================================================================================================================================
 \section{Question 4} \noindent
-
+Let 
+\begin{align*}
+    \begin{bmatrix}
+        X_1 \\ X_2 \\ \epsilon
+    \end{bmatrix} \sim \mathrm{N} \left( 
+        \begin{bmatrix}
+            \mu_1 \\ \mu_2 \\ 0
+        \end{bmatrix},
+        \begin{bmatrix}
+            \sigma^2 & \rho \sigma^2 & 0 \\
+            \rho \sigma^2 & \sigma^2 & 0 \\
+            0 & 0 & \tilde{\sigma}^2
+        \end{bmatrix}
+     \right).
+\end{align*}
+That is, \(X_1 \sim \mathrm{N}(\mu_1, \sigma^2)\), \(X_2 \sim \mathrm{N}(\mu_2, \sigma^2)\) (i.e. \(X_1\) and \(X_2\) have different means but the same 
+variance), \(\epsilon \sim \mathrm{N}(0, \tilde{\sigma}^2)\), \(\mathrm{Cor}[X_1, X_2] = \rho\) (which makes \(\rho \sigma^2 = \mathrm{Cov}[X_1, X_2]\)), and 
+\(\mathrm{Cov}[X_1, \epsilon] = \mathrm{Cov}[X_2, \epsilon] = 0\). We now consider \(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\), a linear combination. 
+\begin{itemize}
+    \item[(a)] Since \(Y\) is the sum of normal random variables, \(Y\) must also be normally distributed. It's mean and variance are given by 
+    \begin{align*}
+        \mathrm{E}[Y]
+        &= \mathrm{E}[\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon]
+        = \beta_0 + \beta_1 \mathrm{E}[X_1] + \beta_2 \mathrm{E}[X_2] + \mathrm{E}[\epsilon] \\
+        &= \beta_0 + \beta_1 \mu_1 + \beta_2 \mu_2, \\
+        \mathrm{Var}[Y]
+        &= \mathrm{Var}[\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon] 
+        = \beta_1^2 \mathrm{Var}[X_1] + 2 \beta_1 \beta_2 \mathrm{Cov}[X_1, X_2] + \beta_2^2 \mathrm{Var}[X_2] + \mathrm{Var}[\epsilon] \\
+        &= \sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big) + \tilde{\sigma}^2.
+    \end{align*}
+    \item[(b)] We first expand the numerator to get  
+    \begin{align*}
+        \mathrm{Cov}[X_1, Y]
+        &= \mathrm{Cov}[X_1, \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon]
+        = \beta_1 \mathrm{Var}[X_1] + \beta_2 \mathrm{Cov}[X_1, X_2] 
+        = \beta_1 \sigma^2 + \rho \beta_2 \sigma^2 \\
+        &= \sigma^2 \big( \beta_1 + \rho \beta_2 \big),
+    \end{align*}
+    and so 
+    \begin{align*}
+        r_1 
+        \coloneqq \frac{\mathrm{Cov}[X_1,Y]}{\sqrt{\mathrm{Var}[X_1] \cdot \mathrm{Var}[Y]}}
+        = \frac{\sigma^2 \big( \beta_1 + \rho \beta_2 \big)}{\sqrt{\sigma^2 \Big( \sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big) + \tilde{\sigma}^2 \Big)}}
+        = \frac{\sigma \big( \beta_1 + \rho \beta_2 \big)}{\sqrt{\sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big) + \tilde{\sigma}^2}}.
+    \end{align*}
+    \item[(c)] We have 
+    \begin{align*}
+        \mathrm{Cov}[\beta_1 X_1 + \beta_2 X_2, Y]
+        &= \beta_1 \mathrm{Cov}[X_1, Y] + \beta_2 \mathrm{Cov}[X_2, Y]
+        = \sigma^2 \Big( \beta_1 (\beta_1 + \rho \beta_2) + \beta_2 (\rho \beta_1 + \beta_2) \Big) \\
+        &= \sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big)
+    \end{align*}
+    and 
+    \begin{align*}
+        \mathrm{Var}[\beta_1 X_1 + \beta_2 X_2]
+        \beta_1^2 \mathrm{Var}[X_1] + 2 \beta_1 \beta_2 \mathrm{Cov}[X_1, X_2] + \beta_2^2 \mathrm{Var}[X_2]
+         = \sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big)
+    \end{align*}
+    (which means \(\mathrm{Cov}[\beta_1 X_1 + \beta_2 X_2, Y] = \mathrm{Var}[\beta_1 X_1 + \beta_2 X_2]\)). Plugging this in gives us 
+    \begin{align*}
+        r_2 
+        &\coloneqq \frac{\mathrm{Cov}[\beta_1 X_1 + \beta_2 X_2, Y]}{\sqrt{\mathrm{Var}[\beta_1 X_1 + \beta_2 X_2] \cdot \mathrm{Var}[Y]}}
+        = \frac{\sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big)}{\sqrt{\sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big) \cdot \Big( \sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big) + \tilde{\sigma}^2 \Big)}} \\
+        &= \sqrt{\frac{\sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big)}{\sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big) + \tilde{\sigma}^2}}
+    \end{align*}
+    \item[(d)] For notational ease, we are going to substitute \(\mathrm{Var}[Y]\) back into \(r_1\) and \(r_2\).
+    We first note that 
+    \begin{align*}
+        r_1^2 = \frac{\sigma^2 (\beta_1 + \rho \beta_2)^2}{\mathrm{Var}[Y]}
+        ~~\text{and}~~
+        r_2^2 = \frac{\sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big)}{\mathrm{Var}[Y]}.
+    \end{align*}
+    We will start with the assumption \(r_1^2 \le r_2^2\), and then manipulate the inequality until we get a result that will always be true:
+    \begin{align}
+        & r_1^2 \le r_2^2 \tag{iniital assumption} \\
+        & \frac{\sigma^2 (\beta_1 + \rho \beta_2)^2}{\mathrm{Var}[Y]} \le \frac{\sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big)}{\mathrm{Var}[Y]} \tag{substituting in} \\
+        & \sigma^2 (\beta_1 + \rho \beta_2)^2 \le \sigma^2 \big( \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \big) \tag{multiply both sides by \(\mathrm{Var}[Y]\)} \\
+        & (\beta_1 + \rho \beta_2)^2 \le \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \tag{divide both sides by \(\sigma^2\)} \\
+        & \beta_1^2 + 2 \rho \beta_1 \beta_2 + \rho^2 \beta_2^2 \le \beta_1^2 + 2 \rho \beta_1 \beta_2 + \beta_2^2 \tag{expand left-hand side} \\
+        & \rho^2 \beta_2^2 \le \beta_2^2 \tag{subtract \(\beta_1^2 + 2 \rho \beta_1 \beta_2\) from both sides} \\
+        & \rho^2 \le 1 \tag{dibide both sides by \(\beta_2^2\)} \\
+        & \rho \le 1 \tag{take the square root of both sides}
+    \end{align}
+    Since \(\rho\) is a correlation, it must be bounded between \(-1\) and \(1\), so the final condition is always true. As a result, we will always
+    have \(r_1^2 \le r_2^2\).
+\end{itemize}
 
 \end{document}
