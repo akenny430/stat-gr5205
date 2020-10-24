@@ -68,13 +68,13 @@ The least-squares estimator model is given by
 \begin{itemize}
     \item[(a)] The \(95\%{}\) confidence interval for the mean service time when there are six copiers is given by 
     \begin{align*}
-        \mathrm{E}[y] \in \Big(86.81, 92.45 \Big).
+        \mathrm{E}[y] \in \big(86.81, 92.45 \big).
     \end{align*}
     Intuitively, this means that there are six copiers being serviced, we are \(95\%{}\) sure that the average service time for 
     \textsl{all} service times falls within this range. 
     \item[(b)] The \(95\%{}\) prediction interval for the next service time when there are six copiers is 
     \begin{align*}
-        \widehat{y} \in \Big( 71.44, 107.83 \Big).
+        \widehat{y} \in \big( 71.44, 107.83 \big).
     \end{align*}
     As expected, we notice that the prediction interval is significantly wider than the confidence interval. 
     \item[(c)] 
@@ -165,14 +165,24 @@ We are assuming that model (\ref{ps-lm}) is appropriate.
     there is a linear relationship. 
     \item[(b)] A joint \(90\%{}\) (not \(95\%{}\)) confidence interval for each of the predictor coefficients is given by 
     \begin{align*}
-        \beta_1 &\in \Big( -1.50 , -0.78 \Big), \\
-        \beta_2 &\in \Big( -1.27 ,  0.39 \Big), \\
-        \beta_3 &\in \Big( -25.41 , -1.53 \Big). \\
+        \beta_1 &\in \big( -1.50 , -0.78 \big), \\
+        \beta_2 &\in \big( -1.27 ,  0.39 \big), \\
+        \beta_3 &\in \big( -25.41 , -1.53 \big).
     \end{align*}
     Of the three intervals, we see that the interval for \(\beta_2\) contains zero at this significance level, while the other two intervals do not. That is,
     we are \(90\%{}\) sure that \(\beta_1, \beta_3 \neq 0\) and \(\beta_2 = 0\) (so overall, \(\bm{\beta} \neq \mathbf{0}\)). We believe that 
     Age and Anxiety have a significant effect on Satisfaction, while Severity does not. 
-    \item[(c)] The \(R^2\) value here is \(R^2 = 0.6822\). 
+    \item[(c)] The \(R^2\) value here is \(R^2 = 0.6822\), which means about \(68.22\%{}\) of the response's variability is explained by the model, meaning the 
+    model is decent. 
+    \item[(d)] When a patient is 35 years old, has a severity rating of 45, and an anxiety rating of 2.2, a \(95\%{}\) confidence interval for the average 
+    satisfaction rating is \(\big( 63.63, 74.39 \big)\). This means we are \(95\%{}\) sure that for all patients who meet this criteria, the average of 
+    all of their satisfaction ratings will fall in this interval. 
+    \item[(e)] Given the same conditions, a \(95\%{}\) prediction interval is given by \(\big( 48.012, 90.01 \big)\). We are \(95\%{}\) sure that the satisfaction 
+    rating of the next patient we observe will fall in this interval.
 \end{itemize}
+
+%' ============================================================================================================================================================
+\section{Question 4} \noindent
+
 
 \end{document}
