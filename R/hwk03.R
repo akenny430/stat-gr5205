@@ -38,7 +38,6 @@ ggsave(filename = 'hwk/hwk03/img/copier-linear.png')
 
 # reading in data 
 psdata <- fread(input = 'data/patient-satisfaction.txt')
-# psdata <- read.table(file = 'data/patient-satisfaction.txt', header = T)
 
 # (a) making scatterplot matrix
 GGally::ggpairs(psdata[, -1]) +
@@ -51,11 +50,41 @@ summary(pslm)
 
 # (c) plotting residuals against each of the predictor variables
 
-psdata[, residuals := pslm$residuals]
+# psdata[, .residuals := pslm$residuals]
+psdata[, c('fitted', 'residuals') := .(pslm$fitted.values, pslm$residuals)]
+psnew <- melt(psdata, id.vars = 'residuals', measure.vars = c('fitted', 'Age', 'Severity', 'Anxiety'))
+
+ggplot(data = psnew, aes(x = value, y = residuals)) +
+  geom_point(cex = 4) +
+  facet_grid(. ~ variable, scales = 'free') +
+  geom_hline(yintercept = 0, color = 'red', lwd = 2) +
+  theme_bw(base_size = 40) +
+  labs(x = 'Variable', y = 'Residuals')
+ggsave(filename = 'hwk/hwk03/img/ps-residuals.png', width = 2*11.2, height = 8.71)
 
 
-ggplot() +
-  geom_point(aes(x = psdata[, 1], y = pslm$residuals))
+# (d) making a qq-plot
 
-ggplot() +
-  geom_point(aes(x = psdata, y = pslm$residuals))
+ggplot(data = psnew, aes(sample = residuals)) +
+  geom_qq(cex = 4) +
+  geom_qq_line(color = 'red', lwd = 2) +
+  theme_bw(base_size = 40) +
+  labs(x = 'Theoretical', y = 'Sample')
+ggsave(filename = 'hwk/hwk03/img/ps-qqnorm.png')
+
+
+
+
+
+
+# question 3 --------------------------------------------------------------
+
+# (a) getting the F value
+summary(pslm)
+
+# (b) getting the confidence intervals for each coefficient
+confint(pslm, level = 0.9)
+
+# (d) and (e) getting confidence and prediction intervals
+predict(pslm, newdata = data.frame(Age = 35, Severity = 45, Anxiety = 2.2), interval = 'confidence')
+predict(pslm, newdata = data.frame(Age = 35, Severity = 45, Anxiety = 2.2), interval = 'prediction')
