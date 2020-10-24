@@ -39,13 +39,13 @@
 \section{Question 1} \noindent
 We are considering the linear regression model 
 \begin{align*}
-    Y = \beta_0 + \beta_1 X + \epsilon,
+    y = \beta_0 + \beta_1 x + \epsilon,
 \end{align*}
-where \(\hat{Y}\) is the estimated service time for a call, \(X\) is the number of copiers being serviced,
+where \(\hat{y}\) is the estimated service time for a call, \(x\) is the number of copiers being serviced,
 and \(\epsilon \sim \mathrm{N}(0,\sigma^2)\). 
 The least-squares estimator model is given by 
 \begin{align}
-    \hat{Y} = -0.5802 + 15.0352X \label{copier-lm}
+    \hat{y} = -0.5802 + 15.0352x \label{copier-lm}
 \end{align}
 % The data and the estimated model are both plotted in Figure \ref{copier-plot}. Visually, it is clear that
 % least-squares model fits the data extremely well.
@@ -65,13 +65,13 @@ Throughout this question, we will be using a variety of base R functions to easi
 \begin{itemize}
     \item[(a)] The \(95\%{}\) confidence interval for the mean service time when there are six copiers is given by 
     \begin{align*}
-        \mathrm{E}[Y] \in \Big(86.8152, 92.44746 \Big).
+        \mathrm{E}[y] \in \Big(86.8152, 92.44746 \Big).
     \end{align*}
     Intuitively, this means that there are six copiers being serviced, we are \(95\%{}\) sure that the average service time for 
     \textsl{all} service times falls within this range. 
     \item[(b)] The \(95\%{}\) prediction interval for the next service time when there are six copiers is 
     \begin{align*}
-        \widehat{Y} \in \Big( 71.43628, 107.8264 \Big).
+        \widehat{y} \in \Big( 71.43628, 107.8264 \Big).
     \end{align*}
     As expected, we notice that the prediction interval is significantly wider than the confidence interval. 
     \item[(c)] 
@@ -88,7 +88,7 @@ Throughout this question, we will be using a variety of base R functions to easi
         \caption{The ANOVA table for model (\ref{copier-lm}).}
         \label{copier-anova}
     \end{table}
-    \item[(e)] To determine if there is any linear relationship between \(X\) and \(Y\), we conduct an \(F\)-test, where 
+    \item[(e)] To determine if there is any linear relationship between \(x\) and \(y\), we conduct an \(F\)-test, where 
     \(H_0 : \beta_1 = 0\) against \(H_a : \beta_1 \neq 0\). From Table \ref{copier-anova}, we see that the associated \(p\)-value is 
     well below the significance level \(\alpha = 0.05\), and so we reject \(H_0\). The data seems to indicate that there is in fact a 
     linear relationship between \(X\) and \(Y\).
@@ -101,6 +101,38 @@ Throughout this question, we will be using a variety of base R functions to easi
 
 %' ============================================================================================================================================================
 \section{Question 2} \noindent
-
+\begin{itemize}
+    \item[(a)] The scatterplot matrix has been printed in Figure \ref{ps-scatterplot}. We can see that there does seem to be a positive correlation between
+    all three of the variables. 
+    \begin{figure}
+        \centering
+        \includegraphics[width = 0.9\textwidth]{img/ps-correlation.png}
+        \caption{The scatterplot matrix for \texttt{Age}, \texttt{Severity}, and \texttt{Anxiety}.}
+        \label{ps-scatterplot}
+    \end{figure}
+    \item[(b)] Let \(\mathbf{y}, \mathbf{x}_1, \mathbf{x}_2, \mathbf{x}_3 \in \mathbb{R}^n\) denote \texttt{Patient Satisfaction}, \texttt{Age},
+    \texttt{Severity}, and \texttt{Anxiety}, respectively, and let 
+    \(\mathbf{X} = \begin{bmatrix}
+        \mathbf{1} & \mathbf{x}_1 & \mathbf{x}_2 & \mathbf{x}_3
+    \end{bmatrix} \in \mathbb{R}^{n \times 4}\).
+    The multiple regression model is given by 
+    \begin{align}
+        \mathbf{y} =  \mathbf{X}\bm{\beta} + \bm{\epsilon},
+    \end{align}
+    where \(\bm{\beta} = (\beta_0, \beta_1, \beta_2, \beta_3)^T\) and \(\bm{\epsilon} \sim \mathrm{N}(\mathbf{0}, \sigma^2 \mathbf{I})\). It is worth 
+    emphasizing that \(\bm{\epsilon}\) and \(\mathbf{y}\) are random vectors, while \(\mathbf{X}\) and \(\bm{\beta}\) are fixed. The least-squares estimate
+    for \(\bm{\beta}\) (where each entry is rounded to two decimal places) is given by 
+    \begin{align*}
+        \mathbf{b} = \begin{bmatrix}
+            b_0 \\ b_1 \\ b_2 \\ b_3
+        \end{bmatrix}
+        = \begin{bmatrix}
+            158.49 \\ -1.14 \\ -0.44 \\ -13.47
+        \end{bmatrix},
+    \end{align*}
+    and our estimated model is given by \(\hat{\mathbf{y}} = \mathbf{X} \mathbf{b}\). What this means is that, when holding all other variables constant, 
+    increasing \texttt{Severity} by one unit will cause \texttt{Satisfaction} to \textsl{decrease} by 0.44.
+    \item[(c)] 
+\end{itemize}
 
 \end{document}

@@ -1,6 +1,6 @@
 library(data.table)
 library(ggplot2)
-library(car)
+library(GGally)
 
 
 # question 1 --------------------------------------------------------------
@@ -9,26 +9,16 @@ cdata <- fread(input = 'data/copier-maintenance.txt')
 
 # fitting model
 clm <- lm(minutes ~ copiers, data = cdata)
+summary(clm)
 
 # (a) finding confidence interval when X = 6
 predict(clm, newdata = data.table(copiers = 6), interval = 'confidence')
-#        fit     lwr      upr
-# 1 89.63133 86.8152 92.44746
 
 # (b) finding prediction interval when X = 6
 predict(clm, newdata = data.table(copiers = 6), interval = 'prediction')
-# ```````fit      lwr      upr
-# 1 89.63133 71.43628 107.8264
 
 # (d) and (e) setting up anova table and getting p value
 anova(clm)
-# Analysis of Variance Table
-# 
-# Response: minutes
-#           Df Sum Sq Mean Sq F value    Pr(>F)    
-# copiers    1  76960   76960  968.66 < 2.2e-16 ***
-# Residuals 43   3416      79                      
-# ---
 
 # making plot of model
 ggplot(data = cdata, aes(x = copiers, y = minutes)) +
@@ -41,3 +31,19 @@ ggplot(data = cdata, aes(x = copiers, y = minutes)) +
   theme_bw(base_size = 40) +
   theme(legend.position = 'bottom')
 ggsave(filename = 'hwk/hwk03/img/copier-linear.png')
+
+
+
+# question 2 --------------------------------------------------------------
+
+# reading in data 
+psdata <- fread(input = 'data/patient-satisfaction.txt')
+
+# (a) making scatterplot matrix
+GGally::ggpairs(psdata[, -1]) +
+  theme_bw(base_size = 15)
+ggsave(filename = 'hwk/hwk03/img/ps-correlation.png')
+
+# (b) fitting the multiple regression model
+pslm <- lm(Y ~ Age + Severity + Anxiety, data = psdata)
+summary(pslm)
