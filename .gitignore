@@ -12,3 +12,6 @@
 *.toc
 *.fdb_latexmk
 *.synctex.gz
+
+# exam answers
+midterm-ans.pdf
