@@ -57,7 +57,20 @@
     will reject \(H_0\). It seems that there is a non-negligible quadratic relationship. Interestingly, if one were to re-run the same test for \(\beta_0\) and 
     \(\beta_1\), the corresponding \(p\)-values would be \(0.515\) and \(0.495\), which would not give us grounds to reject either of those null hypotheses.
     That is, we could say the slope and linear term of this model are insignificant, but the quadratic term is not. 
-    \item[(d)] 
+    \item[(d)] When AFS is \(30\%{}\), a \(95\%{}\) prediction interval is \(\big( -89.781, 239.004 \big)\), and when AFS is \(60\%{}\), a \(95\%{}\) prediction 
+    interval is \(\big( 133.136, 462.503 \big)\). The simultaneous confidence level for both of these intervals is \(0.95^2 = 0.9025\), so we are \(90.25\%{}\) 
+    confident that both of these predictions will occur. 
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width = 0.55\textwidth]{img/q01-residuals.png}
+        \includegraphics[width = 0.35\textwidth]{img/q01-qqplot.png}
+        \caption{Diagnostic plots for the quadratic model.}
+        \label{fig-q01-diag}
+    \end{figure}
+    \item[(e)] The diagnostic plots have been printed in Figure \ref{fig-q01-diag}. We can see right away that the assumption of equal variance among the 
+    residuals is violated. For both residual plots, the residuals create a cone-like pattern, where the variance in the residuals starts small, and then 
+    increases. In addition, there are several significant outliers in the QQ-plot, meaning that the assumption of normally-distributed residuals is most 
+    likely being violated as well. 
 \end{itemize}
 
 
