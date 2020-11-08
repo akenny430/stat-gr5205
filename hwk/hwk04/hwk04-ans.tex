@@ -52,7 +52,25 @@
 
 %' ============================================================================================================================================================
 \section{Question 4} \noindent
-
-
+\mycolaba{None}
+\begin{itemize}
+    \item[(a)] For this question we will assume the matrix \(\mathbf{X}\) is \textsl{centered}, so that each predictor has mean zero. 
+    In \(n\)-dimensional Euclidean vector space, for any \(\mathbf{v} \in \mathbb{R}^n\) we have \(\|\mathbf{v}\|^2 = \mathbf{v}^T\mathbf{v}\), 
+    so the ridge regression loss function becomes 
+    \begin{align*}
+        Q(\bm{\beta}; \lambda) 
+        = \| \mathbf{y} - \mathbf{X}\bm{\beta} \|^2 + \lambda \|\bm{\beta}\|^2
+        = \mathbf{y}^T\mathbf{y} - 2 \bm{\beta}\mathbf{X}^T\mathbf{y} + \bm{\beta} \mathbf{X}^T \mathbf{X} \bm{\beta} + \lambda \bm{\beta}^T \bm{\beta}.
+    \end{align*}
+    Differentiating the loss function with respect to \(\bm{\beta}\) gives us 
+    \begin{align*}
+        \frac{\partial Q}{\partial \bm{\beta}}
+        = -2 \mathbf{X}^T \mathbf{y} + 2 \mathbf{X}^T\mathbf{X}\bm{\beta} + 2 \lambda \bm{\beta}
+        = -2 \mathbf{X}^T \mathbf{y} + 2 \big( \mathbf{X}^T\mathbf{X} + \lambda \mathbf{I} \big) \bm{\beta}
+        \overset{\text{set}}{=} \mathbf{0},
+    \end{align*}
+    and finally solving for \(\bm{\beta}\) gives us 
+    \(\hat{\bm{\beta}}_{\text{RR}} = \big( \mathbf{X}^T\mathbf{X} + \lambda \mathbf{I} \big)^{-1} \mathbf{X}^T\mathbf{y}\).
+\end{itemize}
 
 \end{document}
