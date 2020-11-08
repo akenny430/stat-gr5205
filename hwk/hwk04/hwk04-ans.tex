@@ -37,7 +37,28 @@
 
 %' ============================================================================================================================================================
 \section{Question 1} \noindent
-
+\mycolab{None}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = 0.4\textwidth]{img/q01a-single.png}
+    \quad
+    \includegraphics[width = 0.4\textwidth]{img/q01a-both.png}
+    \caption{Overlaying a loess smoother and a quadratic polynomial to the scatterplot of AFS vs. Nurses.
+    The left plot displays only the loess smoother, while the right plot displays both.}
+    \label{fig-q01a}
+\end{figure}
+\begin{itemize}
+    \item[(a)] The loess smoother is the blue line displayed in Figure \ref{fig-q01a}. For clarity, the left plot displays only the loess smoother. The loess 
+    smoother indicates that a linear function does not seem plausible for this data, as the curve is too non-linear. 
+    \item[(b)] The fitted quadratic model is given by \(\hat{Y} = 33.548 - 1.666 x + 0.101 x^2\), and can be see in the right panel of Figure \ref{fig-q01a}. 
+    As we can see, the quadratic model almost perfectly overlays the loess smoother, further indicating that a linear relationship is not plausible. 
+    \item[(c)] Given our model \(Y = \beta_0 + \beta_1 X + \beta_2 X^2 + \epsilon\), to determine if the quadratic term can be dropped from the model, we will
+    test \(H_0 : \beta_2 = 0\) against \(H_a : \beta_2 \neq 0\). The \(p\)-value for this test is \(0.00032\), so for any reasonable significance level, we
+    will reject \(H_0\). It seems that there is a non-negligible quadratic relationship. Interestingly, if one were to re-run the same test for \(\beta_0\) and 
+    \(\beta_1\), the corresponding \(p\)-values would be \(0.515\) and \(0.495\), which would not give us grounds to reject either of those null hypotheses.
+    That is, we could say the slope and linear term of this model are insignificant, but the quadratic term is not. 
+    \item[(d)] 
+\end{itemize}
 
 
 %' ============================================================================================================================================================
