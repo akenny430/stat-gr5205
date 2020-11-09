@@ -76,7 +76,34 @@
 
 %' ============================================================================================================================================================
 \section{Question 2} \noindent
-
+\mycolaba{None}
+\begin{itemize}
+    \item[(a)] See the attached \texttt{R} code.
+    \item[(b)] The scatterplot matrix can be seen in Figure \ref{fig-q02-corr}. It seems that there is a difference between hospitals with or without 
+    a medical school affiliation.
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width = 0.9\textwidth]{img/q02-correlation.png}
+        \caption{A scatterplot matrix of Risk against Stay, Age, and Xray. Here, hospitals without a medical school
+        affiliation are labeled as red circles, and those with a medical school affiliation are labeled as blue triangles.}
+        \label{fig-q02-corr}
+    \end{figure}
+    \item[(c)] Let \(X_1\), \(X_2\), \(x_3\), and \(X_4\) correspond to Stay, Age, Xray, and MS, respectively. We are considering two models:
+    \begin{align}
+        Y &= \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \beta_4 X_4, \label{mod-no-int}\\
+        Y &= \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \beta_4 X_4 + \beta_5 X_1 X_4 + \beta_6 X_2 X_4 + \beta_7 X_3 X_4. \label{mod-yes-int}
+    \end{align}
+    Model (\ref{mod-no-int}) is a linear model with the four predictors, and model (\ref{mod-yes-int}) has the same linear terms plus three interaction terms. 
+    For notational ease, let \(\tilde{\bm{\beta}} = (\beta_5, \beta_6, \beta_7)^T\), i.e. \(\tilde{\bm{\beta}}\) is a vector that contains the coefficients of 
+    the interaction terms. 
+    We want to test that the interaction terms are negligible, so we will test \(H_0: \tilde{\bm{\beta}} = \mathbf{0}\) against 
+    \(H_a : \tilde{\bm{\beta}} \neq \mathbf{0}\).
+    Using \texttt{R}, we can easily fit a linear model both with and without interactions. In addition, we can conduct an F-test to get a 
+    \(p\)-value of \(0.1539\), so we fail to reject the null hypothesis. The data seems to indicate that the interaction terms are 
+    negligible in the model. 
+    \item[(d)] Using model (\ref{mod-no-int}), a \(95\%{}\) confidence interval for \(\beta_4\) is \(\big( -0.320, 0.896 \big)\). Since zero is withing this 
+    confidence interval, we can conclude that the effect of medical school affiliation is negligible in this model. 
+\end{itemize}
 
 
 %' ============================================================================================================================================================

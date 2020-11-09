@@ -1,5 +1,6 @@
 library(data.table)
 library(ggplot2)
+library(GGally)
 
 senic <- fread(input = 'data/SENIC.txt')
 
@@ -58,3 +59,25 @@ ggplot(data = senic_alt, aes(sample = residuals)) +
   theme_bw(base_size = 40) +
   labs(x = 'Theoretical', y = 'Sample')
 ggsave(filename = 'hwk/hwk04/img/q01-qqplot.png')
+
+
+
+
+# question 2 --------------------------------------------------------------
+
+# a- re-coding data
+senic[MS == 2, MS := 0][, MS := as.factor(MS)]
+
+# b- scatterplot matrix, Y = risk, X = Stay, Age, Xray, shape = MS
+GGally::ggpairs(senic, columns = c('Risk', 'Stay', 'Age', 'Xray'), aes(pch = MS, color = MS)) + 
+  # scale_color_manual(name = '', values = c('blue', 'red')) +
+  theme_bw(base_size = 20)
+ggsave(filename = 'hwk/hwk04/img/q02-correlation.png')
+
+# c- fitting the two models
+lin_fit <- lm(Risk ~ Stay + Age + Xray + MS, data = senic)
+int_fit <- lm(Risk ~ Stay + Age + Xray + MS + Stay*MS + Age*MS + Xray*MS, data = senic)
+anova(int_fit, lin_fit)
+
+# d- confidence interval
+confint(lin_fit, level = 0.95)
