@@ -12,7 +12,7 @@ ggplot(senic, aes(x = AFS, y = Nurses)) +
   geom_smooth(method = 'loess', cex = 2, aes(color = 'Loess'), se = F) +
   geom_smooth(method = 'lm', formula = y ~ poly(x, degree = 2, raw = T),
               cex = 2, aes(color = 'Quadratic')) +
-  scale_color_manual(name = '', values = c('blue', 'red')) +
+  scale_color_manual(name = '', values = c('#ff9900', '#66cc00')) +
   theme_bw(base_size = 40) +
   # theme(legend.position = 'bottom') +
   theme(legend.position = c(0.175, 0.96), legend.background = element_blank()) +
@@ -23,7 +23,7 @@ ggsave(filename = 'hwk/hwk04/img/q01a-both.png')
 ggplot(senic, aes(x = AFS, y = Nurses)) +
   geom_point(cex = 4) +
   geom_smooth(method = 'loess', cex = 2, aes(color = 'Loess'), se = F) +
-  scale_color_manual(name = '', values = 'blue') +
+  scale_color_manual(name = '', values = '#ff9900') +
   theme_bw(base_size = 40) +
   # theme(legend.position = 'bottom') +
   theme(legend.position = c(0.175, 0.96), legend.background = element_blank()) +
@@ -70,7 +70,7 @@ senic[MS == 2, MS := 0][, MS := as.factor(MS)]
 
 # b- scatterplot matrix, Y = risk, X = Stay, Age, Xray, shape = MS
 GGally::ggpairs(senic, columns = c('Risk', 'Stay', 'Age', 'Xray'), aes(pch = MS, color = MS)) + 
-  # scale_color_manual(name = '', values = c('blue', 'red')) +
+  # scale_color_manual(name = '', values = c('#ff9900', '#66ff33')) +
   theme_bw(base_size = 20)
 ggsave(filename = 'hwk/hwk04/img/q02-correlation.png')
 
@@ -91,7 +91,7 @@ confint(lin_fit, level = 0.95)
 senic[, Reg := as.factor(Reg)]
 
 # a- scatterplot matrix, Y = Stay, X = Age, Cult, Cen, AFS, consider Region
-GGally::ggpairs(senic, columns = c('Stay', 'Age', 'Cult', 'Cen', 'AFS')) + 
+GGally::ggpairs(senic, columns = c('Stay', 'Age', 'Cult', 'Cen', 'AFS'), aes(pch = Reg, color = Reg)) + 
   theme_bw(base_size = 20)
 ggsave(filename = 'hwk/hwk04/img/q03-correlation.png')
 
