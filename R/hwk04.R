@@ -81,3 +81,26 @@ anova(int_fit, lin_fit)
 
 # d- confidence interval
 confint(lin_fit, level = 0.95)
+
+
+
+
+
+# question 3 --------------------------------------------------------------
+
+senic[, Reg := as.factor(Reg)]
+
+# a- scatterplot matrix, Y = Stay, X = Age, Cult, Cen, AFS, consider Region
+GGally::ggpairs(senic, columns = c('Stay', 'Age', 'Cult', 'Cen', 'AFS')) + 
+  theme_bw(base_size = 20)
+ggsave(filename = 'hwk/hwk04/img/q03-correlation.png')
+
+# b- fitting linear model
+lin_fit <- lm(Stay ~ Age + Cult + Cen + AFS + Reg, data = senic)
+
+# c- confidence intervals
+confint(lin_fit, level = 0.99)
+
+# d- testing whether region has an effect
+red_fit <- lm(Stay ~ Age + Cult + Cen + AFS, data = senic)
+anova(lin_fit, red_fit)

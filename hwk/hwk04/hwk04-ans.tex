@@ -108,7 +108,40 @@
 
 %' ============================================================================================================================================================
 \section{Question 3} \noindent
-
+\mycolaba{None}
+\begin{itemize}
+    \item[(a)] A scatterplot matrix has been printed in Figure \ref{fig-q03-corr}.
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width = 0.9\textwidth]{img/q03-correlation.png}
+        \caption{A scatterplot matrix of Stay against Age, Cult, Cen, and AFS.}
+        \label{fig-q03-corr}
+    \end{figure}
+    \item[(b)] Let \(X_1, \ldots, X_4\) denote Age, Cult, Cen, and AFS, respectively. Our four linear models are given by 
+    \begin{subequations}
+        \begin{align}
+            \hat{Y} &= 4.198 + 0.104 X_1 + 0.0403 X_2 + 0.00660 X_3 - 0.0208 X_4 \label{mod-reg01} \\
+            \hat{Y} &= 3.238 + 0.104 X_1 + 0.0403 X_2 + 0.00660 X_3 - 0.0208 X_4 \label{mod-reg02} \\
+            \hat{Y} &= 2.681 + 0.104 X_1 + 0.0403 X_2 + 0.00660 X_3 - 0.0208 X_4 \label{mod-reg03} \\
+            \hat{Y} &= 2.048 + 0.104 X_1 + 0.0403 X_2 + 0.00660 X_3 - 0.0208 X_4 \label{mod-reg04}
+        \end{align}
+    \end{subequations}
+    Model (\ref{mod-reg01}) is for when we are in region 1, (\ref{mod-reg02}) for region 2, and so on. 
+    \item[(c)] From our four models, we have \(\hat{\beta}_2 = 0.0403\). A \(99\%{}\) confidence interval for \(\beta_2\) is 
+    \(\big( 0.00278, 0.0778 \big)\). 
+    \item[(d)] We can alternatively write our four separate estimated models as a single model using indicator functions. Let 
+    \(X_5 = \mathbb{I}(\text{Region} = 2)\), \(X_6 = \mathbb{I}(\text{Region} = 3)\), and \(X_7 = \mathbb{I}(\text{Region} = 4)\).
+    Then our linear function takes the form 
+    \begin{align}
+        Y = \beta_0 + \sum_{i = 1}^7 \beta_i X_i \label{mod-region-whole}
+    \end{align}
+    In this form, the estimated model parameters are given by \(\hat{\beta}_0 = 4.198\), \(\hat{\beta}_5 = - 0.960\), \(\hat{\beta)}_6 = -1.517\), and 
+    \(\hat{\beta}_7 = -2.150\). Letting \(\tilde{\bm{\beta}} = (\beta_5, \beta_6, \beta_7)^T\), if we want to test whether or not the average stay does not 
+    depend on the region, we will test \(H_0 : \tilde{\bm{\beta}} = \mathbf{0}\) against \(H_a : \tilde{\bm{\beta}} \neq \mathbf{0}\). One method to test this 
+    is to fit a reduced model without accounting for region, and then fitting an anova model between the two. Doing this, we have a \(p\)-value of 
+    \(3.77 \times 10^{-5}\), so for any reasonable significance level we will reject \(H_0\). The data seems to indicate that the geographic region does play 
+    a significant role in average patient stay. 
+\end{itemize}
 
 
 %' ============================================================================================================================================================
