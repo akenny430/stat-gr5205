@@ -166,7 +166,29 @@
     and finally solving for \(\bm{\beta}\) gives us 
     \(\hat{\bm{\beta}}_{\lambda} = \big( \mathbf{X}^T\mathbf{X} + \lambda \mathbf{I} \big)^{-1} \mathbf{X}^T\mathbf{y}\).
     \item[(b)] When \(\lambda = 0\) we have \(\hat{\bm{\beta}}_{\lambda = 0} = \big( \mathbf{X}^T\mathbf{X} \big)^{-1} \mathbf{X}^T\mathbf{y}\), the OLS 
-    estimator. 
+    estimator. We can re-write \(\hat{\bm{\beta}}_{\lambda}\) as 
+    \begin{align*}
+        \hat{\bm{\beta}}_{\lambda}
+        = \big( \mathbf{X}^T \mathbf{X} + \lambda \mathbf{I} \big)^{-1} \mathbf{X}^T \mathbf{y}
+        = \big( \lambda \lambda^{-1} \mathbf{X}^T \mathbf{X} + \lambda \mathbf{I} \big)^{-1} \mathbf{X}^T \mathbf{y}
+        = \lambda^{-1} \big( \lambda^{-1} \mathbf{X}^T \mathbf{X} + \mathbf{I} \big)^{-1} \mathbf{X}^T \mathbf{y}.
+    \end{align*}
+    From here, as \(\lambda \to \infty\), we have \(\lambda^{-1} \to 0\), and so \(\hat{\bm{\beta}}_{\lambda} \to \mathbf{0}\).
+    \item[(c)] The alternative ridge estimator can be re-written as 
+    \begin{align*}
+        \tilde{\bm{\beta}}_{\lambda}
+        = \lambda \big( \mathbf{X}^T \mathbf{X} + \lambda \mathbf{I} \big)^{-1} \mathbf{X}^T \mathbf{y}
+        = (\lambda^{-1})^{-1} \big( \mathbf{X}^T \mathbf{X} + \lambda \mathbf{I} \big)^{-1} \mathbf{X}^T \mathbf{y} 
+        % = \big( \lambda^{-1} \mathbf{X}^T \mathbf{X} + \lambda^{-1} \lambda \mathbf{I} \big)^{-1} \mathbf{X}^T \mathbf{y}
+        = \big( \lambda^{-1} \mathbf{X}^T \mathbf{X} + \mathbf{I} \big)^{-1} \mathbf{X}^T \mathbf{y},
+    \end{align*}
+    and so 
+    \begin{align*}
+        \lim_{\lambda \to \infty} \tilde{\bm{\beta}}_{\lambda}
+        = \lim_{\lambda \to \infty} \big( \lambda^{-1} \mathbf{X}^T \mathbf{X} + \mathbf{I} \big)^{-1} \mathbf{X}^T \mathbf{y}
+        = \mathbf{I}^{-1} \mathbf{X}^T \mathbf{y}
+        = \mathbf{X}^T \mathbf{y}.
+    \end{align*}
 \end{itemize}
 
 \end{document}
