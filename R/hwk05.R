@@ -58,3 +58,14 @@ box_cox_trans <- function(y, lambda = 0) {
     (y^lambda - 1) / lambda
   }
 }
+
+max_mle <- function(lambda, y, X) {
+  n <- length(y)
+  D <- cbind(rep(1, length(y)), X)
+  A <- diag(n) - (D %*% solve(t(D) %*% D) %*% t(D))
+  y_lamb <- box_cox_trans(y, lambda)
+  sig_lamb <- t(y_lamb) %*% A %*% y_lamb / n
+  const <- -n * log(2 * pi * n * exp(1)) / 2
+  max_lamb <- const - n * log(sig_lamb) / 2 + (lambda - 1) * sum(log(y))
+  return(max_lamb)
+}
