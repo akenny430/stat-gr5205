@@ -51,12 +51,20 @@ ggplot(senic, aes(x = AFS, y = log(Nurses))) +
 # - looking at scatterplot, maybe log transform?
 # - log transform looks good, it makes histogram more normal and scatterplot looks linear
 
-# function for box-cox transform
+# function for box-cox transform, and inverse
 box_cox_trans <- function(y, lambda = 0) {
   if (lambda == 0) {
     log(y)
   } else {
     (y^lambda - 1) / lambda
+  }
+}
+
+box_cox_inv <- function(y, lambda = 0) {
+  if (lambda == 0) {
+    exp(y)
+  } else {
+    (1 + lambda * y)^(1 / lambda)
   }
 }
 
