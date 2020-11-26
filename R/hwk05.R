@@ -59,13 +59,34 @@ box_cox_trans <- function(y, lambda = 0) {
   }
 }
 
+# function for log likelihood value depending on lambda
 max_mle <- function(lambda, y, X) {
-  n <- length(y)
-  D <- cbind(rep(1, length(y)), X)
-  A <- diag(n) - (D %*% solve(t(D) %*% D) %*% t(D))
-  y_lamb <- box_cox_trans(y, lambda)
+  n        <- length(y)
+  D        <- cbind(rep(1, length(y)), X)
+  A        <- diag(n) - (D %*% solve(t(D) %*% D) %*% t(D))
+  y_lamb   <- box_cox_trans(y, lambda)
   sig_lamb <- t(y_lamb) %*% A %*% y_lamb / n
-  const <- -n * log(2 * pi * n * exp(1)) / 2
+  const    <- -n * log(2 * pi * exp(1) / n) / 2
   max_lamb <- const - n * log(sig_lamb) / 2 + (lambda - 1) * sum(log(y))
   return(max_lamb)
 }
+
+# finding the best lambda
+try_lambda <- seq(-1, 1, 0.005)
+max_mle_vals <- rep(NA, length(try_lambda))
+for (i in 1:length(try_lambda)) {
+  max_mle_vals[i] <- max_mle(try_lambda[i], senic$Nurses, senic$Age)
+}
+lambda_mles <- data.table(lambda = try_lambda, loglikelihood = max_mle_vals)
+best_lamb <- lambda_mles[which.max(lambda_mles$loglikelihood)]
+
+# making the plot
+ggplot(lambda_mles, aes(x = lambda, y = loglikelihood)) +
+  geom_point(cex = 1) +
+  geom_point(data = best_lamb, mapping = aes(x = lambda, y = loglikelihood), color = myred, cex = 3) +
+  labs(x = expression(lambda), y = "Log-Likelihood") +
+  theme_bw(base_size = 20)
+
+# tried this but didn't work, will probably have to write function better
+# ggplot(data.table(x = seq(-2, 2, 0.01)), aes(x)) +
+#   geom_function(fun = max_mle, args = list(y = senic$Nurses, X = senic$AFS))
