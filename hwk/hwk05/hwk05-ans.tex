@@ -42,6 +42,19 @@
 \mycolaba{None}
 \begin{itemize}
     \item[(a)] Let \(Y\) be the number of nurses in the hospital and let \(X\) be the available faculty and services. 
+    The left and middle panels of Figure \ref{q01-investigation} show the histograms of \(Y\) and \(X\), respectively. We see that \(Y\) is skewed right, while 
+    \(X\) appears to be normally-distributed. In addition, the scatterplot of \(Y\) vs. \(X\), which is in the third panel of Figure 
+    \ref{q01-investigation}, shows that there is a nonlinear relationship between \(Y\) and \(X\). 
+    All of these indicate that \(Y\) is suitable for a data transformation. Specifically, we would like to perform a 
+    power transformation on \(Y\). 
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width = 0.32\textwidth]{img/q01-nurses-hist-original.png}
+        \includegraphics[width = 0.32\textwidth]{img/q01-afs-hist-original.png}
+        \includegraphics[width = 0.32\textwidth]{img/q01-scatterplot-blank.png}
+        \caption{Histograms of \(Y\) and \(X\) and a scatterplot of \(Y\) vs. \(X\).}
+        \label{q01-investigation}
+    \end{figure}
     \item[(b)] The power transformation function is defined as 
     \begin{align*}
         g_{\lambda}(Y) 
@@ -109,8 +122,8 @@
     \begin{figure}
         \centering
         \includegraphics[width = 0.32\textwidth]{img/q01-box-cox-lambda.png}
-        \includegraphics[width = 0.32\textwidth]{img/q01-nurses-hist-original.png}
         \includegraphics[width = 0.32\textwidth]{img/q01-nurses-hist-transformed.png}
+        \includegraphics[width = 0.32\textwidth]{img/q01-scatterplot-model.png}
         \caption{Relevant plots for the Box-Cox transformation of \(Y\).}
         \label{q01-box-cox}
     \end{figure}
