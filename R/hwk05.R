@@ -12,10 +12,11 @@ library(ggplot2)
 senic <- fread(input = "data/SENIC.txt")
 
 # histogram and histograms for nurses
-ggplot(senic, aes(x = log(Nurses), y = ..density..)) +
+ggplot(senic, aes(x = Nurses, y = ..density..)) +
   geom_histogram(bins = 20, boundary = 0, fill = myblue) +
   labs(x = "Nurses", y = "Density") +
-  theme_bw(base_size = 20)
+  theme_bw(base_size = 30)
+ggsave("hwk/hwk05/img/q01-nurses-hist-original.png")
 
 ggplot(senic, aes(y = Nurses)) +
   geom_boxplot(fill = myblue) +
@@ -78,15 +79,31 @@ for (i in 1:length(try_lambda)) {
   max_mle_vals[i] <- max_mle(try_lambda[i], senic$Nurses, senic$Age)
 }
 lambda_mles <- data.table(lambda = try_lambda, loglikelihood = max_mle_vals)
-best_lamb <- lambda_mles[which.max(lambda_mles$loglikelihood)]
+(best_lamb <- lambda_mles[which.max(lambda_mles$loglikelihood)])
 
 # making the plot
 ggplot(lambda_mles, aes(x = lambda, y = loglikelihood)) +
   geom_point(cex = 1) +
-  geom_point(data = best_lamb, mapping = aes(x = lambda, y = loglikelihood), color = myred, cex = 3) +
-  labs(x = expression(lambda), y = "Log-Likelihood") +
-  theme_bw(base_size = 20)
+  geom_vline(xintercept = best_lamb$lambda, color = myred, linetype = "dashed", lwd = 1.5) +
+  geom_point(data = best_lamb, mapping = aes(x = lambda, y = loglikelihood), color = myred, cex = 5) +
+  labs(x = expression(lambda), y = expression(m(lambda))) +
+  theme_bw(base_size = 30)
+ggsave("hwk/hwk05/img/q01-box-cox-lambda.png")
 
 # tried this but didn't work, will probably have to write function better
 # ggplot(data.table(x = seq(-2, 2, 0.01)), aes(x)) +
 #   geom_function(fun = max_mle, args = list(y = senic$Nurses, X = senic$AFS))
+
+# making histogram with most optimal transformed data
+ggplot(senic, aes(x = box_cox_trans(Nurses, lambda = best_lamb$lambda), y = ..density..)) +
+  geom_histogram(bins = 20, boundary = 0, fill = myblue) +
+  labs(x = expression(g[0.09](Nurses)), y = "Density") +
+  theme_bw(base_size = 30)
+ggsave("hwk/hwk05/img/q01-nurses-hist-transformed.png")
+
+# making scatterplot with optimal lambda function fit over it
+# making scatterplot
+ggplot(senic, aes(x = AFS, y = Nurses)) +
+  geom_point(cex = 2) +
+  labs(x = "AFS", y = "Nurses") +
+  theme_bw(base_size = 20)
