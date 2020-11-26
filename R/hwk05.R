@@ -4,6 +4,9 @@ myyellow <- "#ffff00"
 mygreen  <- "#99ff33"
 myblue   <- "#99ccff"
 mypink   <- "#ff99ff"
+dark1   <- "#565657"
+dark2   <- "#808081"
+dark3   <- "#aaaaab"
 library(data.table)
 library(ggplot2)
 
@@ -21,24 +24,26 @@ ggsave("hwk/hwk05/img/q01-nurses-hist-original.png")
 ggplot(senic, aes(y = Nurses)) +
   geom_boxplot(fill = myblue) +
   labs(x = "", y = "Nurses") +
-  theme_bw(base_size = 20)
+  theme_bw(base_size = 30)
 
 # histogram and scatterplot for nurses
 ggplot(senic, aes(x = AFS, y = ..density..)) +
   geom_histogram(bins = 20, boundary = 0, fill = myorange) +
   labs(x = "AFS", y = "Density") +
-  theme_bw(base_size = 20)
+  theme_bw(base_size = 30)
+ggsave("hwk/hwk05/img/q01-afs-hist-original.png")
 
 ggplot(senic, aes(y = AFS)) +
   geom_boxplot(fill = myorange) +
   labs(x = "", y = "AFS") +
-  theme_bw(base_size = 20)
+  theme_bw(base_size = 30)
 
 # making scatterplot
 ggplot(senic, aes(x = AFS, y = Nurses)) +
-  geom_point(cex = 2) +
+  geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
   labs(x = "AFS", y = "Nurses") +
-  theme_bw(base_size = 20)
+  theme_bw(base_size = 30)
+ggsave("hwk/hwk05/img/q01-scatterplot-blank.png")
 
 ggplot(senic, aes(x = AFS, y = log(Nurses))) +
   geom_point(cex = 2) +
@@ -109,9 +114,20 @@ ggplot(senic, aes(x = box_cox_trans(Nurses, lambda = best_lamb$lambda), y = ..de
   theme_bw(base_size = 30)
 ggsave("hwk/hwk05/img/q01-nurses-hist-transformed.png")
 
+# getting coefficients for fitted model 
+power_fit <- lm(box_cox_trans(Nurses, lambda = best_lamb$lambda) ~ AFS, data = senic)
+transform_fit <- function(x) {
+  l <- best_lamb$lambda
+  coef <- power_fit$coefficients
+  box_cox_inv(coef[1] + coef[2] * x, lambda = l)
+}
+
 # making scatterplot with optimal lambda function fit over it
-# making scatterplot
+# want to add confidence intervals to this
 ggplot(senic, aes(x = AFS, y = Nurses)) +
-  geom_point(cex = 2) +
+  geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
+  # geom_smooth(method = "lm", se = FALSE, color = mypink, lwd = 2) +
+  geom_function(fun = transform_fit, color = mygreen, lwd = 3) +
   labs(x = "AFS", y = "Nurses") +
-  theme_bw(base_size = 20)
+  theme_bw(base_size = 30)
+ggsave("hwk/hwk05/img/q01-scatterplot-model.png")
