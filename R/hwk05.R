@@ -48,3 +48,13 @@ ggplot(senic, aes(x = AFS, y = log(Nurses))) +
 # - Nurses could be gamma distributed
 # - AFS looks normally distributed
 # - looking at scatterplot, maybe log transform?
+# - log transform looks good, it makes histogram more normal and scatterplot looks linear
+
+# function for box-cox transform
+box_cox_trans <- function(y, lambda = 0) {
+  if (lambda == 0) {
+    log(y)
+  } else {
+    (y^lambda - 1) / lambda
+  }
+}
