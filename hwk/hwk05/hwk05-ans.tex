@@ -58,16 +58,17 @@
     \item[(b)] The power transformation function, and its inverse, are defined as 
     \begin{align*}
         g_{\lambda}(Y) 
-        = \begin{dcases}
-            \frac{Y^{\lambda} - 1}{\lambda} & \text{if } \lambda \neq 0 \\
-            ~\log Y & \text{if } \lambda = 0.
-        \end{dcases}
+        = \begin{cases}
+            % \frac{Y^{\lambda} - 1}{\lambda} & \text{if } \lambda \neq 0 \\
+            (Y^{\lambda} - 1) / \lambda & \text{if } \lambda \neq 0 \\
+            \hfil \log Y & \text{if } \lambda = 0.
+        \end{cases}
         ~~~\text{and}~~~
         g_{\lambda}^{-1}(Y) 
-        = \begin{dcases}
+        = \begin{cases}
             \left( 1 + \lambda Y \right)^{1 / \lambda} & \text{if } \lambda \neq 0 \\
-            ~\mathrm{exp}(Y) & \text{if } \lambda = 0.
-        \end{dcases}
+             \hfil \mathrm{exp}(Y) & \text{if } \lambda = 0.
+        \end{cases}
     \end{align*}
     Suppose we have our response vector \(\mathbf{y}\) and our observed data \(\mathbf{X}\). 
     We are interested in fitting the model \(\mathbf{g}_{\lambda}(\mathbf{y}) = \mathbf{X}\bm{\beta} + \bm{\epsilon}\), where \(\mathbf{g}_{\lambda}(\mathbf{y})\)
@@ -84,7 +85,7 @@
         &= \frac{1}{\sqrt{\mathrm{det}(2 \pi \sigma^2 \mathbf{I})}} \cdot \mathrm{exp} \left( - \frac{(\myg - \mathbf{X}\bm{\beta})^T \big( \sigma^2 \mathbf{I} \big)^{-1} (\myg - \mathbf{X}\bm{\beta})}{2} \right) \\
         &= \frac{1}{(2\pi\sigma^2)^{n/2}} \cdot \mathrm{exp} \left( - \frac{(\myg - \mathbf{X}\bm{\beta})^T (\myg - \mathbf{X}\bm{\beta})}{2 \sigma^2} \right).
     \end{align*}
-    Since \(\mathbf{y}\) is a transformation of \(\myg\), we can derive the density for \(\mathbf{y}\) as well. Notationally, this result may be somewhat 
+    Since \(\mathbf{y}\) is a transformation of \(\myg\) (via \(g_{\lambda}^{-1}\)), we can derive the density for \(\mathbf{y}\) as well. Notationally, this result may be somewhat 
     confusing; even though we are finding the density for \(\mathbf{y}\), we will still express the density (partly) in terms of \(\myg\). It is important
     to remember that \(\myg\) is a function of \(\mathbf{y}\). Because the \(i\)th element of \(\myg\) only depends on the \(i\)th element of \(\mathbf{y}\), the Jacobian
     will be a diagonal matrix, and so 
@@ -117,7 +118,8 @@
         m(\lambda)
         \coloneqq \ell(\mathbf{y} \,|\, \hat{\bm{\beta}}_{\mathrm{MLE}}, \hat{\sigma}^2_{\mathrm{MLE}}, \lambda)
         % \triangleq \ell(\mathbf{y} \,|\, \hat{\bm{\beta}}_{\mathrm{MLE}}, \hat{\sigma}^2_{\mathrm{MLE}}, \lambda)
-        = - \frac{n}{2} \log \left( \frac{2 \pi e}{n} \right) - \frac{n}{2} \log \big( \myg^T(\mathbf{I} - \mathbf{H}) \myg \big) + (\lambda - 1) \sum_{i=1}^n \log(y_i).
+        % = - \frac{n}{2} \log \left( \frac{2 \pi e}{n} \right) - \frac{n}{2} \log \big( \myg^T(\mathbf{I} - \mathbf{H}) \myg \big) + (\lambda - 1) \sum_{i=1}^n \log(y_i).
+        = - \frac{n}{2} \log \left( 2 \pi \mathrm{e} n \right) - \frac{n}{2} \log \big( \myg^T(\mathbf{I} - \mathbf{H}) \myg \big) + (\lambda - 1) \sum_{i=1}^n \log(y_i).
     \end{align*}
     Ideally, we would differentiate \(m\) with respect to \(\lambda\), set \(\partial m / \partial \lambda = 0\), and solve for \(\lambda\). I was unable to 
     derive a closed form solution for the result, but it is still possible to use graphical techniques or numerical methods to find the optimal value of \(\lambda\). 
@@ -140,6 +142,8 @@
         \caption{Relevant plots for the Box-Cox transformation of \(Y\).}
         \label{q01-box-cox}
     \end{figure}
+
+    \item[(c)] 
 \end{itemize}
 
 \end{document}
