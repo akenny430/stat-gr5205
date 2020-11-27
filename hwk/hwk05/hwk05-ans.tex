@@ -55,12 +55,18 @@
         \caption{Histograms of \(Y\) and \(X\) and a scatterplot of \(Y\) vs. \(X\).}
         \label{q01-investigation}
     \end{figure}
-    \item[(b)] The power transformation function is defined as 
+    \item[(b)] The power transformation function, and its inverse, are defined as 
     \begin{align*}
         g_{\lambda}(Y) 
         = \begin{dcases}
             \frac{Y^{\lambda} - 1}{\lambda} & \text{if } \lambda \neq 0 \\
             ~\log Y & \text{if } \lambda = 0.
+        \end{dcases}
+        ~~~\text{and}~~~
+        g_{\lambda}^{-1}(Y) 
+        = \begin{dcases}
+            \left( 1 + \lambda Y \right)^{1 / \lambda} & \text{if } \lambda \neq 0 \\
+            ~\mathrm{exp}(Y) & \text{if } \lambda = 0.
         \end{dcases}
     \end{align*}
     Suppose we have our response vector \(\mathbf{y}\) and our observed data \(\mathbf{X}\). 
@@ -113,12 +119,19 @@
         % \triangleq \ell(\mathbf{y} \,|\, \hat{\bm{\beta}}_{\mathrm{MLE}}, \hat{\sigma}^2_{\mathrm{MLE}}, \lambda)
         = - \frac{n}{2} \log \left( \frac{2 \pi e}{n} \right) - \frac{n}{2} \log \big( \myg^T(\mathbf{I} - \mathbf{H}) \myg \big) + (\lambda - 1) \sum_{i=1}^n \log(y_i).
     \end{align*}
-    Ideally, we would differentiate \(m\) with respect to \(\lambda\), set \(\partial m / \partial \lambda = 0\), and solve for \(\lambda\). Unfortunately, I was unable to 
-    derive a closed form solution for the result. However, it is still possible to use graphical techniques or numerical methods to find the optimal value of \(\lambda\). 
+    Ideally, we would differentiate \(m\) with respect to \(\lambda\), set \(\partial m / \partial \lambda = 0\), and solve for \(\lambda\). I was unable to 
+    derive a closed form solution for the result, but it is still possible to use graphical techniques or numerical methods to find the optimal value of \(\lambda\). 
 
-    The left panel of Figure \ref{q01-box-cox} shows a plot of \(m(\lambda)\) against \(\lambda\) for values \(\lambda \in [-1, 1]\). The log-likelihood is maximized when \(\hat{\lambda} = 0.09\).
-    The middle panel shows a histogram of the values of \(Y\), which we can see is heavily skewed to the right. The right panel shows a histogram of \(g_{0.09}(Y)\), and we can see that 
-    after the transformation is applied, the data is much more normally distributed. 
+    We recall that both \(\hat{\bm{\beta}}_{\mathrm{MLE}}\) and \(\hat{\sigma}^2_{\mathrm{MLE}}\) are functions of \(\lambda\), so we cannot know their value until \(\hat{\lambda}_{\mathrm{MLE}}\) has been determined.
+    Because of this, as we just showed, the likelihood function can be expressed as a function \(m(\lambda)\) that only depends on \(\lambda\), which can be maximized to find \(\hat{\lambda}_{\mathrm{MLE}}\). 
+    Once we find \(\hat{\lambda}_{\mathrm{MLE}}\), we can use this value to determine \(\hat{\bm{\beta}}_{\mathrm{MLE}}\) and \(\hat{\sigma}^2_{\mathrm{MLE}}\). 
+
+    % need to add info about transforming model back to y, here and in paragraph below
+    % maybe put into appendix?
+
+    The left panel of Figure \ref{q01-box-cox} shows a plot of \(m(\lambda)\) against \(\lambda\) for values \(\lambda \in [-1, 1]\). The log-likelihood is maximized when \(\hat{\lambda}_{\mathrm{MLE}} = 0.09\).
+    The middle panel shows the histogram of \(g_{0.09}(Y)\), the transformed version of \(Y\), and we can see with this value of \(\lambda\) that \(\myg\) is normally distributed. 
+    We can now 
     \begin{figure}
         \centering
         \includegraphics[width = 0.32\textwidth]{img/q01-box-cox-lambda.png}
