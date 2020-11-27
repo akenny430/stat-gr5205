@@ -80,7 +80,8 @@ max_mle <- function(lambda, y, X) {
   A        <- diag(n) - (D %*% solve(t(D) %*% D) %*% t(D))
   y_lamb   <- box_cox_trans(y, lambda)
   sig_lamb <- t(y_lamb) %*% A %*% y_lamb / n
-  const    <- -n * log(2 * pi * exp(1) / n) / 2
+  # const    <- -n * log(2 * pi * exp(1) / n) / 2
+  const    <- -n * log(2 * pi * exp(1) * n) / 2
   max_lamb <- const - n * log(sig_lamb) / 2 + (lambda - 1) * sum(log(y))
   return(max_lamb)
 }
