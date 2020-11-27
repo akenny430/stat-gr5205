@@ -127,7 +127,7 @@ transform_fit <- function(x) {
 ggplot(senic, aes(x = AFS, y = Nurses)) +
   geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
   # geom_smooth(method = "lm", se = FALSE, color = mypink, lwd = 2) +
-  geom_function(fun = transform_fit, color = mygreen, lwd = 3) +
+  geom_function(fun = transform_fit, color = myred, lwd = 3) +
   labs(x = "AFS", y = "Nurses") +
   theme_bw(base_size = 30)
 ggsave("hwk/hwk05/img/q01-scatterplot-model.png")
