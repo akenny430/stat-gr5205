@@ -57,7 +57,7 @@ ggsave("hwk/hwk05/img/q01-scatterplot-blank.png")
 # - log transform looks good, it makes histogram more normal and scatterplot looks linear
 
 # functions for power transformation and inverse
-power_trans <- function(y, lambda) {
+power_trans <- function(y, lambda = 0) {
   n <- length(y)
   lambda_vec <- rep(lambda, n)
   vec <- rep(NA, n)
@@ -86,7 +86,7 @@ power_inv <- function(y, lambda = 0) {
 }
 
 # function for box-cox transform, and inverse
-box_cox_trans <- function(y, lambda) {
+box_cox_trans <- function(y, lambda = 0) {
   n <- length(y)
   lambda_vec <- rep(lambda, n)
   vec <- rep(NA, n)
@@ -156,13 +156,14 @@ ggplot(data.table(x = seq(-1, 1, 0.001)), aes(x)) +
 ggsave("hwk/hwk05/img/q01-box-cox-lambda.png")
 
 # making histogram with most optimal transformed data
-# ggplot(senic, aes(x = box_cox_trans(Nurses, best_lambda), y = ..density..)) +
+# ggplot(senic, aes(x = box_cox_Nurses, y = ..density..)) +
 #   geom_histogram(bins = 20, boundary = 0, fill = myblue) +
 #   labs(x = expression(g[0.085](Nurses)), y = "Density") +
 #   theme_bw(base_size = 30)
 # ggsave("hwk/hwk05/img/q01-nurses-hist-transformed.png")
 
-ggplot(senic, aes(x = power_trans(Nurses, best_lambda), y = ..density..)) +
+# making it for original power transformation
+ggplot(senic, aes(x = power_Nurses, y = ..density..)) +
   geom_histogram(bins = 20, boundary = 0, fill = myblue) +
   labs(x = expression(f[0.085](Nurses)), y = "Density") +
   theme_bw(base_size = 30)
@@ -175,16 +176,34 @@ ggsave("hwk/hwk05/img/q01-nurses-hist-transformed.png")
 
 
 # creating function of y (i.e. transforming box_cox_trans(Y) back to Y)
+box_cox_fit <- lm(box_cox_Nurses ~ AFS, data = senic)
+
+box_cox_inv_fit <- function(x) {
+  coef <- box_cox_fit$coefficients
+  box_cox_inv(coef[1] + coef[2] * x, best_lambda)
+}
+
 power_fit <- lm(power_trans(Nurses, best_lambda) ~ AFS, data = senic)
 
-transform_fit <- function(x) {
-  l <- best_lamb$lambda
+power_inv_fit <- function(x) {
   coef <- power_fit$coefficients
-  box_cox_inv(
-    coef[1] + coef[2] * x, 
-    lambda = l
-    )
+  power_inv(coef[1] + coef[2] * x, best_lambda)
 }
+
+ggplot(senic, aes(x = AFS, y = Nurses)) +
+  geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
+  geom_point(aes(x = AFS, y = power_inv(power_Nurses))) +
+  labs(x = "AFS", y = "Nurses") +
+  theme_bw(base_size = 30)
+
+
+
+
+
+
+
+
+
 
 # creating functions for confidence interval lower and upper bounds
 confint_lwr <- function(x) {
