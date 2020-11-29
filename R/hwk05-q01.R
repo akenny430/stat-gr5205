@@ -117,30 +117,30 @@ mle_lambda <- function(lambda, y, X) {
 }
 
 # finding the best lambda
-# try_lambda <- seq(-1, 1, 0.005)
-# max_mle_vals <- rep(NA, length(try_lambda))
-# for (i in 1:length(try_lambda)) {
-#   max_mle_vals[i] <- max_mle(try_lambda[i], senic$Nurses, senic$Age)
-# }
-# lambda_mles <- data.table(lambda = try_lambda, loglikelihood = max_mle_vals)
-# (best_lamb <- lambda_mles[which.max(lambda_mles$loglikelihood)])
 best_pair <- data.table(
-  vals = seq(-1, 1, 0.001)
-)[, log_like := mle_lambda(vals, senic$Nurses, senic$AFS)
-  ][, .(lambda_mle = vals[which.max(log_like)], max_log_like = max(log_like))]
+  lambda = seq(-1, 1, 0.001)
+)[, log_like := mle_lambda(lambda, senic$Nurses, senic$AFS)
+  ][, .(lambda_mle = lambda[which.max(log_like)], max_log_like = max(log_like))]
+
+best_lambda <- best_pair$lambda_mle
 
 # making the plot
-ggplot(lambda_mles, aes(x = lambda, y = loglikelihood)) +
-  geom_point(cex = 1) +
-  geom_vline(xintercept = best_lamb$lambda, color = myred, linetype = "dashed", lwd = 1.5) +
-  geom_point(data = best_lamb, mapping = aes(x = lambda, y = loglikelihood), color = myred, cex = 5) +
+# ggplot(lambda_mles, aes(x = lambda, y = loglikelihood)) +
+#   geom_point(cex = 1) +
+#   geom_vline(xintercept = best_lamb$lambda, color = myred, linetype = "dashed", lwd = 1.5) +
+#   geom_point(data = best_lamb, mapping = aes(x = lambda, y = loglikelihood), color = myred, cex = 5) +
+#   labs(x = expression(lambda), y = expression(m(lambda))) +
+#   theme_bw(base_size = 30)
+# ggsave("hwk/hwk05/img/q01-box-cox-lambda.png")
+
+# this works now bc I vectorized function!
+ggplot(data.table(x = seq(-1, 1, 0.001)), aes(x)) +
+  geom_function(fun = mle_lambda, args = list(y = senic$Nurses, X = senic$AFS), lwd = 1.5) +
+  geom_vline(xintercept = best_pair$lambda_mle, color = myred, linetype = "dashed", lwd = 1.5) +
+  geom_point(data = best_pair, mapping = aes(x = lambda_mle, y = max_log_like), color = myred, cex = 5) +
   labs(x = expression(lambda), y = expression(m(lambda))) +
   theme_bw(base_size = 30)
 ggsave("hwk/hwk05/img/q01-box-cox-lambda.png")
-
-# tried this but didn't work, will probably have to write function better
-# ggplot(data.table(x = seq(-2, 2, 0.01)), aes(x)) +
-#   geom_function(fun = max_mle, args = list(y = senic$Nurses, X = senic$AFS))
 
 # making histogram with most optimal transformed data
 ggplot(senic, aes(x = box_cox_trans(Nurses, lambda = best_lamb$lambda), y = ..density..)) +
