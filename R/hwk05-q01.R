@@ -86,16 +86,16 @@ box_cox_inv <- function(y, lambda = 0) {
 }
 
 # function for log likelihood value depending on lambda
-max_mle <- function(lambda, y, X) {
-  n        <- length(y)
-  D        <- cbind(rep(1, length(y)), X)
-  A        <- diag(n) - (D %*% solve(t(D) %*% D) %*% t(D))
-  y_lamb   <- box_cox_trans(y, lambda)
-  sig_lamb <- t(y_lamb) %*% A %*% y_lamb / n
-  # const    <- -n * log(2 * pi * exp(1) / n) / 2
-  const    <- -n * log(2 * pi * exp(1) * n) / 2
-  max_lamb <- const - n * log(sig_lamb) / 2 + (lambda - 1) * sum(log(y))
-  return(max_lamb)
+# originally called max_mle
+mle_lambda <- function(lambda, y, X) {
+  n           <- length(y)
+  D           <- cbind(rep(1, length(y)), X)
+  A           <- diag(n) - (D %*% solve(t(D) %*% D) %*% t(D))
+  g_lambda    <- box_cox_trans(y, lambda)
+  quad_lambda <- t(g_lambda) %*% A %*% g_lambda
+  const       <- -n * log(2 * pi * exp(1) / n) / 2
+  log_like    <- const - n * log(quad_lambda) / 2 + (lambda - 1) * sum(log(y))
+  return(log_like)
 }
 
 # finding the best lambda
