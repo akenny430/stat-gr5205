@@ -52,30 +52,35 @@ ggsave("hwk/hwk05/img/q01-scatterplot-blank.png")
 # - log transform looks good, it makes histogram more normal and scatterplot looks linear
 
 # functions for power transformation and inverse
-power_trans <- function(y, lambda = 0) {
-  if (lambda == 0) {
-    log(y)
-  } else {
-    y^lambda
+power_trans <- function(y, lambda) {
+  n <- length(y)
+  lambda_vec <- rep(lambda, n)
+  vec <- rep(NA, n)
+  for (i in 1:n) {
+    if (lambda == 0) {
+      vec[i] <- log(y[i])
+    } else {
+      vec[i] <- y[i]^lambda
+    }
   }
+  return(vec)
 }
 
 power_inv <- function(y, lambda = 0) {
-  if (lambda == 0) {
-    exp(y)
-  } else {
-    y^(1 / lambda)
+  n <- length(y)
+  lambda_vec <- rep(lambda, n)
+  vec <- rep(NA, n)
+  for (i in 1:n) {
+    if (lambda == 0) {
+      vec[i] <- exp(y[i])
+    } else {
+      vec[i] <- y[i]^(1 / lambda)
+    }
   }
+  return(vec)
 }
 
 # function for box-cox transform, and inverse
-# box_cox_trans <- function(y, lambda = 0) {
-#   if (lambda == 0) {
-#     log(y)
-#   } else {
-#     (y^lambda - 1) / lambda
-#   }
-# }
 box_cox_trans <- function(y, lambda) {
   n <- length(y)
   lambda_vec <- rep(lambda, n)
@@ -91,11 +96,17 @@ box_cox_trans <- function(y, lambda) {
 }
 
 box_cox_inv <- function(y, lambda = 0) {
-  if (lambda == 0) {
-    exp(y)
-  } else {
-    (1 + lambda * y)^(1 / lambda)
+  n <- length(y)
+  lambda_vec <- rep(lambda, n)
+  vec <- rep(NA, n)
+  for (i in 1:n) {
+    if (lambda == 0) {
+      vec[i] <- exp(y[i])
+    } else {
+      vec[i] <- (1 + lambda * y[i])^(1 / lambda)
+    }
   }
+  return(vec)
 }
 
 # function for log likelihood value depending on lambda
@@ -124,15 +135,7 @@ best_pair <- data.table(
 
 best_lambda <- best_pair$lambda_mle
 
-# making the plot
-# ggplot(lambda_mles, aes(x = lambda, y = loglikelihood)) +
-#   geom_point(cex = 1) +
-#   geom_vline(xintercept = best_lamb$lambda, color = myred, linetype = "dashed", lwd = 1.5) +
-#   geom_point(data = best_lamb, mapping = aes(x = lambda, y = loglikelihood), color = myred, cex = 5) +
-#   labs(x = expression(lambda), y = expression(m(lambda))) +
-#   theme_bw(base_size = 30)
-# ggsave("hwk/hwk05/img/q01-box-cox-lambda.png")
-
+# making plot of log-likelihood
 # this works now bc I vectorized function!
 ggplot(data.table(x = seq(-1, 1, 0.001)), aes(x)) +
   geom_function(fun = mle_lambda, args = list(y = senic$Nurses, X = senic$AFS), lwd = 1.5) +
@@ -143,7 +146,7 @@ ggplot(data.table(x = seq(-1, 1, 0.001)), aes(x)) +
 ggsave("hwk/hwk05/img/q01-box-cox-lambda.png")
 
 # making histogram with most optimal transformed data
-ggplot(senic, aes(x = box_cox_trans(Nurses, lambda = best_lamb$lambda), y = ..density..)) +
+ggplot(senic, aes(x = box_cox_trans(Nurses, lambda = best_lambda), y = ..density..)) +
   geom_histogram(bins = 20, boundary = 0, fill = myblue) +
   labs(x = expression(g[0.09](Nurses)), y = "Density") +
   theme_bw(base_size = 30)
