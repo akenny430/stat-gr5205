@@ -125,8 +125,9 @@ mle_lambda <- function(lambda, y, X) {
 # lambda_mles <- data.table(lambda = try_lambda, loglikelihood = max_mle_vals)
 # (best_lamb <- lambda_mles[which.max(lambda_mles$loglikelihood)])
 best_pair <- data.table(
-  vals = seq(-1, 1, 0.005)
-  )[]
+  vals = seq(-1, 1, 0.001)
+)[, log_like := mle_lambda(vals, senic$Nurses, senic$AFS)
+  ][, .(lambda_mle = vals[which.max(log_like)], max_log_like = max(log_like))]
 
 # making the plot
 ggplot(lambda_mles, aes(x = lambda, y = loglikelihood)) +
