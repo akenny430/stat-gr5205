@@ -77,15 +77,14 @@ power_inv <- function(y, lambda = 0) {
 #   }
 # }
 box_cox_trans <- function(y, lambda) {
-  if (length(y) != length(lambda)) {
-    stop("Inputs must have same length!")
-  }
-  vec <- rep(NA, length(y))
-  for (i in 1:length(y)) {
-    if (lambda[i] == 0) {
+  n <- length(y)
+  lambda_vec <- rep(lambda, n)
+  vec <- rep(NA, n)
+  for (i in 1:n) {
+    if (lambda == 0) {
       vec[i] <- log(y[i])
     } else {
-      (y[i]^lambda[i] - 1) / lambda[i]
+      vec[i] <- (y[i]^lambda - 1) / lambda
     }
   }
   return(vec)
@@ -101,14 +100,19 @@ box_cox_inv <- function(y, lambda = 0) {
 
 # function for log likelihood value depending on lambda
 # originally called max_mle
+# returns a vector of 
 mle_lambda <- function(lambda, y, X) {
-  n           <- length(y)
-  D           <- cbind(rep(1, length(y)), X)
-  A           <- diag(n) - (D %*% solve(t(D) %*% D) %*% t(D))
-  g_lambda    <- box_cox_trans(y, lambda)
-  quad_lambda <- t(g_lambda) %*% A %*% g_lambda
-  const       <- -n * log(2 * pi * exp(1) / n) / 2
-  log_like    <- const - n * log(quad_lambda) / 2 + (lambda - 1) * sum(log(y))
+  m        <- length(lambda)
+  n        <- length(y)
+  D        <- cbind(rep(1, n), X)
+  A        <- diag(n) - (D %*% solve(t(D) %*% D) %*% t(D))
+  log_like <- rep(NA, m)
+  for (i in 1:m) {
+    g_lambda    <- box_cox_trans(y, lambda[i])
+    quad_lambda <- t(g_lambda) %*% A %*% g_lambda
+    const       <- -n * log(2 * pi * exp(1) / n) / 2
+    log_like[i] <- const - n * log(quad_lambda) / 2 + (lambda[i] - 1) * sum(log(y))
+  }
   return(log_like)
 }
 
