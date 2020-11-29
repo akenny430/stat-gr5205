@@ -138,6 +138,13 @@ best_pair <- data.table(
 
 best_lambda <- best_pair$lambda_mle
 
+# adding transformed variables to the data
+senic[
+  , c("power_Nurses", "box_cox_Nurses") := .(
+    power_trans(Nurses, best_lambda), box_cox_trans(Nurses, best_lambda)
+  )
+]
+
 # making plot of log-likelihood
 # this works now bc I vectorized function!
 ggplot(data.table(x = seq(-1, 1, 0.001)), aes(x)) +
