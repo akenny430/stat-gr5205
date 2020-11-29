@@ -69,12 +69,26 @@ power_inv <- function(y, lambda = 0) {
 }
 
 # function for box-cox transform, and inverse
-box_cox_trans <- function(y, lambda = 0) {
-  if (lambda == 0) {
-    log(y)
-  } else {
-    (y^lambda - 1) / lambda
+# box_cox_trans <- function(y, lambda = 0) {
+#   if (lambda == 0) {
+#     log(y)
+#   } else {
+#     (y^lambda - 1) / lambda
+#   }
+# }
+box_cox_trans <- function(y, lambda) {
+  if (length(y) != length(lambda)) {
+    stop("Inputs must have same length!")
   }
+  vec <- rep(NA, length(y))
+  for (i in 1:length(y)) {
+    if (lambda[i] == 0) {
+      vec[i] <- log(y[i])
+    } else {
+      (y[i]^lambda[i] - 1) / lambda[i]
+    }
+  }
+  return(vec)
 }
 
 box_cox_inv <- function(y, lambda = 0) {
@@ -99,13 +113,16 @@ mle_lambda <- function(lambda, y, X) {
 }
 
 # finding the best lambda
-try_lambda <- seq(-1, 1, 0.005)
-max_mle_vals <- rep(NA, length(try_lambda))
-for (i in 1:length(try_lambda)) {
-  max_mle_vals[i] <- max_mle(try_lambda[i], senic$Nurses, senic$Age)
-}
-lambda_mles <- data.table(lambda = try_lambda, loglikelihood = max_mle_vals)
-(best_lamb <- lambda_mles[which.max(lambda_mles$loglikelihood)])
+# try_lambda <- seq(-1, 1, 0.005)
+# max_mle_vals <- rep(NA, length(try_lambda))
+# for (i in 1:length(try_lambda)) {
+#   max_mle_vals[i] <- max_mle(try_lambda[i], senic$Nurses, senic$Age)
+# }
+# lambda_mles <- data.table(lambda = try_lambda, loglikelihood = max_mle_vals)
+# (best_lamb <- lambda_mles[which.max(lambda_mles$loglikelihood)])
+best_pair <- data.table(
+  vals = seq(-1, 1, 0.005)
+  )[]
 
 # making the plot
 ggplot(lambda_mles, aes(x = lambda, y = loglikelihood)) +
