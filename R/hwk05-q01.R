@@ -10,9 +10,14 @@ dark3   <- "#aaaaab"
 library(data.table)
 library(ggplot2)
 
-# question 1 --------------------------------------------------------------
 
-senic <- fread(input = "data/SENIC.txt")
+# part a ------------------------------------------------------------------
+
+
+# reading in data for nurses and AFS
+senic <- fread(
+  input = "data/SENIC.txt"
+)[, .(Nurses, AFS)]
 
 # histogram and histograms for nurses
 ggplot(senic, aes(x = Nurses, y = ..density..)) +
@@ -110,8 +115,6 @@ box_cox_inv <- function(y, lambda = 0) {
 }
 
 # function for log likelihood value depending on lambda
-# originally called max_mle
-# returns a vector of 
 mle_lambda <- function(lambda, y, X) {
   m        <- length(lambda)
   n        <- length(y)
@@ -146,14 +149,27 @@ ggplot(data.table(x = seq(-1, 1, 0.001)), aes(x)) +
 ggsave("hwk/hwk05/img/q01-box-cox-lambda.png")
 
 # making histogram with most optimal transformed data
-ggplot(senic, aes(x = box_cox_trans(Nurses, lambda = best_lambda), y = ..density..)) +
+# ggplot(senic, aes(x = box_cox_trans(Nurses, best_lambda), y = ..density..)) +
+#   geom_histogram(bins = 20, boundary = 0, fill = myblue) +
+#   labs(x = expression(g[0.085](Nurses)), y = "Density") +
+#   theme_bw(base_size = 30)
+# ggsave("hwk/hwk05/img/q01-nurses-hist-transformed.png")
+
+ggplot(senic, aes(x = power_trans(Nurses, best_lambda), y = ..density..)) +
   geom_histogram(bins = 20, boundary = 0, fill = myblue) +
-  labs(x = expression(g[0.09](Nurses)), y = "Density") +
+  labs(x = expression(f[0.085](Nurses)), y = "Density") +
   theme_bw(base_size = 30)
 ggsave("hwk/hwk05/img/q01-nurses-hist-transformed.png")
 
+
+
+# part c ------------------------------------------------------------------
+
+
+
 # creating function of y (i.e. transforming box_cox_trans(Y) back to Y)
-power_fit <- lm(box_cox_trans(Nurses, lambda = best_lamb$lambda) ~ AFS, data = senic)
+power_fit <- lm(power_trans(Nurses, best_lambda) ~ AFS, data = senic)
+
 transform_fit <- function(x) {
   l <- best_lamb$lambda
   coef <- power_fit$coefficients
