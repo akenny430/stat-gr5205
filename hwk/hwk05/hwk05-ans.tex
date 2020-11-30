@@ -212,7 +212,9 @@
     % but the MLE suggests that \(\lambda_5 = 1/3\) and \(\lambda_6 = -1/2\). However, if we look at the value of the likelihood, we have 
     % \(m(\theta_0, \bm{\lambda}_0) = -172.252\) and \(m(\hat{\theta}_{\mathrm{MLE}}, \hat{\bm{\lambda}}_{\mathrm{MLE}}) = \)
 
-    \item[(b)] Let \(X_i = f_{\lambda_{0,i}}(Z_i)\) and \(W = f_{\theta_0}(Y)\). The correlation matrix, which can be found in Appendix C, shows that 
+    \item[(b)] Let \(X_i = f_{\lambda_{0,i}}(Z_i)\) and \(W = f_{\theta_0}(Y)\), i.e. the predictors and response transformed by the initial values \(\theta_0\)
+    and \(\bm{\lambda}_0\). 
+    The correlation matrix, which can be found in Appendix C, shows that 
     \(X_5\), \(X_6\), \(X_7\), and \(X_8\) are all highly-correlated with each other. 
 
     \item[(c)] Depending on the stopping criteria, we will get a differnt suggestion for the coefficients to be included in the model. If either Mallow's \(C_p\)
@@ -221,8 +223,14 @@
 
     \item[(d)] Regardless of the stopping criteria used, backward stepwise selection gives the same suggestions as forward stepwise regression. 
 
-    \item[(e)] 
+    \item[(e)] We will first fit our model \(W = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_4 X_4 + \beta_5 X_5 + \beta_6 X_6 + \beta_7 X_7 + \epsilon \). 
+    Values of the estimated coefficients can be found in the \texttt{R} code. The adjusted \(R^2\) is \(0.4896\), so the model explains just under half of the 
+    response's variability. 
 \end{itemize}
+
+%' ============================================================================================================================================================
+\section{Question 3} \noindent
+\mycolaba{None}
 
 
 %' ============================================================================================================================================================
