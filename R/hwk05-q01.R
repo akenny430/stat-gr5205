@@ -57,6 +57,12 @@ ggsave("hwk/hwk05/img/q01-scatterplot-blank.png")
 # - looking at scatterplot, maybe log transform?
 # - log transform looks good, it makes histogram more normal and scatterplot looks linear
 
+
+
+# part b ------------------------------------------------------------------
+
+
+
 # functions for power transformation and inverse
 power_trans <- function(y, lambda = 0) {
   n <- length(y)
@@ -263,3 +269,42 @@ ggplot(senic, aes(AFS, Nurses)) +
   coord_cartesian(ylim = c(14, 656)) +
   theme_bw(base_size = 30)
 ggsave("hwk/hwk05/img/q01-scatterplot-nurses.png")
+
+
+
+# part d ------------------------------------------------------------------
+
+
+
+# making plot of residuals against fitted values
+senic[, "power_Nurses_residuals" := power_fit$residuals]
+
+senic_alt <- senic[, .(power_Nurses_fitted, power_Nurses_residuals)]
+
+ggplot(senic_alt, aes(power_Nurses_fitted, power_Nurses_residuals)) +
+  geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
+  geom_hline(yintercept = 0, color = myred, lwd = 2) +
+  labs(x = "Fitted Values", y = "Residuals") +
+  theme_bw(base_size = 30)
+ggsave("hwk/hwk05/img/q01-diagnostic-residuals.png")
+
+# senic_alt <- melt(
+#   senic[, .(AFS, power_Nurses, power_Nurses_fitted, power_Nurses_residuals)], 
+#   id.vars = "power_Nurses_residuals", 
+#   measure.vars = c("power_Nurses_fitted", "AFS")
+# )
+
+# ggplot(data = senic_alt, aes(x = value, y = power_Nurses_residuals)) +
+#   geom_point(cex = 4) +
+#   facet_grid(. ~ variable, scales = 'free') +
+#   geom_hline(yintercept = 0, color = myred, lwd = 2) +
+#   theme_bw(base_size = 40) +
+#   labs(x = 'Variable', y = 'Residuals')
+
+# making qqplot
+ggplot(data = senic_alt, aes(sample = power_Nurses_residuals)) +
+  geom_qq(color = dark1, cex = 4, pch = 1, stroke = 2) +
+  geom_qq_line(color = myred, lwd = 2) +
+  theme_bw(base_size = 30) +
+  labs(x = "Theoretical", y = "Sample")
+ggsave("hwk/hwk05/img/q01-diagnostic-qqplot.png")
