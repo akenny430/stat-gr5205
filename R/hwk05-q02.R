@@ -143,3 +143,9 @@ senic_init <- senic[
 ][
   , c("y", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8")
 ]
+
+# making correlation matrix
+library(GGally)
+GGally::ggpairs(senic_init) + 
+  theme_bw(base_size = 10)
+ggsave("hwk/hwk05/img/q02-correlation-matrix.png")
