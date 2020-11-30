@@ -103,3 +103,5 @@ optim(
   y = senic[, "Stay"],
   X = senic[, -"Stay"]
 )
+
+# doesn't work, looks like somewhere along the line (D^T D)-1 becomes singular
