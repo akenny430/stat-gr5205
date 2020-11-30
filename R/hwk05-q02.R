@@ -108,9 +108,13 @@ mle_opt <- optim(
   control = list(fnscale = -1, maxit = 100)
 )
 
-best_theta <- mle_opt$par[9]
 best_lambda <- mle_opt$par[1:8]
+best_theta <- mle_opt$par[9]
+
+sugg_lambda <- c(0, 2, 1, 1, 0, 0, 1, -1)
+sugg_theta <- -1/2
 
 init_loglik <- mle_pars(c(init_lambda, init_theta), senic[, "Stay"], senic[, -"Stay"])[1, 1]
+sugg_loglik <- mle_pars(c(sugg_lambda, sugg_theta), senic[, "Stay"], senic[, -"Stay"])[1, 1]
 mle_loglik <- mle_opt$value
 mle_loglik > init_loglik
