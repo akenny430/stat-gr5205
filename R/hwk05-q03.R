@@ -31,3 +31,26 @@ ggplot(
   labs(x = "Test", y = "Score") +
   theme_bw(base_size = 30)
 ggsave("hwk/hwk05/img/q03-boxplot.png")
+
+
+
+
+# part b ------------------------------------------------------------------
+
+
+
+# making scatterplot matrix
+GGally::ggpairs(jobs) + 
+  theme_bw(base_size = 20)
+ggsave("hwk/hwk05/img/q03-correlation-matrix.png")
+
+
+
+
+# part c ------------------------------------------------------------------
+
+
+
+# Fitting linear model
+model_fit <- lm(Y ~., data = jobs)
+summary(model_fit)
