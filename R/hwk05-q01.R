@@ -3,6 +3,7 @@ myorange <- "#ffcc00"
 myyellow <- "#ffff00"
 mygreen  <- "#99ff33"
 myblue   <- "#99ccff"
+mydblue   <- "#0080ff"
 mypink   <- "#ff99ff"
 dark1   <- "#565657"
 dark2   <- "#808081"
@@ -138,11 +139,18 @@ best_pair <- data.table(
 
 best_lambda <- best_pair$lambda_mle
 
+# NOTE
+# Now that we have the best labda, we are working with flambda, not glambda
+# glamnda is used in theoretical derivations
+
 # adding transformed variables to the data
+# senic[
+#   , c("power_Nurses", "box_cox_Nurses") := .(
+#     power_trans(Nurses, best_lambda), box_cox_trans(Nurses, best_lambda)
+#   )
+# ]
 senic[
-  , c("power_Nurses", "box_cox_Nurses") := .(
-    power_trans(Nurses, best_lambda), box_cox_trans(Nurses, best_lambda)
-  )
+  , "power_Nurses" := power_trans(Nurses, best_lambda)
 ]
 
 # making plot of log-likelihood
@@ -178,17 +186,22 @@ ggsave("hwk/hwk05/img/q01-nurses-hist-transformed.png")
 # creating function of y (i.e. transforming box_cox_trans(Y) back to Y)
 power_fit <- lm(power_Nurses ~ AFS, data = senic)
 
-box_cox_fit <- lm(box_cox_Nurses ~ AFS, data = senic)
+# box_cox_fit <- lm(box_cox_Nurses ~ AFS, data = senic)
 
 # adding fitted values and re-transformed values for both power and box_cox
+# senic[
+#   , c("power_fitted", "box_cox_fitted") := .(
+#     power_fit$fitted.values, box_cox_fit$fitted.values
+#   )
+# ][
+#   , c("Nurses_fit_power", "Nurses_fit_box_cox") := .(
+#     power_inv(power_fitted, best_lambda), box_cox_inv(box_cox_fitted, best_lambda)
+#   )
+# ]
 senic[
-  , c("power_fitted", "box_cox_fitted") := .(
-    power_fit$fitted.values, box_cox_fit$fitted.values
-  )
+  , "power_Nurses_fitted" := power_fit$fitted.values
 ][
-  , c("Nurses_fit_power", "Nurses_fit_box_cox") := .(
-    power_inv(power_fitted, best_lambda), box_cox_inv(box_cox_fitted, best_lambda)
-  )
+  , "Nurses_fitted" := power_inv(power_Nurses_fitted, best_lambda)
 ]
 
 
@@ -198,82 +211,53 @@ power_inv_fit <- function(y, lambda = best_lambda) {
   power_inv(coef[1] + coef[2] * y, lambda)
 }
 
-box_cox_inv_fit <- function(y, lambda = best_lambda) {
-  fit <- lm(power_Nurses ~ AFS, data = senic)
-  coef <- fit$coefficients
-  box_cox_inv(coef[1] + coef[2] * y, lambda)
-}
-
-ggplot(senic, aes(x = AFS, y = Nurses)) +
-  geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
-  # geom_point(aes(x = AFS, y = Nurses_fit_power), color = myred, cex = 2) +
-  geom_function(fun = power_inv_fit) +
-  labs(x = "AFS", y = "Nurses") +
-  theme_bw(base_size = 30)
-
+# box_cox_inv_fit <- function(y, lambda = best_lambda) {
+#   fit <- lm(power_Nurses ~ AFS, data = senic)
+#   coef <- fit$coefficients
+#   box_cox_inv(coef[1] + coef[2] * y, lambda)
+# }
 
 # making function for confidence intervals so it can be added to senic
-power_confint <- function(y, X) {
+power_confint <- function(y) {
   m <- length(y)
   n <- length(senic$power_Nurses)
-  xbar <- mean(X)
-  ssx <- sum((X - xbar)^2)
-  shat <- sqrt(sum((senic$power_Nurses - senic$power_fitted)^2))
-  coef <- power_fit$coefficients
+  xbar <- mean(senic$AFS)
+  ssx <- sum((senic$AFS - xbar)^2)
+  shat <- sqrt(sum((senic$power_Nurses - senic$power_Nurses_fitted)^2))
+  yhat <- predict(power_fit, data.table(AFS = y))
   lwr_upr <- list("lwr", "upr")
-  lwr_upr$lwr <- y - qt(0.975, n - 2) * shat * sqrt(1 / n + (X - xbar)^2 / ssx)
-  lwr_upr$upr <- y + qt(0.975, n - 2) * shat * sqrt(1 / n + (X - xbar)^2 / ssx)
+  for (i in 1:m) {
+    lwr_upr$lwr[i] <- yhat[i] - qt(0.975, n - 2) * shat * sqrt(1 / n + (y[i] - xbar)^2 / ssx)
+    lwr_upr$upr[i] <- yhat[i] + qt(0.975, n - 2) * shat * sqrt(1 / n + (y[i] - xbar)^2 / ssx)
+  }
   return(lwr_upr)
 }
 
-
-
-
-
-
-# creating functions for confidence interval lower and upper bounds
-confint_lwr <- function(x) {
-  n <- length(senic$Nurses)
-  l <- best_lamb$lambda
-  coef <- power_fit$coefficients
-  glambda <- box_cox_trans(senic$Nurses, lambda = best_lamb$lambda)
-  slambda <- sum((glambda - power_fit$fitted.values)^2) / (n - 2)
-  tstat <- qt(p = 0.975, df = n - 2)
-  lwr_val <- box_cox_inv(
-    coef[1] + coef[2] * x - (tstat * sqrt(slambda / n)), 
-    lambda = best_lamb$lambda
-    )
-  return(lwr_val)
-}
-
-confint_upr <- function(x) {
-  n <- length(senic$Nurses)
-  l <- best_lamb$lambda
-  coef <- power_fit$coefficients
-  glambda <- box_cox_trans(senic$Nurses, lambda = best_lamb$lambda)
-  slambda <- sum((glambda - power_fit$fitted.values)^2) / (n - 2)
-  tstat <- qt(p = 0.975, df = n - 2)
-  upr_val <- box_cox_inv(
-    coef[1] + coef[2] * x + (tstat * sqrt(slambda / n)), 
-    lambda = best_lamb$lambda
+# adding points to senic
+senic[
+  , c("power_Nurses_ci_lwr", "power_Nurses_ci_upr") := .(
+    power_confint(AFS)$lwr, power_confint(AFS)$upr 
   )
-  return(upr_val)
-}
+][
+  , c("Nurses_ci_lwr", "Nurses_ci_upr") := .(
+    power_inv(power_Nurses_ci_lwr, best_lambda), power_inv(power_Nurses_ci_upr, best_lambda)
+  )
+]
 
-senic_ci <- senic[, .(AFS, Nurses)
-                  # ][, "trans_Nurses" := box_cox_trans(Nurses, best_lamb$lambda)
-                  ][, "fitted_Nurses" := box_cox_inv(power_fit$fitted.values, best_lamb$lambda)
-                    ][, c("ci_lwr", "ci_upr") := list(confint_lwr(fitted_Nurses), confint_upr(fitted_Nurses))][]
-
-# making scatterplot with optimal lambda function fit over it
-# want to add confidence intervals to this
-ggplot(senic, aes(x = AFS, y = Nurses)) +
+# making plot for confidence interval
+ggplot(senic, aes(AFS, power_Nurses)) +
   geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
-  geom_function(fun = confint_lwr, color = myred, lwd = 1) +
-  geom_function(fun = confint_upr, color = myred, lwd = 1) +
-  # geom_ribbon(aes(ymin = ci_lwr, ymax = ci_upr)) +
-  geom_function(fun = transform_fit, color = myred, lwd = 3) +
-  # geom_smooth(method = "lm") +
-  labs(x = "AFS", y = "Nurses") +
+  geom_ribbon(aes(ymin = power_Nurses_ci_lwr, ymax = power_Nurses_ci_upr), fill = myred, alpha = 0.3) +
+  geom_line(aes(AFS, power_Nurses_fitted), color = myred, cex = 2) +
+  labs(x = "AFS", y = expression(f[0.085](Nurses))) +
   theme_bw(base_size = 30)
-ggsave("hwk/hwk05/img/q01-scatterplot-model.png")
+
+
+ggplot(senic, aes(AFS, Nurses)) +
+  geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
+  geom_ribbon(aes(ymin = Nurses_ci_lwr, ymax = Nurses_ci_upr), fill = myred, alpha = 0.3) +
+  geom_line(aes(AFS, Nurses_fitted), color = myred, cex = 2) +
+  labs(x = "AFS", y = "Nurses") +
+  coord_cartesian(ylim = c(14, 656)) +
+  theme_bw(base_size = 30)
+
