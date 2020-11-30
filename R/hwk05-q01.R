@@ -252,7 +252,7 @@ ggplot(senic, aes(AFS, power_Nurses)) +
   # geom_smooth(method = lm) +
   labs(x = "AFS", y = expression(f[0.085](Nurses))) +
   theme_bw(base_size = 30)
-
+ggsave("hwk/hwk05/img/q01-scatterplot-power.png")
 
 ggplot(senic, aes(AFS, Nurses)) +
   geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
@@ -262,4 +262,4 @@ ggplot(senic, aes(AFS, Nurses)) +
   labs(x = "AFS", y = "Nurses") +
   coord_cartesian(ylim = c(14, 656)) +
   theme_bw(base_size = 30)
-
+ggsave("hwk/hwk05/img/q01-scatterplot-nurses.png")
