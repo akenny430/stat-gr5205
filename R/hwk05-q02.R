@@ -267,3 +267,13 @@ all.equal(bic_fwd_coef, bic_bwd_coef)
 (adjr2_fwd_coef <- best_mod(method = "forward",  criteria = "adjR2")[[2]])
 adjr2_bwd_coef <- best_mod(method = "backward", criteria = "adjR2")[[2]]
 all.equal(adjr2_fwd_coef, adjr2_bwd_coef)
+
+
+
+# part e ------------------------------------------------------------------
+
+
+
+# fitting model with cp/adjR2 predictors
+final_mod <- lm(w ~ x1 + x2 + x4 + x5 + x6 + x7, data = senic_init)
+summary(final_mod)
