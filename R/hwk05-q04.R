@@ -33,3 +33,20 @@ summary(bwd_model)
 # running forward stepwise regression
 fwd_model <- step(object = null_model, scope = formula(full_model), direction = "forward")
 summary(fwd_model)
+
+
+
+
+# part c ------------------------------------------------------------------
+
+
+
+# using BIC as stopping criteria
+# need k = long(n) instead of k = 2
+# running backward stepwise regression
+bwd_model <- step(object = full_model, scope = formula(null_model), direction = "backward", k = log(nrow(jobs)))
+summary(bwd_model)
+
+# running forward stepwise regression
+fwd_model <- step(object = null_model, scope = formula(full_model), direction = "forward", k = log(nrow(jobs)))
+summary(fwd_model)
