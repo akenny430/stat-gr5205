@@ -82,8 +82,8 @@
     to determine an optimal value of \(\lambda\) via maximum likelihood estimation. 
     We then use \(f_{\lambda}\) to make \(Y\) closer to a normal distribution and perform any subsequent inferences. 
     % If we have our \(n\) observations (\(\mathbf{x}\),\(\mathbf{y}\)).
-    In vector form, our model is \(\mygfull = \beta_0 \mathbf{1} + \beta_1 \mathbf{x} + \bm{\epsilon}\), where \(\bm{\epsilon} \sim \mathrm{N}(\mathbf{0}, \sigma^2 \mathbf{I})\)
-    and \(\mygfull\) is the transformed response (so \([\mygfull]_i = g_{\lambda}(y_i)\)) for some unknown \(\lambda\). 
+    In vector form, our model is \(\myg(\bm{Y}) = \beta_0 \mathbf{1} + \beta_1 \mathbf{x} + \bm{\epsilon}\), where \(\bm{\epsilon} \sim \mathrm{N}(\mathbf{0}, \sigma^2 \mathbf{I})\)
+    and \(\myg(\bm{Y})\) is the transformed response (so \([\myg(\bm{Y})]_i = g_{\lambda}(Y_i)\)) for some unknown \(\lambda\). 
     % Since \(\mygfull \sim \mathrm{N}(\beta_0 \mathbf{1} + \beta_1 \mathbf{x}, \sigma^2 \mathbf{I})\), 
     It can be shown (see Appendix A) that the log-likelihood function can be expressed as a function of only \(\lambda\), 
     \begin{align*}
