@@ -118,3 +118,28 @@ init_loglik <- mle_pars(c(init_lambda, init_theta), senic[, "Stay"], senic[, -"S
 sugg_loglik <- mle_pars(c(sugg_lambda, sugg_theta), senic[, "Stay"], senic[, -"Stay"])[1, 1]
 mle_loglik <- mle_opt$value
 mle_loglik > init_loglik
+
+
+
+# part b ------------------------------------------------------------------
+
+
+
+# we are going to roll with initial guess, even though its not the best
+senic_init <- senic[
+  , c(
+    "y", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"
+  ) := .(
+    power_trans(Stay,   init_theta),
+    power_trans(Age,    init_lambda[1]),
+    power_trans(Risk,   init_lambda[2]),
+    power_trans(Cult,   init_lambda[3]),
+    power_trans(Xray,   init_lambda[4]),
+    power_trans(Beds,   init_lambda[5]),
+    power_trans(Cen,    init_lambda[6]),
+    power_trans(Nurses, init_lambda[7]),
+    power_trans(AFS,    init_lambda[8])
+  )
+][
+  , c("y", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8")
+]
