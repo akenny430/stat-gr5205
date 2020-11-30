@@ -128,7 +128,7 @@ mle_loglik > init_loglik
 # we are going to roll with initial guess, even though its not the best
 senic_init <- senic[
   , c(
-    "y", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"
+    "w", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8"
   ) := .(
     power_trans(Stay,   init_theta),
     power_trans(Age,    init_lambda[1]),
@@ -141,11 +141,20 @@ senic_init <- senic[
     power_trans(AFS,    init_lambda[8])
   )
 ][
-  , c("y", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8")
+  , c("w", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "x8")
 ]
 
 # making correlation matrix
-library(GGally)
 GGally::ggpairs(senic_init) + 
   theme_bw(base_size = 10)
 ggsave("hwk/hwk05/img/q02-correlation-matrix.png")
+
+
+
+
+# part c ------------------------------------------------------------------
+
+
+
+
+
