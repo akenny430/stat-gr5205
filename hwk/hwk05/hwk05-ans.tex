@@ -247,7 +247,9 @@
     with each other are tests 3 and 4, while tests 2 and 3 have somewhat of a correlation. We can also see that the job proficiency is highly-correlated with 
     tests 3 and 4. 
 
-    \item[(c)] 
+    \item[(c)] Letting \(Y\) be the job proficiency score and \(X_i\) be the \(i\)th test score for \(i = 1, \ldots, 4\), we fit the linear model 
+    \(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \beta_4 X_4 + \epsilon\), where \(\mathbb{E}(\epsilon) = 0\) and \(\mathrm{Var}[\epsilon] = \sigma^2\).
+    From the \texttt{R} output, the \(p\)-value for \(\beta_2\) is 0.404, meaning it is not significant. 
 \end{itemize}
 
 %' ============================================================================================================================================================
