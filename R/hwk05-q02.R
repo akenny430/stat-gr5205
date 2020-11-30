@@ -152,10 +152,108 @@ ggsave("hwk/hwk05/img/q02-correlation-matrix.png")
 
 
 
-# part c ------------------------------------------------------------------
+# part c and d ------------------------------------------------------------
 
 
 
 # using forward stepwise regression
 fwd_model <- leaps::regsubsets(w ~ ., data = senic_init, method = "forward")
 fwd_summary <- summary(fwd_model)
+
+# using backward stepwise regression
+bwd_model <- leaps::regsubsets(w ~ ., data = senic_init, method = "backward")
+bwd_summary <- summary(fwd_model)
+
+# function for finding best model for various criteria
+best_mod <- function(method = "forward", criteria = "Cp") {
+  ###
+  if (method == "forward") {
+    ##
+    if (criteria == "Cp") {
+      val <- fwd_summary$cp[1]
+      best_num <- 1
+      for (i in 2:8) {
+        if (fwd_summary$cp[i] < val) {
+          val <- fwd_summary$cp[i]
+          best_num <- i
+        }
+      }
+      best_coef <- fwd_summary$which[best_num, ]
+      best_coef_names <- names(best_coef)[which(best_coef == TRUE)]
+    }
+    ##
+    if (criteria == "BIC") {
+      val <- fwd_summary$bic[1]
+      best_num <- 1
+      for (i in 2:8) {
+        if (fwd_summary$bic[i] < val) {
+          val <- fwd_summary$bic[i]
+          best_num <- i
+        }
+      }
+      best_coef <- fwd_summary$which[best_num, ]
+      best_coef_names <- names(best_coef)[which(best_coef == TRUE)]
+    }
+    ##
+    if (criteria == "adjR2") {
+      val <- fwd_summary$adjr2[1]
+      best_num <- 1
+      for (i in 2:8) {
+        if (fwd_summary$adjr2[i] > val) {
+          val <- fwd_summary$adjr2[i]
+          best_num <- i
+        }
+      }
+      best_coef <- fwd_summary$which[best_num, ]
+      best_coef_names <- names(best_coef)[which(best_coef == TRUE)]
+    }
+  }
+  ###
+  if (method == "backward") {
+    ##
+    if (criteria == "Cp") {
+      val <- bwd_summary$cp[1]
+      best_num <- 1
+      for (i in 2:8) {
+        if (bwd_summary$cp[i] < val) {
+          val <- bwd_summary$cp[i]
+          best_num <- i
+        }
+      }
+      best_coef <- bwd_summary$which[best_num, ]
+      best_coef_names <- names(best_coef)[which(best_coef == TRUE)]
+    }
+    ##
+    if (criteria == "BIC") {
+      val <- bwd_summary$bic[1]
+      best_num <- 1
+      for (i in 2:8) {
+        if (bwd_summary$bic[i] < val) {
+          val <- bwd_summary$bic[i]
+          best_num <- i
+        }
+      }
+      best_coef <- bwd_summary$which[best_num, ]
+      best_coef_names <- names(best_coef)[which(best_coef == TRUE)]
+    }
+    ##
+    if (criteria == "adjR2") {
+      val <- bwd_summary$adjr2[1]
+      best_num <- 1
+      for (i in 2:8) {
+        if (bwd_summary$adjr2[i] > val) {
+          val <- bwd_summary$adjr2[i]
+          best_num <- i
+        }
+      }
+      best_coef <- bwd_summary$which[best_num, ]
+      best_coef_names <- names(best_coef)[which(best_coef == TRUE)]
+    }
+  }
+  return(
+    list(numb_coef = best_num, best_coef = best_coef_names[-1])
+  )
+}
+
+# checking to see if models are the same
+best_mod(method = "forward", criteria = "BIC")
