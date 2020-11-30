@@ -12,7 +12,7 @@ library(ggplot2)
 
 
 
-# part a ------------------------------------------------------------------
+# parts a and b -----------------------------------------------------------
 
 
 
@@ -23,3 +23,13 @@ jobs <- fread(
 
 # fitting null and full models
 # since we are using AIC as a stopping criteria, we need to use base::step()
+null_model <- lm(Y ~ 1, data = jobs)
+full_model <- lm(Y ~ ., data = jobs)
+
+# running backward stepwise regression
+bwd_model <- step(object = full_model, scope = formula(null_model), direction = "backward")
+summary(bwd_model)
+
+# running forward stepwise regression
+fwd_model <- step(object = null_model, scope = formula(full_model), direction = "forward")
+summary(fwd_model)
