@@ -155,7 +155,7 @@
     % need to add info about transforming model back to y, here and in paragraph below
     % maybe put into appendix?
 
-    \begin{figure}
+    \begin{figure}[ht]
         \centering
         \includegraphics[width = 0.32\textwidth]{img/q01-box-cox-lambda.png}
         \includegraphics[width = 0.32\textwidth]{img/q01-scatterplot-power.png}
@@ -174,7 +174,7 @@
     We must keep in mind that this model is non-linear, so it's expected rate of change will depend on the value of \(X\). 
 
     \item[(d)] Both diagnostic plots can be found in Figure \ref{q01-diagnostics}, and the data seems to confirm the model assumptions very well.
-    \begin{figure}
+    \begin{figure}[ht]
         \centering
         \includegraphics[width = 0.4\textwidth]{img/q01-diagnostic-residuals.png}
         \quad
@@ -186,7 +186,32 @@
     \item[(e)] We cannot conduct an \(F\)-test on the two models. This is because both models have the same number of parameters that need to be estimated,
     meaning they both have the same number of degrees of freedom. 
 
-    \item[(f)] 
+    \item[(f)] In order to find a prediction interval for \(Y\), we can first find a prediction interval for \(f_{0.085}(Y)\) and then apply \(f_{0.085}^{-1}\)
+    to both ends of the interval. The prediction intervals for when \(X = 30\) and \(X = 60\) have been printed in Table \ref{q01-prediction-intervals}. 
+    For reference, the prediction intervals at these observations for the linear model \(Y = \beta_0 + \beta_1 + \epsilon\) have also been printed. 
+    The prediction intervals for the power model can also be seen in the middel and right plots of Figure \ref{q01-box-cox}. 
+    For starters, the width of the intervals for the power model drastically increases as \(X\) increases, while the increase for the linear model is negligible. 
+    When \(X = 30\), the confidence interval for the power model is significantly narrower than the power function, but when \(X = 60\), the opposite is true. 
+    % When \(X = 30\), using the power model we are \(95\)\%{} sure that the 
+    That is, when \(X = 30\) we are confident that the next observation will lie in a smaller interval using the power model, but when \(X = 60\), the linear model 
+    gives us the smaller region. Depending on the value of \(X\), I would use the better of the two models. 
+
+    \begin{table}
+        \def\arraystretch{1.25}
+        \centering
+        \begin{tabular}{|l|cccc|cccc|}
+            \hline%
+            &\multicolumn{4}{|c|}{\(X = 30\)} & \multicolumn{4}{|c|}{\(X = 60\)}\\
+            \hline%
+            Model & \(\hat{Y}\) & Lower & Upper & \(\Delta\mathcal{I}\) & \(\hat{Y}\) & Lower & Upper & \(\Delta\mathcal{I}\)\\
+            \hline%
+            Linear & 74.612 & \(-89.781\) & 239.004 & 328.785 & 297.769 & 133.036 & 462.503 & 329.467 \\
+            Power  & 69.448 & 26.573      & 168.796 & 142.223 & 276.313 & 117.843 & 611.638 & 493.795 \\
+            \hline%
+        \end{tabular}
+        \caption{Comparing the prediction intervals of the linear model against the power model.}
+        \label{q01-prediction-intervals}
+    \end{table}
 \end{itemize}
 
 \end{document}
