@@ -164,7 +164,16 @@
         \label{q01-box-cox}
     \end{figure}
 
-    \item[(c)] Now that we have our optimal \(\lambda\), we will fit the model \(f_{0.085}(Y) = \beta_0 + \beta_1 X + \epsilon\).
+    \item[(c)] Now that we have our optimal \(\lambda\), we will fit the model \(f_{0.085}(Y) = \beta_0 + \beta_1 X + \epsilon\). 
+    We have \(\hat{\beta}_0 = 1.255\) and \(\hat{\beta}_1 = 0.005953\). A plot of this model, along with a \(95\)\%{} confidence interval,
+    has been printed in the middle panel of Figure \ref{q01-box-cox}. This means that when \(X\) increases by 1 unit, \(f_{0.085}(Y)\)
+    is expected to increase by \(0.005953\) units. We can also make inferences about \(Y\) itself; we have 
+    \(Y = f_{0.085}^{-1}(\hat{\beta}_0 + \hat{\beta}_1 X) = \big(1.255 + 0.005953 X)^{1 / 0.085}\). A plot of this model has been printed in 
+    the right panel of Figure \ref{q01-box-cox}. 
+    % This means that when \(X\) increases by one unit, \(Y\) is expected to increase by \(\big(1.255 + 0.005953)^{1 / 0.085} = 15.3\) units. 
+    We must keep in mind that this model is non-linear, so it's expected rate of change will depend on the value of \(X\). 
+
+    \item[(d)] 
 \end{itemize}
 
 \end{document}
