@@ -184,7 +184,7 @@
     be optimized.
     Using the \texttt{R} base function \texttt{optim} with initial conditions \(\theta_0\) and \(\bm{\lambda}_0\), 100 itterations of a simplex method are run.
     The values of \(\hat{\theta}_{\mathrm{MLE}}\) and \(\hat{\bm{\lambda}}_{\mathrm{MLE}}\) can be found in Table \ref{table-pars-comp}, and we can see that 
-    the MLEs for \(\theta\) and \(\bm{\lambda}\) vary quite differently than the original guesses. We can also use \texttt{R} to show \(m(\theta_0, \bm{\lambda}_0) = 172.252\)
+    the MLEs for \(\theta\) and \(\bm{\lambda}\) vary quite differently than the original guesses. We can also use \texttt{R} to show \(m(\theta_0, \bm{\lambda}_0) = -172.252\)
     and \(m(\hat{\theta}_{\mathrm{MLE}}, \hat{\bm{\lambda}}_{\mathrm{MLE}}) = -169.769\), so using the estimated parameters gives us a higher log-likelihood. 
     Therefore, I am going to make the argument that the inital guess is not the best fit for the model. 
     However, because the log-likelihood does not drastically change, I believe it is still an acceptable model, especially since it is much more interpretable. 
