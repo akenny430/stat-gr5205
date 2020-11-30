@@ -97,14 +97,20 @@ mle_pars <- function(lambda, y, X) {
 
 # optimizing the parameters
 # using initial condition c(1,1,0,1,0,0,0,1,-1)
+init_lambda <- c(1, 1, 0, 1, 0, 0, 0, 1)
+init_theta <-  -1
+
 mle_opt <- optim(
-  par = c(1, 1, 0, 1, 0, 0, 0, 1, -1),
+  par = c(init_lambda, init_theta),
   fn = mle_pars,
   y = senic[, "Stay"],
   X = senic[, -"Stay"],
   control = list(fnscale = -1, maxit = 100)
 )
-mle_opt$par
 
 best_theta <- mle_opt$par[9]
 best_lambda <- mle_opt$par[1:8]
+
+init_loglik <- mle_pars(c(init_lambda, init_theta), senic[, "Stay"], senic[, -"Stay"])[1, 1]
+mle_loglik <- mle_opt$value
+mle_loglik > init_loglik
