@@ -250,9 +250,37 @@ senic[
   )
 ]
 
+# making function for prediction interval
+power_predint <- function(y) {
+  m <- length(y)
+  n <- length(senic$power_Nurses)
+  xbar <- mean(senic$AFS)
+  ssx <- sum((senic$AFS - xbar)^2)
+  shat <- sqrt(sum((senic$power_Nurses - senic$power_Nurses_fitted)^2) / (n - 2))
+  yhat <- predict(power_fit, data.table(AFS = y))
+  lwr_upr <- list("lwr", "upr")
+  for (i in 1:m) {
+    lwr_upr$lwr[i] <- yhat[i] - qt(0.975, n - 2) * shat * sqrt(1 + 1 / n + (y[i] - xbar)^2 / ssx)
+    lwr_upr$upr[i] <- yhat[i] + qt(0.975, n - 2) * shat * sqrt(1 + 1 / n + (y[i] - xbar)^2 / ssx)
+  }
+  return(lwr_upr)
+}
+
+# adding points to senic
+senic[
+  , c("power_Nurses_pi_lwr", "power_Nurses_pi_upr") := .(
+    power_predint(AFS)$lwr, power_predint(AFS)$upr 
+  )
+][
+  , c("Nurses_pi_lwr", "Nurses_pi_upr") := .(
+    power_inv(power_Nurses_pi_lwr, best_lambda), power_inv(power_Nurses_pi_upr, best_lambda)
+  )
+]
+
 # making plot for confidence interval
 ggplot(senic, aes(AFS, power_Nurses)) +
   geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
+  geom_ribbon(aes(ymin = power_Nurses_pi_lwr, ymax = power_Nurses_pi_upr), fill = myred, alpha = 0.15) +
   geom_ribbon(aes(ymin = power_Nurses_ci_lwr, ymax = power_Nurses_ci_upr), fill = myred, alpha = 0.3) +
   geom_line(aes(AFS, power_Nurses_fitted), color = myred, cex = 2) +
   # geom_smooth(method = lm) +
@@ -262,6 +290,7 @@ ggsave("hwk/hwk05/img/q01-scatterplot-power.png")
 
 ggplot(senic, aes(AFS, Nurses)) +
   geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
+  geom_ribbon(aes(ymin = Nurses_pi_lwr, ymax = Nurses_pi_upr), fill = myred, alpha = 0.15) +
   geom_ribbon(aes(ymin = Nurses_ci_lwr, ymax = Nurses_ci_upr), fill = myred, alpha = 0.3) +
   geom_line(aes(AFS, Nurses_fitted), color = myred, cex = 2) +
   # geom_smooth(method = "lm") +
@@ -308,3 +337,10 @@ ggplot(data = senic_alt, aes(sample = power_Nurses_residuals)) +
   theme_bw(base_size = 30) +
   labs(x = "Theoretical", y = "Sample")
 ggsave("hwk/hwk05/img/q01-diagnostic-qqplot.png")
+
+
+
+# part f ------------------------------------------------------------------
+
+
+predict(power_fit, data.frame(AFS = c(30, 60)), interval = "prediction")
