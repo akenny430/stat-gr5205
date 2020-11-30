@@ -154,6 +154,7 @@
 
 %' ============================================================================================================================================================
 \section{Question 2} \noindent
+\mycolaba{None}
 
 
 %' ============================================================================================================================================================
@@ -200,7 +201,7 @@ The log-likelihood \(\ell(\mathbf{y}) = \log g(\mathbf{y})\) is given by
 \end{align*}
 As is standard with maximum likelihood estimation, we now differentiate \(\ell\) with respect to the unknown parameters, set the derivatives to zero, and solve to get the maximum value of \(\ell\). 
 For now, we are going to leave \(\lambda\) fixed and differentiate with respect to \(\bm{\beta}\) and \(\sigma^2\). Doing this for both gives us 
-\(\hat{\bm{\beta}}_{\mathrm{MLE}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\myg\) and \(\hat{\sigma}^2_{\mathrm{MLE}} = \myg^T (\mathbf{I} - \mathbf{H}) \myg\), where 
+\(\hat{\bm{\beta}}_{\mathrm{MLE}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\myg\) and \(\hat{\sigma}^2_{\mathrm{MLE}} = \myg^T (\mathbf{I} - \mathbf{H}) \myg / n\), where 
 \(\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\) is the hat matrix. 
 It is worth noting that both \(\hat{\bm{\beta}}_{\mathrm{MLE}}\) and \(\hat{\sigma}^2_{\mathrm{MLE}}\) are functions of \(\lambda\). 
 Plugging these values back into \(\ell\) will maximize it with respect to \(\bm{\beta}\) and \(\sigma^2\), 
