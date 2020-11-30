@@ -84,7 +84,7 @@ mle_pars <- function(lambda, y, X) {
   n <- length(y)
   G <- X
   for (i in 1:(m - 1)) {
-    G[, i] <- box_cox_trans(X[, i], lambda[i])
+    G[, i] <- box_cox_trans(unlist(X[, i]), lambda[i])
   }
   D <- cbind(rep(1, n), G)
   A <- diag(n) - (D %*% solve(t(D) %*% D) %*% t(D))
@@ -94,3 +94,12 @@ mle_pars <- function(lambda, y, X) {
   log_like <- const - n * log(quad_pars) / 2 + (lambda[m] - 1) * sum(log(y))
   return(log_like)
 }
+
+# optimizing the parameters
+# using initial condition c(1,1,0,1,0,0,0,1,-1)
+optim(
+  par = c(1, 1, 0, 1, 0, 0, 0, 1, -1),
+  fn = mle_pars,
+  y = senic[, "Stay"],
+  X = senic[, -"Stay"]
+)
