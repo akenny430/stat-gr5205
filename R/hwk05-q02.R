@@ -256,14 +256,14 @@ best_mod <- function(method = "forward", criteria = "Cp") {
 }
 
 # checking to see if models are the same
-cp_fwd_coef <- best_mod(method = "forward",  criteria = "Cp")[[2]]
+(cp_fwd_coef <- best_mod(method = "forward",  criteria = "Cp")[[2]])
 cp_bwd_coef <- best_mod(method = "backward", criteria = "Cp")[[2]]
 all.equal(cp_fwd_coef, cp_bwd_coef)
 
-bic_fwd_coef <- best_mod(method = "forward",  criteria = "BIC")[[2]]
+(bic_fwd_coef <- best_mod(method = "forward",  criteria = "BIC")[[2]])
 bic_bwd_coef <- best_mod(method = "backward", criteria = "BIC")[[2]]
 all.equal(bic_fwd_coef, bic_bwd_coef)
 
-adjr2_fwd_coef <- best_mod(method = "forward",  criteria = "adjR2")[[2]]
+(adjr2_fwd_coef <- best_mod(method = "forward",  criteria = "adjR2")[[2]])
 adjr2_bwd_coef <- best_mod(method = "backward", criteria = "adjR2")[[2]]
 all.equal(adjr2_fwd_coef, adjr2_bwd_coef)
