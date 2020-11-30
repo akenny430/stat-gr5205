@@ -156,5 +156,6 @@ ggsave("hwk/hwk05/img/q02-correlation-matrix.png")
 
 
 
-
-
+# using forward stepwise regression
+fwd_model <- leaps::regsubsets(w ~ ., data = senic_init, method = "forward")
+fwd_summary <- summary(fwd_model)
