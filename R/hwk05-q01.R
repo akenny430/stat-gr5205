@@ -223,7 +223,7 @@ power_confint <- function(y) {
   n <- length(senic$power_Nurses)
   xbar <- mean(senic$AFS)
   ssx <- sum((senic$AFS - xbar)^2)
-  shat <- sqrt(sum((senic$power_Nurses - senic$power_Nurses_fitted)^2))
+  shat <- sqrt(sum((senic$power_Nurses - senic$power_Nurses_fitted)^2) / (n - 2))
   yhat <- predict(power_fit, data.table(AFS = y))
   lwr_upr <- list("lwr", "upr")
   for (i in 1:m) {
@@ -249,6 +249,7 @@ ggplot(senic, aes(AFS, power_Nurses)) +
   geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
   geom_ribbon(aes(ymin = power_Nurses_ci_lwr, ymax = power_Nurses_ci_upr), fill = myred, alpha = 0.3) +
   geom_line(aes(AFS, power_Nurses_fitted), color = myred, cex = 2) +
+  # geom_smooth(method = lm) +
   labs(x = "AFS", y = expression(f[0.085](Nurses))) +
   theme_bw(base_size = 30)
 
@@ -257,6 +258,7 @@ ggplot(senic, aes(AFS, Nurses)) +
   geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
   geom_ribbon(aes(ymin = Nurses_ci_lwr, ymax = Nurses_ci_upr), fill = myred, alpha = 0.3) +
   geom_line(aes(AFS, Nurses_fitted), color = myred, cex = 2) +
+  # geom_smooth(method = "lm") +
   labs(x = "AFS", y = "Nurses") +
   coord_cartesian(ylim = c(14, 656)) +
   theme_bw(base_size = 30)
