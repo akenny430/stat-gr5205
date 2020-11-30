@@ -101,7 +101,9 @@ optim(
   par = c(1, 1, 0, 1, 0, 0, 0, 1, -1),
   fn = mle_pars,
   y = senic[, "Stay"],
-  X = senic[, -"Stay"]
+  X = senic[, -"Stay"],
+  control = list(maxit = 90)
 )
 
 # doesn't work, looks like somewhere along the line (D^T D)-1 becomes singular
+# just have to limit the number of itterations
