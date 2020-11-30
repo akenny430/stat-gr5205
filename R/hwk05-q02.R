@@ -97,13 +97,14 @@ mle_pars <- function(lambda, y, X) {
 
 # optimizing the parameters
 # using initial condition c(1,1,0,1,0,0,0,1,-1)
-optim(
+mle_opt <- optim(
   par = c(1, 1, 0, 1, 0, 0, 0, 1, -1),
   fn = mle_pars,
   y = senic[, "Stay"],
   X = senic[, -"Stay"],
-  control = list(maxit = 90)
+  control = list(fnscale = -1, maxit = 100)
 )
+mle_opt$par
 
-# doesn't work, looks like somewhere along the line (D^T D)-1 becomes singular
-# just have to limit the number of itterations
+best_theta <- mle_opt$par[9]
+best_lambda <- mle_opt$par[1:8]
