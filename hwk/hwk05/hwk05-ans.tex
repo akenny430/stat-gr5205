@@ -161,20 +161,20 @@
 \mycolaba{None}
 \begin{itemize}
     \item[(a)] We are now applying the scaled power function to both the response and each of the predictors of interest. Let \(Y\) be the length of stay and 
-    \(X_1, \ldots, X_8\) be average age of patients, infection risk, cultering ratio, X-ray ratio, number of beds, average daily census, number of nurses, and 
+    \(Z_1, \ldots, Z_8\) be average age of patients, infection risk, cultering ratio, X-ray ratio, number of beds, average daily census, number of nurses, and 
     available facilities and services, respectively. To find optimal parameters for transformation, we will fit the model 
     \begin{align}
         g_{\theta}(Y)
-        = \beta_0 + \sum_{i = 1}^8 \beta_i \cdot g_{\lambda_{i}}(X_i) + \epsilon,
+        = \beta_0 + \sum_{i = 1}^8 \beta_i \cdot g_{\lambda_{i}}(Z_i) + \epsilon,
         \label{model-senic-both}
     \end{align}
     where \(\epsilon \sim \mathrm{N}(0, \sigma^2)\), and use MLE to find the optimal values of \(\theta\) and \(\bm{\lambda} = (\lambda_1, \ldots, \lambda_8)^T\).
     The values suggested by the initial question are \(\theta_0 = -1\) and \(\bm{\lambda}_0 = (1,1,0,1,0,0,0,1)^T\).
     Using vector notation, our model can be written as \(\mygap{\bm{Y}} = \gmat \bm{\beta} + \bm{\epsilon}\), where 
     \(\gmat = \begin{bmatrix}
-        \mathbf{1} & \mathbf{g}_{\lambda_1}(\mathbf{x}_1) & \mathbf{g}_{\lambda_8}(\mathbf{x}_8)
+        \mathbf{1} & \mathbf{g}_{\lambda_1}(\mathbf{z}_1) & \mathbf{g}_{\lambda_8}(\mathbf{z}_8)
     \end{bmatrix}\)
-    is the matrix of transformed predictors. It can be shown (see Appendix B) that the log-likelihood can be expressed as a function of only the
+    is the matrix of predictors transformed by \(g_{\lambda}\). It can be shown (see Appendix B) that the log-likelihood can be expressed as a function of only the
     unknown parameters \(\theta\) and \(\bm{\lambda}\), 
     \begin{align*}
         m(\theta, \bm{\lambda})
@@ -200,7 +200,7 @@
             \hline%
             Initial & \(-1\) & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 1 \\
             MLE & \(-0.394\) & 0.033 & 2.373 & 0.890 & 0.844 & \(-0.042\) & 0.187 & 0.889 & \(-0.848\) \\
-            Suggested & \(-1/2\) & 0 & 2 & 1 & 1 & 0 & 0 & 1 & -1 \\
+            Suggested & \(-1/2\) & 0 & 2 & 1 & 1 & 0 & 0 & 1 & \(-1\) \\
             \hline%
         \end{tabular}
         \caption{Comparing the initial guess of the parameters against their MLEs for model (\ref{model-senic-both}).}
@@ -212,7 +212,8 @@
     % but the MLE suggests that \(\lambda_5 = 1/3\) and \(\lambda_6 = -1/2\). However, if we look at the value of the likelihood, we have 
     % \(m(\theta_0, \bm{\lambda}_0) = -172.252\) and \(m(\hat{\theta}_{\mathrm{MLE}}, \hat{\bm{\lambda}}_{\mathrm{MLE}}) = \)
 
-    \item[(b)] 
+    \item[(b)] Let \(X_i = f_{\lambda_{0,i}}(Z_i)\) and \(W = f_{\theta_0}(Y)\). The correlation matrix, which can be found in Appendix C, shows that 
+    \(X_5\), \(X_6\), \(X_7\), and \(X_8\) are all highly-correlated with each other. 
 \end{itemize}
 
 
