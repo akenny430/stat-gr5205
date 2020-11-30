@@ -81,14 +81,14 @@ box_cox_inv <- function(y, lambda = 0) {
 # we are not trying to vectorize this anymore (as required by optim function)
 mle_pars <- function(lambda, y, X) {
   m <- length(lambda)
-  n <- length(y)
-  G <- X
+  n <- length(unlist(y))
+  G <- matrix(NA, nrow = nrow(X), ncol = ncol(X))
   for (i in 1:(m - 1)) {
-    G[, i] <- box_cox_trans(unlist(X[, i]), lambda[i])
+    G[, i] <- box_cox_trans(unlist(X[, ..i]), lambda[i])
   }
   D <- cbind(rep(1, n), G)
   A <- diag(n) - (D %*% solve(t(D) %*% D) %*% t(D))
-  g_gamma <- box_cox_trans(y, lambda[m])
+  g_gamma <- box_cox_trans(unlist(y), lambda[m])
   quad_pars <- t(g_gamma) %*% A %*% g_gamma
   const <- -n * log(2 * pi * exp(1) / n) / 2
   log_like <- const - n * log(quad_pars) / 2 + (lambda[m] - 1) * sum(log(y))
