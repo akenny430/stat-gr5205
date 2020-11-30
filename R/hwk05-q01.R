@@ -176,29 +176,55 @@ ggsave("hwk/hwk05/img/q01-nurses-hist-transformed.png")
 
 
 # creating function of y (i.e. transforming box_cox_trans(Y) back to Y)
+power_fit <- lm(power_Nurses ~ AFS, data = senic)
+
 box_cox_fit <- lm(box_cox_Nurses ~ AFS, data = senic)
 
-box_cox_inv_fit <- function(x) {
-  coef <- box_cox_fit$coefficients
-  box_cox_inv(coef[1] + coef[2] * x, best_lambda)
+# adding fitted values and re-transformed values for both power and box_cox
+senic[
+  , c("power_fitted", "box_cox_fitted") := .(
+    power_fit$fitted.values, box_cox_fit$fitted.values
+  )
+][
+  , c("Nurses_fit_power", "Nurses_fit_box_cox") := .(
+    power_inv(power_fitted, best_lambda), box_cox_inv(box_cox_fitted, best_lambda)
+  )
+]
+
+
+power_inv_fit <- function(y, lambda = best_lambda) {
+  fit <- lm(power_Nurses ~ AFS, data = senic)
+  coef <- fit$coefficients
+  power_inv(coef[1] + coef[2] * y, lambda)
 }
 
-power_fit <- lm(power_trans(Nurses, best_lambda) ~ AFS, data = senic)
-
-power_inv_fit <- function(x) {
-  coef <- power_fit$coefficients
-  power_inv(coef[1] + coef[2] * x, best_lambda)
+box_cox_inv_fit <- function(y, lambda = best_lambda) {
+  fit <- lm(power_Nurses ~ AFS, data = senic)
+  coef <- fit$coefficients
+  box_cox_inv(coef[1] + coef[2] * y, lambda)
 }
 
 ggplot(senic, aes(x = AFS, y = Nurses)) +
   geom_point(color = dark1, cex = 4, pch = 1, stroke = 2) +
-  geom_point(aes(x = AFS, y = power_inv(power_Nurses))) +
+  # geom_point(aes(x = AFS, y = Nurses_fit_power), color = myred, cex = 2) +
+  geom_function(fun = power_inv_fit) +
   labs(x = "AFS", y = "Nurses") +
   theme_bw(base_size = 30)
 
 
-
-
+# making function for confidence intervals so it can be added to senic
+power_confint <- function(y, X) {
+  m <- length(y)
+  n <- length(senic$power_Nurses)
+  xbar <- mean(X)
+  ssx <- sum((X - xbar)^2)
+  shat <- sqrt(sum((senic$power_Nurses - senic$power_fitted)^2))
+  coef <- power_fit$coefficients
+  lwr_upr <- list("lwr", "upr")
+  lwr_upr$lwr <- y - qt(0.975, n - 2) * shat * sqrt(1 / n + (X - xbar)^2 / ssx)
+  lwr_upr$upr <- y + qt(0.975, n - 2) * shat * sqrt(1 / n + (X - xbar)^2 / ssx)
+  return(lwr_upr)
+}
 
 
 
