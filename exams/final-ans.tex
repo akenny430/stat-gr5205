@@ -178,11 +178,35 @@ variables to be used, and the estimated coefficient for the \(j\)th variable is 
     \item Leave-one-out cross-validation (LOOCV) is a resampling method used to better estimate the effectiveness of a statistical model. 
     We want to see how effective a model is at making predictions on data points not present when the model is being fit. Instead of having to 
     collect a separate data set, we remove a single observation from the data set, fit the model with the remaining data, and then determine the error for 
-    that single point. Doing this for each point and taking the average of each error gives us our estiamted test error. 
+    that single point. Doing this for each point and taking the average of each error gives us our estiamted test error, given by 
+    \begin{align*}
+        \mathrm{CVE}
+        = \frac{1}{n} \sum_{i=1}^n d_i^2
+        = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_{i,(-i)})^2,
+    \end{align*}
+    where \(d_i\) is the \(i\)th deleted residual. 
     The idea of \(k\)-fold cross-validation (KCV) is similar, instead of leaving out one data point, we leave out \(n / k\) data points, and repeat the procedure
     \(k\) times to estimate the test error. In fact, LOOCV is a special case of KCV when \(k = n\). When the number of samples is large, it is more feasible to 
     use KCV (usually with \(k = 5\) or \(k = 10\)) instead of LOOCV, since it is computationally faster and has a smaller variance. 
     \item Since we are fitting a linear model \(n\) times, there will be \(n\) matrix inversions to compute.
+    \item Kutner etal, we have two equal formulations for the \(i\)th deleted residual: \(d_i = y_i - \hat{y}_{i,(-i)}\), and 
+    \(d_i = e_i / (1 - h_{ii})\), where \(e_i = y_i - \hat{y}_i\) is the \(i\)th residual from the model fitted with all observations and 
+    \(h_{ii}\) is the \(i\)th diagonal element of the hat matrix \(\mathbf{H} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\). 
+    Setting these equal to each other and solving for \(\hat{y}_i\) gives us 
+    \begin{align}
+        \hat{y}_i = h_{ii} y_i + (1 - h_{ii})\hat{y}_{i,(-i)},
+    \end{align}
+    and so \(\gamma_i = h_{ii} = [\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T]_{ii}\).
+    \item Solving for \(\hat{y}_{i,(-i)}\) gives us \(\hat{y}_{i,(-i)} = (\hat{y_i} - h_{ii}y_i)/(1 - h_{ii})\). This means that we can calculate every 
+    \(\hat{y}_{i,(-i)}\) using information from the model fitted using every observation. The CVE is then given by 
+    \begin{align*}
+        \mathrm{CVE}
+        = \frac{1}{n} \sum_{i=1}^n \left( y_i - \frac{\hat{y_i} - h_{ii}y_i}{1 - h_{ii}} \right)^2
+        = \frac{1}{n} \sum_{i=1}^n \left( \frac{y_i - \hat{y}_i}{1 - h_{ii}} \right)^2
+        = \frac{1}{n} \sum_{i=1}^n \left( \frac{e_i}{1 - h_{ii}} \right)^2.
+    \end{align*}
+    In order to obtain \(\mathbf{e}\) and \(\mathbf{H}\), \textsl{we only need to fit a single model using all of the predictors}! This is a drastic improvement
+    from the original algorithm where we had to fit \(n\) different models. 
 \end{enumerate}
 
 %' ============================================================================================================================================================
