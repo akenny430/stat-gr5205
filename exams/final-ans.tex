@@ -241,7 +241,34 @@ If \(r > 1\) then the city has supra-linear scaling, if \(r = 1\) then the city 
 
 %' ============================================================================================================================================================
 \section{Question 5} \noindent
-
+\begin{enumerate}
+    \item Keeping in mind that both \(Y\) and \(\hat{\mu}(x)\) are binary (\(0,1\)) variables, we have 
+    \begin{align*}
+        \mathbb{E}\big( (Y - \hat{\mu})^2 \big)
+        = \sum_{y = 0}^1 (y - \hat{\mu})^2 \mathbb{P}(Y = y)
+        = \hat{\mu}^2 \mathbb{P}(Y = 0) + (1 - \hat{\mu})^2 \mathbb{P}(Y = 1).
+    \end{align*}
+    When \(\hat{\mu} = 1\) we have \(\mathbb{E}\big( (Y - 1)^2 \big) = \mathbb{P}(Y = 0)\), and similarly, when 
+    \(\hat{\mu} = 0\) we have \(\mathbb{E}(Y^2) = \mathbb{P}(Y = 1)\). The mismatch between the values of \(Y\) and \(\hat{\mu}\)
+    indicates that \(\mathbb{E}\big( (Y - \hat{\mu})^2 \big) = \mathbb{P}(Y \neq \hat{\mu})\).
+    \item We have 
+    \begin{align*}
+        \mathbb{E}\big( (Y - \hat{\mu}(x))^2 \,|\, x \big)
+    \end{align*}
+    \item The contingency table is given below. 
+    \begin{table}
+        \centering
+        \def\arraystretch{1.25} 
+        \begin{tabular}{|c|cc|}
+            \hline
+            & \(Y = 0\) & \(Y = 1\) \\\hline
+            \(\hat{\mu}\) = 0 &  &  \\
+            \(\hat{\mu}\) = 1 &  &  \\
+            \hline%
+        \end{tabular}
+    \end{table}
+    The choices for assignment make sense. If the probability is over 0.5, we assign it to 1, otherwise assign it to 0. If it is equal to 0.5, we cannot be sure.
+\end{enumerate}
 
 %' ============================================================================================================================================================
 \section{Question 6} \noindent
