@@ -185,4 +185,32 @@ variables to be used, and the estimated coefficient for the \(j\)th variable is 
     \item Since we are fitting a linear model \(n\) times, there will be \(n\) matrix inversions to compute.
 \end{enumerate}
 
+%' ============================================================================================================================================================
+\newcommand{\rn}{N}
+\section{Question 4} \noindent
+Let \(\ry\) and \(\rn\) denote a city's GMP in dollars and population, respectively (we are not treating \(\rn\) as a random variable), and suppose we observe 
+\(\ry = c \rn^{r - 1} \mathrm{exp}(\epsilon)\), where \(\epsilon \sim \mathrm{N}(0, \sigma^2)\). Here \(c\) is a scaling factor and \(r\) is the scaling exponent. 
+If \(r > 1\) then the city has supra-linear scaling, if \(r = 1\) then the city has linear scaling, and if \(r < 1\) then the city has sub-linear scaling. 
+\begin{enumerate}
+    \item We cannot fit a linear model of \(\ry\) with respect to \(\rn\), since \(\ry\) is not linear with respect to the model parameters. We can, however,
+    take the logarithm of both sides to get 
+    \begin{align}
+        \log \ry
+        = \log c + (r - 1) \log \rn + \epsilon,
+    \end{align}
+    and can now regress \(\ry\) on \(\log\rn\), since it is linear with respect to the new parameters \(\beta_0 = \log c\) and \(\beta_1 = r - 1\).
+    \item If our estimated coefficients are given by \(\hat{\beta}_0\) and \(\hat{\beta}_1\), then the origianl parameters can be estimated by 
+    \(\hat{c} = \mathrm{exp}(\hat{\beta}_0)\) and \(\hat{r} = \hat{\beta}_1 + 1\). 
+    \item If we have a \(95\%{}\) confidence interval for \(\beta_0\) given by \(\beta_0 \in (-2.31, 4.16)\), the corresponding confidence interval for \(c\) would be 
+    \(c \in \big( \mathrm{e}^{-2.31}, \mathrm{e}^{4.16} \big) = (0.0993, 64.072)\). \\[0.5em]
+    \texttt{exp(c(-2.31, 4.16))}
+    \item To test whether or not a city has \textsl{either} supra-linear scaling \textsl{or} sub-linear scaling, we want to determine whether or not \(r = 1\). 
+    To do this, we could use the information from our linear model and test \(H_0 : \beta_1 = 0\) against \(H_A : \beta_1 \neq 0\). If there is significant evidence to 
+    reject \(H_0\), then we would conclude that the city does not have linear scaling. 
+    \item Using \(n = 12\) observations, we have \(\hat{\beta}_1 = 0.36\) and \(\mathrm{se}(\hat{\beta}_1) = 0.2\), and so our corresponding \(t\) statistic is 
+    \(\mathcal{T} = \hat{\beta}_1 / \mathrm{se}(\hat{\beta}_1) = 0.36 / 0.2 = 1.8\). The critical value of this \(t\) test is 
+    \(k = T_{10}^{-1}(0.975) = 2.228\). Because \(\mathcal{T} < k\) and \(\mathcal{T} > -k\), we fail to reject \(H_0\). The data indicates that this city has 
+    linear scaling. 
+\end{enumerate}
+
 \end{document}
