@@ -186,8 +186,10 @@ variables to be used, and the estimated coefficient for the \(j\)th variable is 
     \end{align*}
     where \(d_i\) is the \(i\)th deleted residual. 
     The idea of \(k\)-fold cross-validation (KCV) is similar, instead of leaving out one data point, we leave out \(n / k\) data points, and repeat the procedure
-    \(k\) times to estimate the test error. In fact, LOOCV is a special case of KCV when \(k = n\). When the number of samples is large, it is more feasible to 
-    use KCV (usually with \(k = 5\) or \(k = 10\)) instead of LOOCV, since it is computationally faster and has a smaller variance. 
+    \(k\) times to estimate the test error. In fact, LOOCV is a special case of KCV when \(k = n\). When the number of samples is large, it is generally 
+    more feasible to use KCV (usually with \(k = 5\) or \(k = 10\)) instead of LOOCV, since it is computationally faster and has a smaller variance. 
+    However, in the special case of fitting a linear model (the scenario in this problem), we can actually use a more efficient algorithm that drastically 
+    reduces the computational burden, so in this case it would be favorable to use LOOCV. 
     \item Since we are fitting a linear model \(n\) times, there will be \(n\) matrix inversions to compute.
     \item Kutner etal, we have two equal formulations for the \(i\)th deleted residual: \(d_i = y_i - \hat{y}_{i,(-i)}\), and 
     \(d_i = e_i / (1 - h_{ii})\), where \(e_i = y_i - \hat{y}_i\) is the \(i\)th residual from the model fitted with all observations and 
