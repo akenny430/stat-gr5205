@@ -172,4 +172,17 @@ In fact, these two ideas are a possible method for estimating \(\bm{\beta}\) for
 variables to be used, and the estimated coefficient for the \(j\)th variable is then given by \(\mathbf{x}_j^T\mathbf{y} / \mathbf{x}_j^T\mathbf{x}_j\)
 (see chapter 3 of \href{https://web.stanford.edu/~hastie/ElemStatLearn/}{\texttt{this book}} for more info).
 
+%' ============================================================================================================================================================
+\section{Question 3} \noindent
+\begin{enumerate}
+    \item Leave-one-out cross-validation (LOOCV) is a resampling method used to better estimate the effectiveness of a statistical model. 
+    We want to see how effective a model is at making predictions on data points not present when the model is being fit. Instead of having to 
+    collect a separate data set, we remove a single observation from the data set, fit the model with the remaining data, and then determine the error for 
+    that single point. Doing this for each point and taking the average of each error gives us our estiamted test error. 
+    The idea of \(k\)-fold cross-validation (KCV) is similar, instead of leaving out one data point, we leave out \(n / k\) data points, and repeat the procedure
+    \(k\) times to estimate the test error. In fact, LOOCV is a special case of KCV when \(k = n\). When the number of samples is large, it is more feasible to 
+    use KCV (usually with \(k = 5\) or \(k = 10\)) instead of LOOCV, since it is computationally faster and has a smaller variance. 
+    \item Since we are fitting a linear model \(n\) times, there will be \(n\) matrix inversions to compute.
+\end{enumerate}
+
 \end{document}
