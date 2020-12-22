@@ -213,4 +213,54 @@ If \(r > 1\) then the city has supra-linear scaling, if \(r = 1\) then the city 
     linear scaling. 
 \end{enumerate}
 
+%' ============================================================================================================================================================
+\section{Question 5} \noindent
+
+
+%' ============================================================================================================================================================
+\section{Question 6} \noindent
+Suppose we have the linear relationship \(\bm{\ry} = \mathbf{X}\bm{\beta} + \bm{\epsilon}\), where \(\epsilon \sim \mathrm{N}(\mathbf{0}, \sigma^2 \mathbf{I})\), 
+and there are a maximum of \(k\) variables that can be used from \(\mathbf{X}\). We would like to infer how many variables to include in our model. 
+Let \(f_p(\mathbf{X})\) denote the linear model that is fit using \(p\) predictors. 
+\begin{enumerate}
+    \item For a given number of predictors \(p\), Mallows \(C_p\) is given by 
+    \begin{align*}
+        C_p
+        = \frac{\| \mathbf{y} - f_p(\mathbf{X}) \|^2}{\hat{\sigma^2}} + 2p - n
+        = (n - k)\frac{\| \mathbf{y} - f_p(\mathbf{X}) \|^2}{\| \mathbf{y} - f_k(\mathbf{X}) \|^2} + 2p - n.
+    \end{align*}
+    That is, the value of \(\hat{\sigma}^2\) is the mean-squared error for the model fit with all \(k\) predictors. 
+    Intuitively, for different values of \(p\) we will get a different value of \(C_p\); the value of \(\| \mathbf{y} - f_p(\mathbf{X}) \|^2\) will change 
+    for each value of \(p\), and we also have \(C_p\) increase by 2 for each additional variable considered. 
+    We choose the value of \(p\) that gives us the lowest \(C_p\), and then use some kind of selection criteria (e.g. stepwise selection or the lasso) 
+    to determine \textsl{which} of the \(p\) predictors we should use. 
+    \item The idea behind using AIC and BIC for model selection is the same as Mallows \(C_p\), with the exeption of using a different formula. For AIC and BIC,
+    we need to assume that the errors are normally distributed (as we have). For \(p = 1, \ldots, k\), we find the value of \(\mathrm{AIC}(p)\) and \(\mathrm{BIC}(p)\)
+    and choose the \(p\) that gives us the lowest criteria. 
+    \item While similar in concept, AIC and BIC have fundamentally different derivations, which result in different formulas to use for the criteria 
+    and different tendencies for model selection. The formulas for each are given by 
+    \begin{align*}
+        \mathrm{AIC}(p)
+        = 2p - 2 \max(\ell;p)
+        ~~\text{and}~~
+        \mathrm{BIC}(p)
+        = p \log n - 2 \max(\ell;p);
+    \end{align*}
+    here \(\max(\ell;p)\) is the maximum possible value of the log-likelihood for the model with \(p\) predictors
+    There are many more sophisticated justifications to using one or the other (that I was unable to wrap my head around), but practically, AIC is 
+    better to use if you are interested in model \textsl{prediction}, while BIC is better to use if you are interested in model \textsl{inference}. 
+    Also, BIC tends to choose smaller models than AIC or Mallows \(C_p\).
+    \item Consider the new selection criteria \(\mathrm{D} = 2 \| \hat{\bm{\beta}} \|_1 - 2 \max(\ell;p)\). Compared to AIC, we see that both criteria give the 
+    same weight to \(\max(\ell;p)\). The difference lies in how the coefficients play a role; by replacing \(p\) with \(\|\hat{\bm{\beta}}\|_1\), we are changing 
+    the nature of the critetia. Whereas AIC would increase as the \textsl{number of parameters} increased, \(\mathrm{D}\) will increase as the 
+    \textsl{total magnitute of each of the parameters} increases. 
+    \item The nature of the criteria \(\mathrm{D}\) suggests that it is much more similar to the lasso, which chooses the model parameters 
+    by penalizing large estimated coefficients. Indeed, the loss function for the lasso with \(p\) predictors is 
+    \begin{align*}
+        P(\bm{\beta};\lambda)
+        = \| \mathbf{y} - \mathbf{X}\bm{\beta} \|^2 + \lambda \| \bm{\beta} \|_1,
+    \end{align*}
+    which also incorperates the \(1\)-norm. 
+\end{enumerate}
+
 \end{document}
