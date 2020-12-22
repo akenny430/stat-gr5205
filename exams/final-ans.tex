@@ -75,9 +75,10 @@ The realized values of these random variables are respectively given by the \(n\
     \(t = T_{364}^{-1}(0.975) = 1.967\) can be found using the \texttt{qt()} function in \texttt{R}. \\[0.5em]
     \texttt{qt(0.975, 364)}\\[0.5em]
     \texttt{10246 + 1.967 * 900 * c(-1, 1)}
-    \item From the \texttt{\#{}\#{}Residual standard error} section, we have \(\hat{\sigma}^2 = (7930/364)^2 = 474.6173\). \\[0.5em]
+    \item From the \texttt{\#{}\#{}Residual standard error} section, we have \(\hat{\sigma}^2 = 7930^2/364 = 172760.7\). \\[0.5em]
     % \texttt{7930\textasciicircum{}2}
-    \texttt{(7930 / 364)\textasciicircum{}2}
+    % \texttt{(7930 / 364)\textasciicircum{}2}
+    \texttt{7930\textasciicircum{}2 / 364}
     \item You cannot find the sample variance of \(\rx\) from the \texttt{R} output. We are never considering the value of 
     \(\mathrm{Var}(\rz)\) when constructing the model because we are never treating \(\rz\) as a random variable. We instead are treating it as 
     a set of fixed values \(\mathbf{z}\), either observed before or after the model's design is chosen. When we estimate \(\sigma^2\) in 
