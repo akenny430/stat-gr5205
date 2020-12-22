@@ -94,4 +94,81 @@ The realized values of these random variables are respectively given by the \(n\
     between \(\ry\) and \(\rz\) (\(=\log_{10}\rx\)). 
 \end{enumerate}
 
+%' ============================================================================================================================================================
+\newcommand{\mx}{\mathbf{X}}
+\newcommand{\ax}{\widetilde{\mathbf{X}}}
+\section{Question 2} \noindent
+Suppose we have observed \(n\) observations of \(p\) predictors, given by \(\mathbf{x}_1, \ldots, \mathbf{x}_p\), and an observed response \(\mathbf{y}\).
+Let \(\mathbf{X} \coloneqq \begin{bmatrix}
+    \mathbf{x}_1 \cdots \mathbf{x}_p
+\end{bmatrix}\) be a matrix where the \(j\)th column is \(\mathbf{x}_j\).
+Here we also assume that the data has been centered, so each predictor and the response has a mean of zero (this is common to do before fitting a model).
+We fit a regression model \(\mathbf{y} = \mathbf{X}\bm{\beta} + \bm{\epsilon}\), and our estimated coefficients are given by 
+\(\hat{\bm{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\). 
+
+% Now, suppose we have \(n\) observations of a new predictor \(\mathbf{x}_{p+1}\)
+Now, suppose we have \(n\) observations of a new predictor \(\mathbf{z}\), which was not used at all when determining \(\hat{\bm{\beta}}\). 
+It turns out that this new predictor is orthogonal to each of the previous \(p\) predictors, i.e. \(\mathbf{x}_j^T\mathbf{z} = 0\) for all \(j\), 
+and so \(\mathbf{X}^T\mathbf{z} = \mathbf{0}\). If we want to fit a new linear model that includes \(\mathbf{z}\), we can use an alternate 
+matrix \(\ax \coloneqq \begin{bmatrix}
+    \mathbf{X} & \mathbf{z}
+\end{bmatrix}\) and fit the model \(\mathbf{y} = \ax \bm{\beta}\); our estimated coefficient will be given by \(\hat{\bm{\beta}} = (\ax^T\ax)^{-1}\ax\mathbf{y}\).
+As we will soon see, the estimated coefficients for the original \(p\) predictors is exactly the same as they were in the origianl model (denoted as \(\hat{\bm{\beta}}_0\)), 
+and the estimated coefficient for \(\mathbf{z}\) would be the same if a model was fit using \textsl{only} this new predictor!
+The key reason for both of these results is that the new predictor is orthogonal to each of the previous ones. 
+To see this, we first observe that 
+\begin{align*}
+    \ax^T\ax
+    = \begin{bmatrix}
+        \mathbf{X}^T \\ \mathbf{z}^T
+    \end{bmatrix}
+    \begin{bmatrix}
+        \mathbf{X} & \mathbf{x}
+    \end{bmatrix}
+    = \begin{bmatrix}
+        \mathbf{X}^T\mathbf{X} & \mathbf{X}^T\mathbf{z} \\
+        \mathbf{z}^T \mathbf{X} & \mathbf{z}^T\mathbf{z}
+    \end{bmatrix}
+    = \begin{bmatrix}
+        \mathbf{X}^T\mathbf{X} & \mathbf{0} \\
+        \mathbf{0}^T & \mathbf{z}^T\mathbf{z}
+    \end{bmatrix}.
+\end{align*}
+Using the formula for matrix inversion for block matrices (see \href{https://en.wikipedia.org/wiki/Block_matrix#Block_matrix_inversion}{\texttt{here}}), we have 
+\begin{align*}
+    (\ax^T\ax)^{-1}
+    = \begin{bmatrix}
+        \mathbf{X}^T\mathbf{X} & \mathbf{0} \\
+        \mathbf{0}^T & 1 / \mathbf{z}^T\mathbf{z}
+    \end{bmatrix},
+\end{align*}
+and so the estimated coefficients are given by 
+\begin{align}
+    \hat{\bm{\beta}}
+    = (\ax^T\ax)^{-1}\ax\mathbf{y}
+    = \begin{bmatrix}
+        \mathbf{X}^T\mathbf{X} & \mathbf{0} \\
+        \mathbf{0}^T & 1 / \mathbf{z}^T\mathbf{z}
+    \end{bmatrix}
+    \begin{bmatrix}
+        \mathbf{X}^T \\ \mathbf{z}^T
+    \end{bmatrix}
+    \mathbf{y}
+    = \begin{bmatrix}
+        (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y} \\
+        \mathbf{z}^T\mathbf{y} / \mathbf{z}^T\mathbf{z}
+    \end{bmatrix}
+    = \left( \hat{\bm{\beta}}_0, \frac{\mathbf{z}^T\mathbf{y}}{\mathbf{z}^T\mathbf{z}} \right)^T.
+\end{align}
+This result says that the first \(p\) estimated coefficients are given by \(\hat{\bm{\beta}}_0\), while the new predictor's estimated coefficient is 
+given by the value \(\mathbf{z}^T\mathbf{y} / \mathbf{z}^T\mathbf{z}\). If we fit a simple linear model using only the new predictor, 
+\(\mathbf{y} = \beta \mathbf{z}\), the estimated coefficient is given by 
+\(\hat{\beta} = (\mathbf{z}^T\mathbf{z})^{-1}\mathbf{z}^T\mathbf{y} = \mathbf{z}^T\mathbf{y} / \mathbf{z}^T\mathbf{z}\).
+
+The two main points of this question are that adding an orthogonal variable to a linear model does not change the value of the estimated coefficients 
+of the previous variables, and obtaining the estimated coefficient for the new variable is as easy as computing two inner products. 
+In fact, these two ideas are a possible method for estimating \(\bm{\beta}\) for any linear model. One would first have to orthogonalize each of the 
+variables to be used, and the estimated coefficient for the \(j\)th variable is then given by \(\mathbf{x}_j^T\mathbf{y} / \mathbf{x}_j^T\mathbf{x}_j\)
+(see chapter 3 of \href{https://web.stanford.edu/~hastie/ElemStatLearn/}{\texttt{this book}} for more info).
+
 \end{document}
