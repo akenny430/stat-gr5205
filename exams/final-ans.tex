@@ -106,7 +106,7 @@ Let \(\mathbf{X} \coloneqq \begin{bmatrix}
 \end{bmatrix}\) be a matrix where the \(j\)th column is \(\mathbf{x}_j\).
 Here we also assume that the data has been centered, so each predictor and the response has a mean of zero (this is common to do before fitting a model).
 We fit a regression model \(\mathbf{y} = \mathbf{X}\bm{\beta} + \bm{\epsilon}\), and our estimated coefficients are given by 
-\(\hat{\bm{\beta}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\). 
+\(\hat{\bm{\beta}_0} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}\). 
 
 % Now, suppose we have \(n\) observations of a new predictor \(\mathbf{x}_{p+1}\)
 Now, suppose we have \(n\) observations of a new predictor \(\mathbf{z}\), which was not used at all when determining \(\hat{\bm{\beta}}\). 
@@ -114,7 +114,7 @@ It turns out that this new predictor is orthogonal to each of the previous \(p\)
 and so \(\mathbf{X}^T\mathbf{z} = \mathbf{0}\). If we want to fit a new linear model that includes \(\mathbf{z}\), we can use an alternate 
 matrix \(\ax \coloneqq \begin{bmatrix}
     \mathbf{X} & \mathbf{z}
-\end{bmatrix}\) and fit the model \(\mathbf{y} = \ax \bm{\beta}\); our estimated coefficient will be given by \(\hat{\bm{\beta}} = (\ax^T\ax)^{-1}\ax\mathbf{y}\).
+\end{bmatrix}\) and fit the model \(\mathbf{y} = \ax \bm{\beta}\); our estimated coefficient will be given by \(\hat{\bm{\beta}} = (\ax^T\ax)^{-1}\ax^T\mathbf{y}\).
 As we will soon see, the estimated coefficients for the original \(p\) predictors is exactly the same as they were in the origianl model (denoted as \(\hat{\bm{\beta}}_0\)), 
 and the estimated coefficient for \(\mathbf{z}\) would be the same if a model was fit using \textsl{only} this new predictor!
 The key reason for both of these results is that the new predictor is orthogonal to each of the previous ones. 
@@ -125,7 +125,7 @@ To see this, we first observe that
         \mathbf{X}^T \\ \mathbf{z}^T
     \end{bmatrix}
     \begin{bmatrix}
-        \mathbf{X} & \mathbf{x}
+        \mathbf{X} & \mathbf{z}
     \end{bmatrix}
     = \begin{bmatrix}
         \mathbf{X}^T\mathbf{X} & \mathbf{X}^T\mathbf{z} \\
@@ -147,7 +147,7 @@ Using the formula for matrix inversion for block matrices (see \href{https://en.
 and so the estimated coefficients are given by 
 \begin{align}
     \hat{\bm{\beta}}
-    = (\ax^T\ax)^{-1}\ax\mathbf{y}
+    = (\ax^T\ax)^{-1}\ax^T\mathbf{y}
     = \begin{bmatrix}
         \mathbf{X}^T\mathbf{X} & \mathbf{0} \\
         \mathbf{0}^T & 1 / \mathbf{z}^T\mathbf{z}
